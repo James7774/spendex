@@ -91,7 +91,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
         const result = await signInWithPopup(auth, googleAuthProvider);
         user = result.user;
       }
-      if (!user) throw new Error(ot.errorGoogle || "Error");
+      if (!user) throw new Error("Error signing in with Google");
       const name = user.displayName || "";
       if (name) {
         login({ id: user.uid, name: name, phone: user.email || "", avatar: (user as any).photoURL || (user as any).photoUrl || "" });
@@ -102,7 +102,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "";
-      setError(msg.toLowerCase().includes("cancel") ? ot.cancel : (ot.errorGoogle || "Error"));
+      setError(msg.toLowerCase().includes("cancel") ? "Cancelled" : "Error signing in with Google");
     } finally {
       setIsLoading(false);
     }
