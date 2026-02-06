@@ -56,17 +56,26 @@ export default function DashboardLayout({
       setTimeout(handleResize, 100);
     };
 
+    const handleTouch = (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (['INPUT', 'TEXTAREA'].includes(target.tagName)) {
+        setIsKeyboardOpen(true);
+      }
+    };
+
     handleResize(); 
     window.addEventListener('resize', handleResize);
     window.visualViewport?.addEventListener('resize', handleResize);
     window.addEventListener('focusin', handleFocus);
     window.addEventListener('focusout', handleBlur);
+    window.addEventListener('touchstart', handleTouch, { passive: true });
     
     return () => {
       window.removeEventListener('resize', handleResize);
       window.visualViewport?.removeEventListener('resize', handleResize);
       window.removeEventListener('focusin', handleFocus);
       window.removeEventListener('focusout', handleBlur);
+      window.removeEventListener('touchstart', handleTouch);
     };
   }, []);
 
@@ -158,12 +167,10 @@ export default function DashboardLayout({
         <div 
             className={styles.bottomNavWrapper}
             style={{ 
-                transform: (isKeyboardOpen || isLandscape) ? 'translateY(150%)' : 'translateY(0)',
+                display: (isKeyboardOpen || isLandscape) ? 'none' : 'flex',
                 opacity: (isKeyboardOpen || isLandscape) ? 0 : 1,
-                visibility: (isKeyboardOpen || isLandscape) ? 'hidden' : 'visible',
-                transition: (isKeyboardOpen || isLandscape) 
-                    ? 'all 0.2s ease-in' 
-                    : 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+                transform: (isKeyboardOpen || isLandscape) ? 'translateY(20px)' : 'translateY(0)',
+                transition: (isKeyboardOpen || isLandscape) ? 'none' : 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
         >
             <nav className={styles.bottomNav}>
