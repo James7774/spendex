@@ -6,23 +6,24 @@ import { BarChart3, Activity } from 'lucide-react';
 import { useFinance, Transaction } from "@/context/FinanceContext";
 import AntigravityGoals from "@/components/AntigravityGoals";
 import { SearchIcon, CloseIcon } from "@/components/Icons";
+import DateFilter from "@/components/DateFilter";
 import styles from "../dashboard.module.css";
 
 const ExpensesChart = dynamic(() => import("@/components/ExpensesChart"), { ssr: false });
 
 export default function ChartsPage() {
-  const { t, transactions, darkMode } = useFinance();
+  const { t, filteredTransactions: dateFilteredTransactions, darkMode } = useFinance();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredTransactions = useMemo(() => {
-    if (!searchQuery.trim()) return transactions;
+    if (!searchQuery.trim()) return dateFilteredTransactions;
 
     const query = searchQuery.toLowerCase().trim();
     const tokens = query.split(/\s+/).filter(tok => tok.length > 0);
 
-    return transactions.filter((tx: Transaction) => {
+    return dateFilteredTransactions.filter((tx: Transaction) => {
       const categoryName = ((t.categories as Record<string, string>)[tx.category] || tx.category).toLowerCase();
       const note = (tx.note || "").toLowerCase();
       const amountRaw = tx.amount.toString();
@@ -33,7 +34,7 @@ export default function ChartsPage() {
 
       return tokens.every(token => searchableText.includes(token));
     });
-  }, [searchQuery, transactions, t]);
+  }, [searchQuery, dateFilteredTransactions, t]);
 
   return (
     <motion.div 
@@ -55,6 +56,8 @@ export default function ChartsPage() {
           <span className="status-text">{t.intelActive}</span>
         </div>
       </div>
+
+      <DateFilter />
 
       <div className={styles.searchWrapper}>
         <div className={styles.searchContainer}>

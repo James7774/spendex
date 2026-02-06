@@ -134,8 +134,8 @@ export default function DashboardLayout({
 
       {/* Main Content */}
       <main className={styles.main}>
-        {/* Mobile Header - Hidden on Profile page for Uzum-style full screen */}
-        {pathname !== '/dashboard/settings' && (
+        {/* Mobile Header - Hidden on Profile and Dashboard pages for custom headers */}
+        {pathname !== '/dashboard/settings' && pathname !== '/dashboard' && (
           <header 
             className={styles.mobileHeader}
           >
@@ -161,7 +161,7 @@ export default function DashboardLayout({
           </header>
         )}
 
-        <div className={`${styles.contentContainer} ${pathname === '/dashboard/settings' ? styles.fullScreenContent : ''}`}>
+        <div className={`${styles.contentContainer} ${(pathname === '/dashboard/settings' || pathname === '/dashboard') ? styles.fullScreenContent : ''}`}>
             {children}
         </div>
 

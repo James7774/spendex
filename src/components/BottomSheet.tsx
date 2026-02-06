@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFinance } from '@/context/FinanceContext';
+import { X } from 'lucide-react';
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -9,9 +10,10 @@ interface BottomSheetProps {
   title?: string;
   children: React.ReactNode;
   height?: string; // e.g. 'auto', '90vh'
+  showCloseIcon?: boolean;
 }
 
-export default function BottomSheet({ isOpen, onClose, title, children, height = 'auto' }: BottomSheetProps) {
+export default function BottomSheet({ isOpen, onClose, title, children, height = 'auto', showCloseIcon = false }: BottomSheetProps) {
   const { darkMode } = useFinance();
 
   // Disable body scroll when open
@@ -51,12 +53,12 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 350, mass: 0.5 }}
+            transition={{ type: 'spring', damping: 30, stiffness: 400, mass: 0.2 }}
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={0.08}
+            dragElastic={{ top: 0.05, bottom: 1 }}
             onDragEnd={(event, info) => {
-              if (info.offset.y > 150 || (info.velocity.y > 500 && info.offset.y > 0)) {
+              if (info.offset.y > 100 || (info.velocity.y > 500 && info.offset.y > 0)) {
                 onClose();
               }
             }}
@@ -107,17 +109,49 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
                 overscrollBehavior: 'contain'
               }}
             >
-              {title && (
-                <h3 style={{
-                  textAlign: 'center',
-                  marginBottom: '20px',
-                  fontSize: '1.25rem',
-                  fontWeight: 700,
-                  color: darkMode ? '#fff' : '#0f172a'
-                }}>
-                  {title}
-                </h3>
-              )}
+              <div style={{ 
+                position: 'relative', 
+                marginBottom: '20px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                minHeight: '32px'
+              }}>
+                 {title && (
+                    <h3 style={{
+                      textAlign: 'center',
+                      fontSize: '1.25rem',
+                      fontWeight: 700,
+                      color: darkMode ? '#fff' : '#0f172a',
+                      margin: 0
+                    }}>
+                      {title}
+                    </h3>
+                 )}
+                 
+                 {showCloseIcon && (
+                    <button
+                      onClick={onClose}
+                      style={{
+                        position: 'absolute',
+                        right: 0,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'transparent',
+                        border: 'none',
+                        color: darkMode ? '#94a3b8' : '#0f172a', 
+                        cursor: 'pointer',
+                        padding: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <X size={28} strokeWidth={2.5} />
+                    </button>
+                 )}
+              </div>
+              
               {children}
             </div>
           </motion.div>

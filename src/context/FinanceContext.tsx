@@ -48,6 +48,13 @@ export type Note = {
   color: string;
 };
 
+export type DateFilterType = '1D' | '1W' | '1M' | 'custom' | 'all';
+
+export type DateRange = {
+  start: Date | null;
+  end: Date | null;
+};
+
 type FinanceContextType = {
   language: Language;
   setLanguage: (lang: Language) => void;
@@ -75,6 +82,10 @@ type FinanceContextType = {
   login: (userData: User) => void;
   logout: () => void;
   updateUserProfile: (data: Partial<User>) => void;
+  dateFilter: { type: DateFilterType; range: DateRange };
+  setDateFilter: (type: DateFilterType, range?: DateRange) => void;
+  filteredTransactions: Transaction[];
+  filteredNotes: Note[];
 };
 
 const FinanceContext = createContext<FinanceContextType | undefined>(undefined);
@@ -87,6 +98,15 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
       if (saved && Object.keys(translations).includes(saved)) return saved;
     }
     return 'uz'; // Fallback
+  });
+
+  // Date Filter State
+  const [dateFilter, setDateFilterState] = useState<{ type: DateFilterType; range: DateRange }>({
+    type: '1M',
+    range: {
+      start: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // Start of month
+      end: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59, 999) // End of month
+    }
   });
 
   const [darkMode, setDarkMode] = useState(false);
@@ -243,6 +263,74 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const setDateFilter = useCallback((type: DateFilterType, customRange?: DateRange) => {
+     let start: Date | null = null;
+     let end: Date | null = null;
+     const now = new Date();
+     now.setHours(0,0,0,0); // reset to start of day for calculations
+
+     switch (type) {
+       case '1D':
+         start = new Date(now);
+         end = new Date(now);
+         end.setHours(23, 59, 59, 999);
+         break;
+       case '1W': {
+         // Last 7 days including today? Or This Week? "1 Week" usually means last 7 days or current week. 
+         // Let's do "Current Week" (Mon-Sun) or "Last 7 Days". 
+         // User requested "1 Week". Let's do Last 7 Days for utility.
+         // Actually "This Week" is often better for budgeting.
+         // Let's stick to a simple "Last 7 Days" range for now, or "Start of week".
+         // Let's do "Start of current week" (Monday) to Now?
+         // Let's do a sliding window "Last 7 Days" is clearer.
+         const d = new Date(now);
+         d.setDate(d.getDate() - 6);
+         start = d;
+         end = new Date();
+         end.setHours(23, 59, 59, 999);
+         break;
+       }
+       case '1M':
+         start = new Date(now.getFullYear(), now.getMonth(), 1);
+         end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+         break;
+       case 'custom':
+         if (customRange) {
+           start = customRange.start;
+           end = customRange.end;
+         }
+         break;
+       case 'all':
+         start = null;
+         end = null;
+         break;
+     }
+
+     setDateFilterState({ type, range: { start, end } });
+  }, []);
+
+  const filteredTransactions = React.useMemo(() => {
+    if (dateFilter.type === 'all' || !dateFilter.range.start || !dateFilter.range.end) {
+      return transactions;
+    }
+    const { start, end } = dateFilter.range;
+    return transactions.filter(t => {
+      const d = new Date(t.date);
+      return d >= start && d <= end;
+    });
+  }, [transactions, dateFilter]);
+
+  const filteredNotes = React.useMemo(() => {
+    if (dateFilter.type === 'all' || !dateFilter.range.start || !dateFilter.range.end) {
+      return notes;
+    }
+    const { start, end } = dateFilter.range;
+    return notes.filter(n => {
+      const d = new Date(n.date);
+      return d >= start && d <= end;
+    });
+  }, [notes, dateFilter]);
+
   const addTransaction = useCallback((tx: Omit<Transaction, 'id'>) => {
     if (!user) return;
     const newTx = { ...tx, id: Date.now().toString() };
@@ -363,14 +451,19 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     user,
     login,
     logout,
-    updateUserProfile
+    updateUserProfile,
+    dateFilter,
+    setDateFilter,
+    filteredTransactions,
+    filteredNotes
   } as FinanceContextType), [
     language, isRTL, darkMode, transactions, goals, notes, 
     totalBalance, totalIncome, totalExpense, user,
     addGoal, addNote, addTransaction, clearAllData, 
     deleteGoal, deleteNote, deleteTransaction, 
     updateGoal, updateNote, updateUserProfile,
-    setLanguage, toggleTheme, setTheme, logout, login
+    setLanguage, toggleTheme, setTheme, logout, login,
+    dateFilter, setDateFilter, filteredTransactions, filteredNotes
   ]);
 
   return (

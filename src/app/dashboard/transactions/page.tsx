@@ -2,21 +2,22 @@
 import { useState, useMemo } from "react";
 import { useFinance } from "@/context/FinanceContext";
 import styles from "../dashboard.module.css";
+import DateFilter from "@/components/DateFilter";
 import { IncomeIcon, ExpenseIcon, TrashIcon, SearchIcon, CloseIcon } from "@/components/Icons";
 
 export default function TransactionsPage() {
-  const { t, transactions, deleteTransaction } = useFinance();
+  const { t, filteredTransactions: dateFilteredTransactions, deleteTransaction } = useFinance();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredTransactions = useMemo(() => {
-    if (!searchQuery.trim()) return transactions;
+    if (!searchQuery.trim()) return dateFilteredTransactions;
 
     const query = searchQuery.toLowerCase().trim();
     const tokens = query.split(/\s+/).filter(t => t.length > 0);
 
-    return transactions.filter(tx => {
+    return dateFilteredTransactions.filter(tx => {
       const categoryName = ((t.categories as Record<string, string>)[tx.category] || tx.category).toLowerCase();
       const note = (tx.note || "").toLowerCase();
       const amountRaw = tx.amount.toString();
@@ -49,7 +50,7 @@ export default function TransactionsPage() {
       // Default: date descending
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
-  }, [searchQuery, transactions, t]);
+  }, [searchQuery, dateFilteredTransactions, t]);
 
   const highlightText = (text: string, query: string) => {
     if (!query.trim()) return text;
@@ -74,6 +75,8 @@ export default function TransactionsPage() {
     <div className={styles.dashboardContent}>
       <h1 className={styles.pageTitle}>{t.transactions}</h1>
       
+      <DateFilter />
+
       <div className={styles.searchWrapper}>
         <div className={styles.searchContainer}>
           <input 

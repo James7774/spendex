@@ -4,12 +4,12 @@ import { useFinance } from '@/context/FinanceContext';
 import { categoryData, categoryKeys, CategoryKey } from './icons/CategoryIcons';
 import DatePicker from './DatePicker';
 
-export default function AddTransactionForm({ onClose }: { onClose?: () => void }) {
+export default function AddTransactionForm({ onClose, initialType = 'expense' }: { onClose?: () => void, initialType?: 'expense' | 'income' }) {
   const { addTransaction, t, language } = useFinance();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
   
-  const [type, setType] = useState<'expense' | 'income'>('expense');
+  const [type, setType] = useState<'expense' | 'income'>(initialType);
   const [amount, setAmount] = useState('');
   const [categoryKey, setCategoryKey] = useState<CategoryKey>(categoryKeys[0]);
   const [customCategory, setCustomCategory] = useState('');

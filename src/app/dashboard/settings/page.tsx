@@ -387,6 +387,7 @@ export default function SettingsPage() {
         isOpen={isLangModalOpen}
         onClose={() => setIsLangModalOpen(false)}
         title={tAny.selectLang || "Select Language"}
+        showCloseIcon={true}
       >
         <div className="lang-list-scroll">
           {languages.map((l) => (
