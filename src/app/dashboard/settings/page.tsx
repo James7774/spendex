@@ -227,7 +227,7 @@ export default function SettingsPage() {
                   handleDeletePhoto();
                 }}
               >
-                <X size={16} color="#fff" />
+                <Trash2 size={16} color="#fff" />
               </button>
             )}
           </div>
@@ -633,20 +633,20 @@ export default function SettingsPage() {
 
         .delete-avatar-btn {
           position: absolute;
-          top: 0;
+          bottom: 0;
           right: 0;
           background: #ef4444;
-          width: 28px;
-          height: 28px;
+          width: 34px;
+          height: 34px;
           border-radius: 50% !important;
           display: flex;
           align-items: center;
           justify-content: center;
-          border: 2px solid white;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          border: 3px solid white;
+          box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
           z-index: 40;
           cursor: pointer;
-          transition: transform 0.2s;
+          transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .delete-avatar-btn:active {
