@@ -37,22 +37,36 @@ export default function DashboardLayout({
       const currentWidth = window.innerWidth;
       const screenHeight = window.screen.height;
       
-      // Landscape detection for phones
       setIsLandscape(currentWidth > currentHeight && currentHeight < 550);
 
-      // Robust Keyboard detection (Threshold based on screen real-estate)
-      // On many Androids, the keyboard takes up 30-50% of screen
+      // Keyboard detection threshold
       const isKeyboardVisible = currentHeight < screenHeight * 0.75;
       setIsKeyboardOpen(isKeyboardVisible);
+    };
+
+    const handleFocus = (e: FocusEvent) => {
+      const target = e.target as HTMLElement;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) || target.isContentEditable) {
+        setIsKeyboardOpen(true);
+      }
+    };
+
+    const handleBlur = () => {
+      // Defer to resize listener for accurate check on blur
+      setTimeout(handleResize, 100);
     };
 
     handleResize(); 
     window.addEventListener('resize', handleResize);
     window.visualViewport?.addEventListener('resize', handleResize);
+    window.addEventListener('focusin', handleFocus);
+    window.addEventListener('focusout', handleBlur);
     
     return () => {
       window.removeEventListener('resize', handleResize);
       window.visualViewport?.removeEventListener('resize', handleResize);
+      window.removeEventListener('focusin', handleFocus);
+      window.removeEventListener('focusout', handleBlur);
     };
   }, []);
 
@@ -147,6 +161,9 @@ export default function DashboardLayout({
                 transform: (isKeyboardOpen || isLandscape) ? 'translateY(150%)' : 'translateY(0)',
                 opacity: (isKeyboardOpen || isLandscape) ? 0 : 1,
                 visibility: (isKeyboardOpen || isLandscape) ? 'hidden' : 'visible',
+                transition: (isKeyboardOpen || isLandscape) 
+                    ? 'all 0.2s ease-in' 
+                    : 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
         >
             <nav className={styles.bottomNav}>
