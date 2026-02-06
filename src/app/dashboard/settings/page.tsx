@@ -12,6 +12,7 @@ import {
   Globe,
   Check,
   Camera,
+  Pencil,
   X,
 } from "lucide-react";
 import Image from "next/image";
@@ -214,7 +215,7 @@ export default function SettingsPage() {
 
               {!user?.avatar && (
                 <div className="edit-badge" style={{ zIndex: 100 }}>
-                  <Camera size={14} color="#fff" />
+                  <Pencil size={14} color="#fff" />
                 </div>
               )}
             </div>
@@ -591,15 +592,16 @@ export default function SettingsPage() {
           bottom: 0;
           right: 0;
           background: #7000ff;
-          width: 32px;
-          height: 32px;
+          width: 34px;
+          height: 34px;
           border-radius: 50% !important;
           display: flex;
           align-items: center;
           justify-content: center;
           border: 3px solid white;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(112, 0, 255, 0.25);
           z-index: 30;
+          transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .banner-avatar-container {
