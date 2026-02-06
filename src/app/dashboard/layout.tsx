@@ -114,10 +114,6 @@ export default function DashboardLayout({
         {pathname !== '/dashboard/settings' && (
           <header 
             className={styles.mobileHeader}
-            style={{ 
-              transform: isKeyboardOpen ? 'translateY(-100%)' : 'translateY(0)',
-              opacity: isKeyboardOpen ? 0 : 1
-            }}
           >
             <div className={styles.brand}>
               <span className={styles.brandHighlight}>Fi</span>nova

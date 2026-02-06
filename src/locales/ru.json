@@ -16,6 +16,8 @@
   "currencyLabel": "сум",
   "addTransaction": "Добавить запись",
   "recentTransactions": "Последние операции",
+  "searchPlaceholder": "Поиск по операциям...",
+  "resultsFound": "Результатов найдено",
   "progressLabel": "Прогресс",
   "process": "Прогресс",
   "recentTransactionsShort": "Последние",

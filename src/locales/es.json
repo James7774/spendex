@@ -16,6 +16,8 @@
   "currencyLabel": "UZS",
   "addTransaction": "Agregar Transacción",
   "recentTransactions": "Transacciones Recientes",
+  "searchPlaceholder": "Buscar transacciones...",
+  "resultsFound": "Resultados encontrados",
   "progressLabel": "Progreso",
   "process": "Proceso",
   "recentTransactionsShort": "Recientes",
