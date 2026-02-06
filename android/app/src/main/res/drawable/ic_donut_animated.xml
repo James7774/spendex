@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Purple Section -->
+    <path
+        android:name="arc_purple"
+        android:strokeColor="#8E24AA"
+        android:strokeWidth="40"
+        android:strokeLineCap="round"
+        android:pathData="M 100,20 A 80,80 0 0 1 180,100" />
+        
+    <!-- Red Section -->
+    <path
+        android:name="arc_red"
+        android:strokeColor="#F06292"
+        android:strokeWidth="40"
+        android:strokeLineCap="round"
+        android:pathData="M 180,100 A 80,80 0 0 1 100,180" />
+        
+    <!-- Teal Section -->
+    <path
+        android:name="arc_teal"
+        android:strokeColor="#4DB6AC"
+        android:strokeWidth="40"
+        android:strokeLineCap="round"
+        android:pathData="M 100,180 A 80,80 0 0 1 20,100" />
+        
+    <!-- Yellow Section -->
+    <path
+        android:name="arc_yellow"
+        android:strokeColor="#FFD54F"
+        android:strokeWidth="40"
+        android:strokeLineCap="round"
+        android:pathData="M 20,100 A 80,80 0 0 1 60,40" />
+</vector>

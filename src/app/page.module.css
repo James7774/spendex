@@ -1,0 +1,263 @@
+/* Global Container with Mesh Gradient Background */
+/* Global Container */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background); /* O'zgaruvchiga o'tkazildi */
+  color: var(--text-main);
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Navbar - Adaptive with Safe Areas */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(0.75rem, 2vh, 1.25rem) 5%;
+  padding-top: calc(var(--safe-top) + clamp(0.75rem, 2vh, 1.25rem));
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* Hero Section - Flexible Scaling */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: clamp(6rem, 15vh, 10rem) 1.25rem;
+  padding-top: calc(var(--safe-top) + clamp(6rem, 15vh, 10rem));
+}
+
+.title {
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  color: var(--text-secondary);
+}
+
+.ctaGroup {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap; /* Wraps on small screens */
+}
+
+/* Features - Flexible Grid */
+.features {
+  padding: clamp(4rem, 10vh, 8rem) 1.25rem;
+}
+
+.featureGrid {
+  display: grid;
+  /* Automatically adjusts columns based on screen width */
+  grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 100%, 350px), 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 3rem auto 0;
+}
+
+.featureCard {
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+/* Pricing - Creative & Premium Layout */
+.pricing {
+  padding: clamp(6rem, 15vh, 12rem) 1.5rem;
+  position: relative;
+  background: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 50%);
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 4rem auto 0;
+  perspective: 1000px;
+}
+
+.pricingCard {
+  padding: 3rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  position: relative;
+  overflow: visible; /* To allow badges to float outside */
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+}
+
+.pricingCard:hover {
+  transform: translateY(-15px) scale(1.02);
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.2);
+}
+
+/* Feature highlight for specific cards */
+.pricingCard:nth-child(2), 
+.pricingCard:nth-child(4) {
+  background: linear-gradient(180deg, var(--surface) 0%, rgba(79, 70, 229, 0.02) 100%);
+  border: 1.5px solid rgba(79, 70, 229, 0.2);
+}
+
+.planName {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.planName::before {
+  content: '';
+  width: 12px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.price {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: baseline;
+  letter-spacing: -2px;
+}
+
+.price span {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-left: 6px;
+  letter-spacing: 0;
+}
+
+.saveText {
+  position: absolute;
+  top: -15px;
+  right: 20px;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  z-index: 10;
+}
+
+.featuresList {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 2rem 0 3rem 0 !important;
+  flex: 1;
+}
+
+.featuresList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.8rem 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+.pricingCard .btn {
+  width: 100%;
+  height: 60px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: var(--text-main);
+  border: 2px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.pricingCard:hover .btn {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+}
+
+/* Footer - Safe Areas */
+.footer {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  padding-bottom: calc(4rem + var(--safe-bottom));
+  background: var(--background);
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--primary);
+  opacity: 0.2;
+  border-radius: 0 0 10px 10px;
+}
+
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  .hero {
+    padding: 3rem 1rem;
+  }
+  .navbar {
+    padding: 1rem;
+  }
+}
