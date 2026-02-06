@@ -7,13 +7,11 @@ import {
   Trash2,
   LogOut,
   ChevronRight,
-  Settings,
   Palette,
   Globe,
   Check,
   Camera,
   Pencil,
-  X,
 } from "lucide-react";
 import Image from "next/image";
 import BottomSheet from "@/components/BottomSheet";

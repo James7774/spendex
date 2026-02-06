@@ -249,27 +249,40 @@
   flex-shrink: 0;
 }
 
-/* Floating Bottom Nav - Perfection for all aspects */
-.bottomNav {
-  display: none;
+.bottomNavWrapper {
   position: fixed;
-  bottom: calc(0.75rem + var(--safe-bottom));
+  bottom: 0;
   left: 0;
   right: 0;
-  margin: 0 auto;
-  width: calc(100% - 2rem);
-  max-width: 480px;
-  height: 72px;
-  background: var(--surface);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  /* Multi-device Safe Area Handling */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  pointer-events: none;
+  background: transparent;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bottomNav {
+  pointer-events: auto;
+  margin-bottom: 0.75rem; /* Gap from system area */
+  width: calc(100% - 1.5rem);
+  max-width: 460px;
+  height: clamp(64px, 12vh, 72px);
+  background: var(--surface);
+  border-radius: 28px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   border: 1px solid var(--border);
-  display: flex !important;
+  display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0 4px;
+  padding: 0 6px;
   box-sizing: border-box;
+  backdrop-filter: blur(10px);
 }
 
 .bottomNavItem {
@@ -353,15 +366,26 @@
 
 /* iPhone & Modern Android Landscape */
 @media (max-height: 480px) and (orientation: landscape) {
+  .bottomNavWrapper {
+    padding-bottom: 0;
+  }
+
   .bottomNav {
-    height: 54px;
-    bottom: var(--safe-bottom);
+    height: 48px;
+    margin-bottom: 0;
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    backdrop-filter: none;
   }
 
   .bottomNavItem {
     flex-direction: row;
     gap: 8px;
-    height: 44px;
+    height: 100%;
   }
 
   .navIcon {
