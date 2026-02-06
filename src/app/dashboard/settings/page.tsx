@@ -212,6 +212,7 @@ export default function SettingsPage() {
               </div>
             </div>
 
+
             {user?.avatar ? (
               <button
                 className="delete-avatar-btn"
@@ -549,12 +550,12 @@ export default function SettingsPage() {
           width: 110px;
           height: 110px;
           border-radius: 9999px !important;
-          border: 5px solid white;
+          border: 4px solid #10b981;
           background: white;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
           position: relative;
           z-index: 20;
           overflow: hidden !important;
@@ -586,6 +587,8 @@ export default function SettingsPage() {
           font-weight: 900;
           color: #7000ff;
         }
+
+
 
         .edit-badge {
           position: absolute;

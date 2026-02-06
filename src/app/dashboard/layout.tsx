@@ -119,6 +119,7 @@ export default function DashboardLayout({
                   ) : (
                       user.name?.charAt(0).toUpperCase() || 'U'
                   )}
+                  <div className={styles.statusDotSmall} />
               </div>
               <div className={styles.userInfo}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -155,6 +156,7 @@ export default function DashboardLayout({
                ) : (
                   <div>{user?.name?.charAt(0).toUpperCase() || 'U'}</div>
                )}
+               <div className={styles.statusDotMobile} />
             </div>
           </header>
         )}

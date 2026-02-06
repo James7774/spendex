@@ -89,7 +89,21 @@
   font-size: 1.1rem;
   flex-shrink: 0;
   overflow: hidden;
-  border: 2px solid white;
+  border: 2px solid #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+  position: relative;
+}
+
+.statusDotSmall {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  width: 12px;
+  height: 12px;
+  background: #10b981;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  z-index: 5;
 }
 
 .userInfo {
@@ -168,27 +182,53 @@
 
 /* Mobile Profile Avatar - Fully Rounded */
 .mobileProfile {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  overflow: hidden;
-  border: 2.5px solid var(--primary);
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  /* overflow: hidden; Removed to let dot show outside */
+  border: 3px solid #10b981;
+  background: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #10b981;
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.statusDotMobile {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  background: #10b981;
+  border: 2.5px solid white;
+  border-radius: 50%;
+  z-index: 5;
+}
+
+.statusDotMobile::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1px solid #10b981;
+  border-radius: 50%;
+  animation: status-pulse 2s infinite;
+  opacity: 0;
+}
+
+@keyframes status-pulse {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
 }
 
 .mobileProfile:active {
-  transform: scale(0.95);
+  transform: scale(0.9);
 }
 
 .mobileAvatarImg {
@@ -546,6 +586,7 @@
 .searchContainer {
   position: relative;
   width: 100%;
+  height: 54px; /* Fixed height for reliable alignment */
   display: flex;
   align-items: center;
   background: var(--surface);
@@ -564,7 +605,8 @@
 
 .searchInput {
   flex: 1;
-  padding: 1rem 1rem 1rem 3.5rem;
+  height: 100%; /* Fill container height */
+  padding: 0 1rem 0 3.5rem; /* Remove top/bottom padding, handle via container height */
   border: none;
   background: transparent;
   color: var(--text-main);
@@ -581,11 +623,15 @@
 .innerSearchIcon {
   position: absolute;
   left: 1.25rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-secondary);
   pointer-events: none;
   transition: color 0.3s ease;
+  z-index: 2;
 }
 
 .searchInput:focus + .innerSearchIcon {
@@ -595,16 +641,17 @@
 .searchClearBtn {
   position: absolute;
   right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--border);
   border: none;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   color: var(--text-secondary);
   transition: all 0.2s;
