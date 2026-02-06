@@ -212,15 +212,9 @@ export default function SettingsPage() {
                   )}
                 </div>
               </div>
-
-              {!user?.avatar && (
-                <div className="edit-badge" style={{ zIndex: 100 }}>
-                  <Pencil size={14} color="#fff" />
-                </div>
-              )}
             </div>
 
-            {user?.avatar && (
+            {user?.avatar ? (
               <button
                 className="delete-avatar-btn"
                 onClick={(e) => {
@@ -230,6 +224,14 @@ export default function SettingsPage() {
               >
                 <Trash2 size={16} color="#fff" />
               </button>
+            ) : (
+              <div 
+                className="edit-badge touch-active" 
+                style={{ zIndex: 100 }}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Pencil size={14} color="#fff" />
+              </div>
             )}
           </div>
           <input
