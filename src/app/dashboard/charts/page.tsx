@@ -6,7 +6,7 @@ import { BarChart3, Activity } from 'lucide-react';
 import { useFinance, Transaction } from "@/context/FinanceContext";
 import AntigravityGoals from "@/components/AntigravityGoals";
 import { SearchIcon, CloseIcon } from "@/components/Icons";
-import DateFilter from "@/components/DateFilter";
+import TransactionsFilter from "@/components/TransactionsFilter";
 import styles from "../dashboard.module.css";
 
 const ExpensesChart = dynamic(() => import("@/components/ExpensesChart"), { ssr: false });
@@ -57,7 +57,7 @@ export default function ChartsPage() {
         </div>
       </div>
 
-      <DateFilter />
+      <TransactionsFilter />
 
       <div className={styles.searchWrapper}>
         <div className={styles.searchContainer}>

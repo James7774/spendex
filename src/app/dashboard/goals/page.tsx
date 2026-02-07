@@ -4,7 +4,7 @@ import GoalCard from "@/components/GoalCard";
 import { useFinance } from "@/context/FinanceContext";
 import styles from "../dashboard.module.css";
 import { getGoalIcon } from "@/components/icons/GoalIcons";
-import DateFilter from "@/components/DateFilter";
+import TransactionsFilter from "@/components/TransactionsFilter";
 
 // Icon options
 const iconOptions = [
@@ -88,7 +88,7 @@ export default function GoalsPage() {
       </div>
       
       <div style={{ marginBottom: '1rem' }}>
-        <DateFilter />
+        <TransactionsFilter />
       </div>
 
       {showForm && (

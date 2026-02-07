@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react";
 import { useFinance } from "@/context/FinanceContext";
 import styles from "../dashboard.module.css";
-import DateFilter from "@/components/DateFilter";
+import TransactionsFilter from "@/components/TransactionsFilter";
 import { IncomeIcon, ExpenseIcon, TrashIcon, SearchIcon, CloseIcon } from "@/components/Icons";
 
 export default function TransactionsPage() {
@@ -75,7 +75,7 @@ export default function TransactionsPage() {
     <div className={styles.dashboardContent}>
       <h1 className={styles.pageTitle}>{t.transactions}</h1>
       
-      <DateFilter />
+      <TransactionsFilter />
 
       <div className={styles.searchWrapper}>
         <div className={styles.searchContainer}>

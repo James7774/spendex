@@ -43,8 +43,8 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
               right: 0,
               bottom: 0,
               background: 'rgba(0,0,0,0.5)',
-              zIndex: 9998,
-              backdropFilter: 'blur(4px)'
+              zIndex: 9998
+              // Removed backdropFilter for better performance on Android
             }}
           />
 
@@ -55,10 +55,14 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 400, mass: 0.2 }}
             drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={{ top: 0.05, bottom: 1 }}
+            dragConstraints={{ top: -3000, bottom: 0 }} // Explicit large range for 1:1 UP movement
+            dragElastic={1} // Strictly 1:1 movement, no resistance
+            dragMomentum={false} // Stops instantly on release
             onDragEnd={(event, info) => {
-              if (info.offset.y > 100 || (info.velocity.y > 500 && info.offset.y > 0)) {
+              const draggedDistance = info.offset.y;
+              const velocity = info.velocity.y;
+              // Dismiss if dragged down > 100px OR flicked down with velocity > 300
+              if (draggedDistance > 100 || (velocity > 300 && draggedDistance > 0)) {
                 onClose();
               }
             }}
@@ -68,22 +72,34 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
               left: 0,
               right: 0,
               background: darkMode ? '#1e293b' : '#ffffff',
-              borderTopLeftRadius: '24px',
-              borderTopRightRadius: '24px',
+              borderTopLeftRadius: '28px',
+              borderTopRightRadius: '28px',
               padding: '0',
               zIndex: 9999,
               maxHeight: '92vh',
               height: height,
               display: 'flex',
               flexDirection: 'column',
-              boxShadow: '0 -4px 20px rgba(0,0,0,0.1)'
+              boxShadow: '0 -4px 20px rgba(0,0,0,0.15)',
+              willChange: 'transform'
             }}
           >
-            {/* Drag Handle Area - Draggable because it bubbles up */}
+            {/* Extended Background (Apron) to prevent gaps when dragging up */}
+            <div style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              right: 0,
+              height: '1500px', // Massive extra height
+              background: darkMode ? '#1e293b' : '#ffffff',
+              pointerEvents: 'none'
+            }} />
+
+            {/* 1. Drag Handle - Draggable */}
             <div
               style={{
                 width: '100%',
-                padding: '16px 0',
+                padding: '12px 0 8px 0',
                 display: 'flex',
                 justifyContent: 'center',
                 flexShrink: 0,
@@ -92,66 +108,69 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
               }}
             >
               <div style={{
-                width: '48px',
-                height: '5px',
-                borderRadius: '3px',
-                background: darkMode ? 'rgba(255,255,255,0.2)' : '#e2e8f0'
+                width: '40px',
+                height: '4px',
+                borderRadius: '4px',
+                background: darkMode ? 'rgba(255,255,255,0.2)' : '#cbd5e1'
               }} />
             </div>
 
-            {/* Content Container - STOPS Drag Propagation */}
+            {/* 2. Fixed Header (Title + Close) - Draggable */}
+            {(title || showCloseIcon) && (
+              <div style={{ 
+                padding: '0 24px 16px 24px',
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                flexShrink: 0,
+                cursor: 'grab'
+              }}>
+                 {title ? (
+                    <h3 style={{
+                      fontSize: '1.4rem',
+                      fontWeight: 750,
+                      color: darkMode ? '#fff' : '#0f172a',
+                      margin: 0,
+                      letterSpacing: '-0.5px'
+                    }}>
+                      {title}
+                    </h3>
+                 ) : <div />}
+                 
+                 {showCloseIcon && (
+                    <button
+                      onClick={onClose}
+                      onPointerDown={(e) => e.stopPropagation()} // Prevent drag start when clicking close
+                      style={{
+                        background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
+                        border: 'none',
+                        color: darkMode ? '#94a3b8' : '#64748b', 
+                        cursor: 'pointer',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <X size={18} strokeWidth={2.5} />
+                    </button>
+                 )}
+              </div>
+            )}
+
+            {/* 3. Content Container - NOT Draggable (Scrollable) */}
             <div 
               onPointerDown={(e) => e.stopPropagation()}
               style={{
                 flex: 1,
                 overflowY: 'auto',
-                padding: '0 20px 40px 20px',
+                padding: '4px 24px 40px 24px',
                 overscrollBehavior: 'contain'
               }}
             >
-              <div style={{ 
-                position: 'relative', 
-                marginBottom: '20px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                minHeight: '32px'
-              }}>
-                 {title && (
-                    <h3 style={{
-                      textAlign: 'center',
-                      fontSize: '1.25rem',
-                      fontWeight: 700,
-                      color: darkMode ? '#fff' : '#0f172a',
-                      margin: 0
-                    }}>
-                      {title}
-                    </h3>
-                 )}
-                 
-                 {showCloseIcon && (
-                    <button
-                      onClick={onClose}
-                      style={{
-                        position: 'absolute',
-                        right: 0,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        background: 'transparent',
-                        border: 'none',
-                        color: darkMode ? '#94a3b8' : '#0f172a', 
-                        cursor: 'pointer',
-                        padding: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      <X size={28} strokeWidth={2.5} />
-                    </button>
-                 )}
-              </div>
-              
               {children}
             </div>
           </motion.div>

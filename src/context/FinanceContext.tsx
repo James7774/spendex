@@ -13,8 +13,6 @@ import {
 export type { Language };
 export { languageNames, rtlLanguages };
 
-
-
 // --- 2. Types ---
 export type Transaction = {
   id: string;
@@ -55,6 +53,14 @@ export type DateRange = {
   end: Date | null;
 };
 
+export type FinanceFilters = {
+  dateType: DateFilterType;
+  dateRange: DateRange;
+  categories: string[];
+  minAmount?: number;
+  maxAmount?: number;
+};
+
 type FinanceContextType = {
   language: Language;
   setLanguage: (lang: Language) => void;
@@ -82,8 +88,8 @@ type FinanceContextType = {
   login: (userData: User) => void;
   logout: () => void;
   updateUserProfile: (data: Partial<User>) => void;
-  dateFilter: { type: DateFilterType; range: DateRange };
-  setDateFilter: (type: DateFilterType, range?: DateRange) => void;
+  filters: FinanceFilters;
+  setFilters: (filters: Partial<FinanceFilters>) => void;
   filteredTransactions: Transaction[];
   filteredNotes: Note[];
 };
@@ -100,13 +106,16 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     return 'uz'; // Fallback
   });
 
-  // Date Filter State
-  const [dateFilter, setDateFilterState] = useState<{ type: DateFilterType; range: DateRange }>({
-    type: '1M',
-    range: {
-      start: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // Start of month
-      end: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59, 999) // End of month
-    }
+  // Filters State
+  const [filters, setFiltersState] = useState<FinanceFilters>({
+    dateType: '1M',
+    dateRange: {
+      start: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+      end: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59, 999)
+    },
+    categories: [],
+    minAmount: undefined,
+    maxAmount: undefined
   });
 
   const [darkMode, setDarkMode] = useState(false);
@@ -263,73 +272,75 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const setDateFilter = useCallback((type: DateFilterType, customRange?: DateRange) => {
-     let start: Date | null = null;
-     let end: Date | null = null;
-     const now = new Date();
-     now.setHours(0,0,0,0); // reset to start of day for calculations
+  const setFilters = useCallback((updates: Partial<FinanceFilters>) => {
+    setFiltersState(prev => {
+      const newFilters = { ...prev, ...updates };
 
-     switch (type) {
-       case '1D':
-         start = new Date(now);
-         end = new Date(now);
-         end.setHours(23, 59, 59, 999);
-         break;
-       case '1W': {
-         // Last 7 days including today? Or This Week? "1 Week" usually means last 7 days or current week. 
-         // Let's do "Current Week" (Mon-Sun) or "Last 7 Days". 
-         // User requested "1 Week". Let's do Last 7 Days for utility.
-         // Actually "This Week" is often better for budgeting.
-         // Let's stick to a simple "Last 7 Days" range for now, or "Start of week".
-         // Let's do "Start of current week" (Monday) to Now?
-         // Let's do a sliding window "Last 7 Days" is clearer.
-         const d = new Date(now);
-         d.setDate(d.getDate() - 6);
-         start = d;
-         end = new Date();
-         end.setHours(23, 59, 59, 999);
-         break;
-       }
-       case '1M':
-         start = new Date(now.getFullYear(), now.getMonth(), 1);
-         end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-         break;
-       case 'custom':
-         if (customRange) {
-           start = customRange.start;
-           end = customRange.end;
-         }
-         break;
-       case 'all':
-         start = null;
-         end = null;
-         break;
-     }
+      if (updates.dateType && updates.dateType !== 'custom' && updates.dateType !== 'all') {
+        const now = new Date();
+        now.setHours(0,0,0,0);
+        let start = new Date();
+        let end = new Date();
+        
+        switch (updates.dateType) {
+          case '1D':
+            start = new Date(now);
+            end = new Date(now);
+            end.setHours(23, 59, 59, 999);
+            break;
+          case '1W': {
+            const d = new Date(now);
+            d.setDate(d.getDate() - 6);
+            start = d;
+            end = new Date();
+            end.setHours(23, 59, 59, 999);
+            break;
+          }
+          case '1M':
+            start = new Date(now.getFullYear(), now.getMonth(), 1);
+            end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+            break;
+        }
+        newFilters.dateRange = { start, end };
+      } else if (updates.dateType === 'all') {
+        newFilters.dateRange = { start: null, end: null };
+      }
 
-     setDateFilterState({ type, range: { start, end } });
+      return newFilters;
+    });
   }, []);
 
   const filteredTransactions = React.useMemo(() => {
-    if (dateFilter.type === 'all' || !dateFilter.range.start || !dateFilter.range.end) {
-      return transactions;
-    }
-    const { start, end } = dateFilter.range;
     return transactions.filter(t => {
-      const d = new Date(t.date);
-      return d >= start && d <= end;
+      // 1. Date Filter
+      if (filters.dateType !== 'all' && filters.dateRange.start && filters.dateRange.end) {
+        const d = new Date(t.date);
+        if (d < filters.dateRange.start || d > filters.dateRange.end) return false;
+      }
+
+      // 2. Category Filter
+      if (filters.categories.length > 0 && !filters.categories.includes(t.category)) {
+        return false;
+      }
+
+      // 3. Amount Filter
+      if (filters.minAmount !== undefined && t.amount < filters.minAmount) return false;
+      if (filters.maxAmount !== undefined && t.amount > filters.maxAmount) return false;
+
+      return true;
     });
-  }, [transactions, dateFilter]);
+  }, [transactions, filters]);
 
   const filteredNotes = React.useMemo(() => {
-    if (dateFilter.type === 'all' || !dateFilter.range.start || !dateFilter.range.end) {
+    if (filters.dateType === 'all' || !filters.dateRange.start || !filters.dateRange.end) {
       return notes;
     }
-    const { start, end } = dateFilter.range;
+    const { start, end } = filters.dateRange;
     return notes.filter(n => {
       const d = new Date(n.date);
       return d >= start && d <= end;
     });
-  }, [notes, dateFilter]);
+  }, [notes, filters]);
 
   const addTransaction = useCallback((tx: Omit<Transaction, 'id'>) => {
     if (!user) return;
@@ -452,8 +463,8 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     login,
     logout,
     updateUserProfile,
-    dateFilter,
-    setDateFilter,
+    filters,
+    setFilters,
     filteredTransactions,
     filteredNotes
   } as FinanceContextType), [
@@ -463,7 +474,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     deleteGoal, deleteNote, deleteTransaction, 
     updateGoal, updateNote, updateUserProfile,
     setLanguage, toggleTheme, setTheme, logout, login,
-    dateFilter, setDateFilter, filteredTransactions, filteredNotes
+    filters, setFilters, filteredTransactions, filteredNotes
   ]);
 
   return (
@@ -479,4 +490,4 @@ export const useFinance = () => {
     throw new Error('useFinance must be used within a FinanceProvider');
   }
   return context;
-};
+}

@@ -6,17 +6,17 @@ import DatePicker from './DatePicker';
 import BottomSheet from './BottomSheet';
 
 export default function DateFilter() {
-  const { dateFilter, setDateFilter, t } = useFinance();
+  const { filters, setFilters, t } = useFinance();
   const [isCustomOpen, setIsCustomOpen] = useState(false);
   const [tempRange, setTempRange] = useState<DateRange>({
-    start: dateFilter.range.start || new Date(),
-    end: dateFilter.range.end || new Date()
+    start: filters.dateRange.start || new Date(),
+    end: filters.dateRange.end || new Date()
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
 
-  const filters: { id: DateFilterType; label: string }[] = [
+  const dateFilterOptions: { id: DateFilterType; label: string }[] = [
     { id: '1D', label: tAny.filter1D || '1D' },
     { id: '1W', label: tAny.filter1W || '1W' },
     { id: '1M', label: tAny.filter1M || '1M' },
@@ -26,17 +26,17 @@ export default function DateFilter() {
   const handleFilterClick = (type: DateFilterType) => {
     if (type === 'custom') {
       setTempRange({
-        start: dateFilter.range.start || new Date(),
-        end: dateFilter.range.end || new Date()
+        start: filters.dateRange.start || new Date(),
+        end: filters.dateRange.end || new Date()
       });
       setIsCustomOpen(true);
     } else {
-      setDateFilter(type);
+      setFilters({ dateType: type });
     }
   };
 
   const applyCustomRange = () => {
-    setDateFilter('custom', tempRange);
+    setFilters({ dateType: 'custom', dateRange: tempRange });
     setIsCustomOpen(false);
   };
 
@@ -62,19 +62,19 @@ export default function DateFilter() {
   return (
     <div className="date-filter-container">
       <div className="filter-scroll">
-        {filters.map(filter => (
+        {dateFilterOptions.map(option => (
           <button
-            key={filter.id}
-            onClick={() => handleFilterClick(filter.id)}
-            className={`filter-chip ${dateFilter.type === filter.id ? 'active' : ''}`}
+            key={option.id}
+            onClick={() => handleFilterClick(option.id)}
+            className={`filter-chip ${filters.dateType === option.id ? 'active' : ''}`}
           >
-            {filter.label}
+            {option.label}
           </button>
         ))}
         
         <button
           onClick={() => handleFilterClick('custom')}
-          className={`filter-chip ${dateFilter.type === 'custom' ? 'active' : ''} custom-btn`}
+          className={`filter-chip ${filters.dateType === 'custom' ? 'active' : ''} custom-btn`}
         >
           <Calendar size={14} />
           <span>{tAny.custom || "Custom"}</span>
@@ -183,15 +183,15 @@ export default function DateFilter() {
         }
 
         .apply-btn {
-            background: linear-gradient(135deg, #7000ff 0%, #9033ff 100%);
-            color: white;
-            padding: 16px;
-            border-radius: 16px;
-            font-weight: 700;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(112, 0, 255, 0.3);
-            border: none;
-            width: 100%;
+          background: linear-gradient(135deg, #7000ff 0%, #9033ff 100%);
+          color: white;
+          padding: 16px;
+          border-radius: 16px;
+          font-weight: 700;
+          margin-top: 10px;
+          box-shadow: 0 4px 15px rgba(112, 0, 255, 0.3);
+          border: none;
+          width: 100%;
         }
 
         .apply-btn:active {
