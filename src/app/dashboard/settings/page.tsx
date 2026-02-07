@@ -12,10 +12,17 @@ import {
   Check,
   Camera,
   Pencil,
+  User,
+  Wallet,
+  SlidersHorizontal,
+  FileText,
+  ChevronLeft
 } from "lucide-react";
 import Image from "next/image";
 import BottomSheet from "@/components/BottomSheet";
 import CenterModal from "@/components/CenterModal";
+
+type SettingsView = 'main' | 'account' | 'payment' | 'preferences' | 'export';
 
 export default function SettingsPage() {
   const {
@@ -127,11 +134,193 @@ export default function SettingsPage() {
     logout();
   };
 
+  /* --- VIEW STATE --- */
+  const [currentView, setCurrentView] = useState<SettingsView>('main');
+
+  /* --- RENDERERS --- */
+  const renderMainView = () => (
+    <div className="animate-slide-up">
+       {/* Grid Menu */}
+       <div className="settings-grid">
+          {/* Account Settings */}
+          <button className="settings-card touch-active" onClick={() => setCurrentView('account')}>
+             <div className="card-icon-wrap">
+                <User size={24} className="card-icon" />
+             </div>
+             <span className="card-label">{tAny.account || "Account Settings"}</span>
+             <ChevronRight size={16} className="card-arrow" />
+          </button>
+
+          {/* Payment Methods */}
+          <button className="settings-card touch-active" onClick={() => setCurrentView('payment')}>
+             <div className="card-icon-wrap">
+                <Wallet size={24} className="card-icon" />
+             </div>
+             <span className="card-label">Payment Methods</span>
+             <ChevronRight size={16} className="card-arrow" />
+          </button>
+
+          {/* Preferences */}
+          <button className="settings-card touch-active" onClick={() => setCurrentView('preferences')}>
+             <div className="card-icon-wrap">
+                <SlidersHorizontal size={24} className="card-icon" />
+             </div>
+             <span className="card-label">Preferences</span>
+             <ChevronRight size={16} className="card-arrow" />
+          </button>
+
+          {/* Export Data */}
+          <button className="settings-card touch-active" onClick={() => setCurrentView('export')}>
+             <div className="card-icon-wrap">
+                <FileText size={24} className="card-icon" />
+             </div>
+             <span className="card-label">Export Data</span>
+             <ChevronRight size={16} className="card-arrow" />
+          </button>
+       </div>
+    </div>
+  );
+
+  const renderAccountSettings = () => (
+    <div className="animate-slide-in-right">
+       <button className="back-btn touch-active" onClick={() => setCurrentView('main')}>
+          <ChevronLeft size={24} color="#1e293b" />
+          <span>Back</span>
+       </button>
+
+       <h2 className="sub-page-title">Account Settings</h2>
+
+       <div className="menu-sec">
+          <div className="sec-label">{tAny.appearance || "Appearance"}</div>
+          <div className="sec-card">
+            {/* Language Selector Row */}
+            <button
+              className="list-row touch-active"
+              onClick={() => setIsLangModalOpen(true)}
+            >
+              <div className="row-start">
+                <div className="icon-wrap-uz blue">
+                  <Globe size={18} />
+                </div>
+                <span className="row-label">
+                  {tAny.langTitle || "Language"}
+                </span>
+              </div>
+              <div className="row-end">
+                <div className="current-lang-wrap">
+                  <span className="current-flag-wrapper">
+                    <Image
+                      src={getFlagUrl(currentLang.country)}
+                      alt={currentLang.name}
+                      width={40}
+                      height={28}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                      }}
+                    />
+                  </span>
+                  <span className="val-uz">{currentLang.name}</span>
+                </div>
+                <ChevronRight
+                  size={16}
+                  opacity={0.3}
+                  className={isRTL ? "rotate-180" : ""}
+                />
+              </div>
+            </button>
+
+            <div className="hr-uz" />
+
+            {/* Theme Toggle */}
+            <div
+              className="list-row touch-active"
+              onClick={() => setTheme(darkMode ? "light" : "dark")}
+            >
+              <div className="row-start">
+                <div className="icon-wrap-uz purple">
+                  <Palette size={18} />
+                </div>
+                <span className="row-label">{t.themeTitle}</span>
+              </div>
+              <div className="row-end">
+                <span className="val-uz">
+                  {darkMode ? t.darkModeLabel : t.lightModeLabel}
+                </span>
+                {darkMode ? (
+                  <Moon size={16} color="#8b5cf6" />
+                ) : (
+                  <Sun size={16} color="#f59e0b" />
+                )}
+              </div>
+            </div>
+          </div>
+       </div>
+
+       <div className="menu-sec">
+          <div className="sec-label">{tAny.account || "Account"}</div>
+          <div className="sec-card">
+            <button
+              className="list-row touch-active"
+              onClick={() => setConfirmationType("clear")}
+            >
+              <div className="row-start">
+                <div className="icon-wrap-uz slate">
+                  <Trash2 size={18} />
+                </div>
+                <span className="row-label">{tAny.clearData}</span>
+              </div>
+              <ChevronRight
+                size={16}
+                opacity={0.3}
+                className={isRTL ? "rotate-180" : ""}
+              />
+            </button>
+
+            <div className="hr-uz" />
+
+            <button
+              className="list-row touch-active danger"
+              onClick={() => setConfirmationType("logout")}
+            >
+              <div className="row-start">
+                <div className="icon-wrap-uz red">
+                  <LogOut size={18} />
+                </div>
+                <span className="row-label" style={{ color: "#ef4444" }}>
+                  {tAny.logout}
+                </span>
+              </div>
+              <ChevronRight
+                size={16}
+                opacity={0.3}
+                className={isRTL ? "rotate-180" : ""}
+              />
+            </button>
+          </div>
+       </div>
+    </div>
+  );
+
+  const renderPlaceholder = (title: string) => (
+    <div className="animate-slide-in-right">
+       <button className="back-btn touch-active" onClick={() => setCurrentView('main')}>
+          <ChevronLeft size={24} color="#1e293b" />
+          <span>Back</span>
+       </button>
+       <h2 className="sub-page-title">{title}</h2>
+       <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>
+          Coming Soon...
+       </div>
+    </div>
+  );
+
   return (
     <div className="profile-page animate-fade-in" dir={isRTL ? "rtl" : "ltr"}>
       {/* Banner Cover - Static & Reliable */}
       <div className="profile-banner">
-        <h1 className="banner-title">{tAny.settings}</h1>
+        <h1 className="banner-title">{tAny.profileTitle || "Profil"}</h1>
 
         {/* Decorative Circles */}
         <div className="banner-circle c1" />
@@ -244,140 +433,38 @@ export default function SettingsPage() {
       </div>
 
       <main className="main-content-uz">
-        {/* User Info */}
-        <div className="user-info-section">
-          {isEditingName ? (
-            <input
-              className="name-edit-input"
-              type="text"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              autoFocus
-              onBlur={handleSaveName}
-              onKeyDown={(e) => e.key === "Enter" && handleSaveName()}
-              placeholder={tAny.firstName || "Name"}
-            />
-          ) : (
-            <div
-              className="name-wrapper"
-              onClick={() => setIsEditingName(true)}
-            >
-              <h2 className="user-name">{user?.name}</h2>
-            </div>
-          )}
-          <p className="user-email">{user?.phone || "finova@info.com"}</p>
-        </div>
-
-        <section className="menu-sec">
-          <div className="sec-label">{tAny.appearance || tAny.themeTitle}</div>
-          <div className="sec-card">
-            {/* Language Selector Row */}
-            <button
-              className="list-row touch-active"
-              onClick={() => setIsLangModalOpen(true)}
-            >
-              <div className="row-start">
-                <div className="icon-wrap-uz blue">
-                  <Globe size={18} />
-                </div>
-                <span className="row-label">
-                  {tAny.langTitle || "Language"}
-                </span>
-              </div>
-              <div className="row-end">
-                <div className="current-lang-wrap">
-                  <span className="current-flag-wrapper">
-                    <Image
-                      src={getFlagUrl(currentLang.country)}
-                      alt={currentLang.name}
-                      width={40}
-                      height={28}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </span>
-                  <span className="val-uz">{currentLang.name}</span>
-                </div>
-                <ChevronRight
-                  size={16}
-                  opacity={0.3}
-                  className={isRTL ? "rotate-180" : ""}
-                />
-              </div>
-            </button>
-
-            <div className="hr-uz" />
-
-            {/* Theme Toggle */}
-            <div
-              className="list-row touch-active"
-              onClick={() => setTheme(darkMode ? "light" : "dark")}
-            >
-              <div className="row-start">
-                <div className="icon-wrap-uz purple">
-                  <Palette size={18} />
-                </div>
-                <span className="row-label">{t.themeTitle}</span>
-              </div>
-              <div className="row-end">
-                <span className="val-uz">
-                  {darkMode ? t.darkModeLabel : t.lightModeLabel}
-                </span>
-                {darkMode ? (
-                  <Moon size={16} color="#8b5cf6" />
-                ) : (
-                  <Sun size={16} color="#f59e0b" />
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="menu-sec">
-          <div className="sec-label">{tAny.account || "Account"}</div>
-          <div className="sec-card">
-            <button
-              className="list-row touch-active"
-              onClick={() => setConfirmationType("clear")}
-            >
-              <div className="row-start">
-                <div className="icon-wrap-uz slate">
-                  <Trash2 size={18} />
-                </div>
-                <span className="row-label">{tAny.clearData}</span>
-              </div>
-              <ChevronRight
-                size={16}
-                opacity={0.3}
-                className={isRTL ? "rotate-180" : ""}
+        {/* User Info - ALWAYS VISIBLE in MAIN VIEW */}
+        {currentView === 'main' && (
+          <div className="user-info-section">
+            {isEditingName ? (
+              <input
+                className="name-edit-input"
+                type="text"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                autoFocus
+                onBlur={handleSaveName}
+                onKeyDown={(e) => e.key === "Enter" && handleSaveName()}
+                placeholder={tAny.firstName || "Name"}
               />
-            </button>
-
-            <div className="hr-uz" />
-
-            <button
-              className="list-row touch-active danger"
-              onClick={() => setConfirmationType("logout")}
-            >
-              <div className="row-start">
-                <div className="icon-wrap-uz red">
-                  <LogOut size={18} />
-                </div>
-                <span className="row-label" style={{ color: "#ef4444" }}>
-                  {tAny.logout}
-                </span>
+            ) : (
+              <div
+                className="name-wrapper"
+                onClick={() => setIsEditingName(true)}
+              >
+                <h2 className="user-name">{user?.name}</h2>
               </div>
-              <ChevronRight
-                size={16}
-                opacity={0.3}
-                className={isRTL ? "rotate-180" : ""}
-              />
-            </button>
+            )}
+            <p className="user-email">{user?.phone || "finova@info.com"}</p>
           </div>
-        </section>
+        )}
+
+        {/* Dynamic Content */}
+        {currentView === 'main' && renderMainView()}
+        {currentView === 'account' && renderAccountSettings()}
+        {currentView === 'payment' && renderPlaceholder('Payment Methods')}
+        {currentView === 'preferences' && renderPlaceholder('Preferences')}
+        {currentView === 'export' && renderPlaceholder('Export Data')}
 
         <div className="footer-uz">Finova v3.5 • 2026</div>
       </main>
@@ -491,21 +578,21 @@ export default function SettingsPage() {
 
         .profile-banner {
           width: 100%;
-          height: 170px;
+          height: 240px;
           background: linear-gradient(
             135deg,
-            #7c3aed 0%,
-            #9061f9 100%,
+            #8b5cf6 0%,
+            #7c3aed 50%,
             #6d28d9 100%
           );
           position: relative;
-          padding-top: calc(var(--safe-top) + 20px);
+          padding-top: calc(var(--safe-top) + 40px);
           display: flex;
           flex-direction: column;
           align-items: center;
-          border-bottom-left-radius: 40px;
-          border-bottom-right-radius: 40px;
-          box-shadow: 0 12px 30px -10px rgba(124, 58, 237, 0.35);
+          border-bottom-left-radius: 60px;
+          border-bottom-right-radius: 60px;
+          box-shadow: 0 20px 40px -10px rgba(124, 58, 237, 0.4);
           overflow: visible;
           z-index: 10;
         }
@@ -523,10 +610,11 @@ export default function SettingsPage() {
           left: -100px;
         }
         .c2 {
-          width: 200px;
-          height: 200px;
-          bottom: -40px;
-          right: -40px;
+           width: 240px;
+           height: 240px;
+           bottom: -80px;
+           right: -60px;
+           background: rgba(255, 255, 255, 0.08);
         }
 
         .banner-title {
@@ -540,16 +628,15 @@ export default function SettingsPage() {
         }
 
         .banner-avatar-wrapper {
-          position: absolute;
-          bottom: -50px; /* Half of height to overlap */
+          bottom: -60px; /* Half of height to overlap */
           left: 50%;
           transform: translateX(-50%);
           z-index: 20;
         }
 
         .banner-avatar {
-          width: 110px;
-          height: 110px;
+          width: 120px;
+          height: 120px;
           border-radius: 9999px !important;
           border: 4px solid #10b981;
           background: white;
@@ -799,7 +886,165 @@ export default function SettingsPage() {
         .hr-uz {
           height: 1px;
           background: #f1f5f9;
-          margin: 2px 16px;
+          margin: 0 16px;
+        }
+
+        /* --- NEW SETTINGS UI (Grid System) --- */
+        .settings-grid {
+           display: grid;
+           grid-template-columns: repeat(3, 1fr);
+           gap: 12px;
+           width: 100%;
+           padding: 0 4px;
+        }
+
+        .settings-card {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           text-align: center;
+           padding: 20px 12px;
+           background: #fff;
+           border-radius: 24px;
+           border: 1px solid rgba(255,255,255,0.6);
+           box-shadow: 0 10px 30px rgba(0,0,0,0.03), 0 4px 10px rgba(0,0,0,0.01);
+           cursor: pointer;
+           transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+           height: 100%;
+           min-height: 110px;
+           position: relative;
+        }
+
+        .settings-card:active {
+           transform: scale(0.95);
+        }
+
+        .card-icon-wrap {
+           width: 50px;
+           height: 50px;
+           background: #f8fafc;
+           border-radius: 16px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           margin-bottom: 12px;
+           transition: 0.2s;
+           color: #1e293b;
+        }
+
+        .card-label {
+           font-size: 0.85rem;
+           font-weight: 700;
+           color: #0f172a;
+           line-height: 1.3;
+           display: -webkit-box;
+           -webkit-line-clamp: 2;
+           -webkit-box-orient: vertical;
+           overflow: hidden;
+        }
+
+        .card-arrow {
+           position: absolute;
+           bottom: 10px;
+           opacity: 0;
+           transform: translateY(-5px);
+           transition: all 0.2s;
+           color: #cbd5e1;
+        }
+
+        /* Hover/Active states for cards */
+        .settings-card:active .card-icon-wrap {
+           background: #e2e8f0;
+           transform: scale(0.9);
+        }
+        
+        /* Dark Mode for Cards */
+        :global(.dark) .settings-card {
+           background: #1e293b;
+           border-color: rgba(255, 255, 255, 0.05);
+           box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        :global(.dark) .card-icon-wrap {
+           background: #334155;
+           color: #cbd5e1;
+        }
+        :global(.dark) .card-label {
+           color: #f1f5f9;
+        }
+
+        .back-btn {
+           display: flex;
+           align-items: center;
+           gap: 8px;
+           border: none;
+           background: transparent;
+           font-size: 1.1rem;
+           font-weight: 700;
+           color: #1e293b;
+           margin-bottom: 24px;
+           cursor: pointer;
+           padding: 0;
+        }
+
+        .sub-page-title {
+           font-size: 1.8rem;
+           font-weight: 900;
+           margin-bottom: 24px;
+           color: #0f172a;
+        }
+
+        .animate-slide-up {
+           animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .animate-slide-in-right {
+           animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+           from { opacity: 0; transform: translateX(20px); }
+           to { opacity: 1; transform: translateX(0); }
+        }
+        /* Dark Mode Support for New UI */
+        :global(.dark) .settings-list-card {
+           background: #1e293b;
+           box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        :global(.dark) .settings-item {
+           background: #1e293b;
+           border-color: rgba(255, 255, 255, 0.05);
+        }
+        :global(.dark) .settings-item:active {
+           background: #334155;
+        }
+        :global(.dark) .item-icon-box {
+           background: #334155;
+        }
+        :global(.dark) .item-icon-box svg {
+           color: #cbd5e1;
+           stroke: #cbd5e1;
+        }
+        :global(.dark) .item-label {
+           color: #fff;
+        }
+        :global(.dark) .back-btn {
+           color: #fff;
+        }
+        :global(.dark) .back-btn span {
+           color: #fff;
+        }
+        :global(.dark) .back-btn svg {
+           color: #fff;
+           stroke: #fff;
+        }
+        :global(.dark) .sub-page-title {
+           color: #fff;
         }
         .footer-uz {
           text-align: center;
