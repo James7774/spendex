@@ -1,0 +1,39 @@
+﻿node.exe : (node:13048) 
+ESLintIgnoreWarning: The 
+".eslintignore" file is no 
+longer supported. Switch to 
+using the "ignores" 
+property in 
+"eslint.config.js": https://
+eslint.org/docs/latest/use/c
+onfigure/migration-guide#ign
+oring-files
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: ((node  
+  :13048) ES...#ignoring-   
+ files:String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+
+C:\Users\user\OneDrive\Desktop\finova.com-master\src\components\Onboarding.tsx
+   36:30   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:85   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:111  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  100:79   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  100:105  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 5 problems (5 errors, 0 warnings)
+

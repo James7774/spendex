@@ -9,7 +9,7 @@ import BottomSheet from "@/components/BottomSheet";
 import styles from "./dashboard.module.css";
 import { useFinance } from "@/context/FinanceContext";
 import { IncomeIcon, ExpenseIcon, ArrowRightIcon } from "@/components/Icons";
-import { Plus, Minus, User } from "lucide-react";
+import { Plus, User } from "lucide-react";
 
 export default function DashboardPage() {
   const { t, totalBalance, totalIncome, totalExpense, transactions, goals, deleteGoal, updateGoal, user } = useFinance();

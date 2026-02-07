@@ -27,6 +27,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Check onboarding status
     const seen = localStorage.getItem('hasSeenOnboarding') === 'true';
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHasSeenOnboarding(seen);
 
     // Splash Logic
@@ -50,6 +51,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
     CapSplash.hide();
   }, []);

@@ -33,7 +33,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   
   // Use translations directly to ensure reactivity
-  const t = (translations as any)[language] || contextT;
+  const t = translations[language as keyof typeof translations] || contextT;
   const ot = t?.onboarding || {};
 
   // States
@@ -94,9 +94,11 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
       if (!user) throw new Error("Error signing in with Google");
       const name = user.displayName || "";
       if (name) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         login({ id: user.uid, name: name, phone: user.email || "", avatar: (user as any).photoURL || (user as any).photoUrl || "" });
         onFinish();
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setUserData({ uid: user.uid, email: user.email || "", photo: (user as any).photoURL || (user as any).photoUrl || "" });
         setStep('profile');
       }

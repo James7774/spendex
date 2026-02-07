@@ -1,7 +1,6 @@
 
 "use client";
 import React from 'react';
-import { motion } from 'framer-motion';
 import { useFinance } from '@/context/FinanceContext';
 import { Target } from 'lucide-react';
 import GoalCard from "@/components/GoalCard";

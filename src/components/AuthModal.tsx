@@ -13,7 +13,7 @@ interface AuthModalProps {
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const { login, language, t: contextT } = useFinance();
-  const t = (translations as any)[language]?.auth || contextT.auth;
+  const t = (translations[language as keyof typeof translations] as typeof translations.en)?.auth || contextT.auth;
   const router = useRouter();
 
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -49,6 +49,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
   // Handlers
   const handleAuthSuccess = (user: User) => {
+    // eslint-disable-next-line react-hooks/purity
     const randomId = Math.random().toString(36).substr(2);
     const sessionToken = `session_${randomId}`;
     
@@ -63,6 +64,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const handleSocialLogin = (provider: string) => {
     setIsLoading(true);
     const phone = `+998 (00) 000-00-00`;
+    // eslint-disable-next-line react-hooks/purity
     const timestamp = Date.now();
     handleAuthSuccess({ id: provider[0] + timestamp, name: `${provider} User`, phone, avatar: '' });
   };
@@ -76,6 +78,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (isValidPassword(formData.password)) {
       setIsLoading(true);
+      // eslint-disable-next-line react-hooks/purity
       const timestamp = Date.now();
       handleAuthSuccess({ id: 'u' + timestamp, name: formData.email.split('@')[0], phone: formData.email });
     }

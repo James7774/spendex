@@ -9,7 +9,7 @@ export interface TrendInsight {
   amount: number;
 }
 
-import { Language } from '@/locales';
+
 
 export const analyzeWeeklyTrends = (
   transactions: Transaction[], 

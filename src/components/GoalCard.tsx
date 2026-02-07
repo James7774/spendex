@@ -233,7 +233,7 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
                           margin: 0,
                           letterSpacing: '-0.01em'
                         }}>
-                          {formatCompactNumber(targetAmount - currentAmount)} <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>so'm</span>
+                          {formatCompactNumber(targetAmount - currentAmount)} <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>so&apos;m</span>
                         </p>
                       </>
                     )}
