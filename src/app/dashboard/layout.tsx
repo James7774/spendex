@@ -176,6 +176,13 @@ export default function DashboardLayout({
             }}
         >
             <nav className={styles.bottomNav}>
+              <Link href="/dashboard" className={`${styles.bottomNavItem} ${isActive('/dashboard') ? styles.bottomNavActive : ''}`}>
+                <svg className={styles.navIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>{t.dashboardShort}</span>
+              </Link>
               <Link href="/dashboard/transactions" className={`${styles.bottomNavItem} ${isActive('/dashboard/transactions') ? styles.bottomNavActive : ''}`}>
                 <svg className={styles.navIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
@@ -190,13 +197,6 @@ export default function DashboardLayout({
                   <line x1="6" y1="20" x2="6" y2="14"/>
                 </svg>
                 <span>{t.chartsShort}</span>
-              </Link>
-              <Link href="/dashboard" className={`${styles.bottomNavItem} ${isActive('/dashboard') ? styles.bottomNavActive : ''}`}>
-                <svg className={styles.navIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                  <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                <span>{t.dashboardShort}</span>
               </Link>
               <Link href="/dashboard/goals" className={`${styles.bottomNavItem} ${isActive('/dashboard/goals') ? styles.bottomNavActive : ''}`}>
                 <svg className={styles.navIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

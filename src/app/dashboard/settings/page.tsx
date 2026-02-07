@@ -7,7 +7,6 @@ import {
   Trash2,
   LogOut,
   ChevronRight,
-  Palette,
   Globe,
   Check,
   Camera,
@@ -139,173 +138,222 @@ export default function SettingsPage() {
 
   /* --- RENDERERS --- */
   const renderMainView = () => (
-    <div className="animate-slide-up">
-       {/* List Menu */}
-       <div className="settings-list-card">
-          {/* Account Settings */}
-          <button className="settings-item touch-active" onClick={() => setCurrentView('account')}>
-             <div className="item-left">
-                <div className="item-icon-box">
-                   <User size={22} color="#1e293b" />
-                </div>
-                <span className="item-label">Account Settings</span>
+    <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', padding: '0 2px' }}>
+       {/* Account Settings */}
+       <button 
+         className="settings-item touch-active" 
+         onClick={() => setCurrentView('account')}
+         style={{ 
+           display: 'flex', 
+           alignItems: 'center', 
+           justifyContent: 'space-between', 
+           width: '100%', 
+           padding: '12px 16px', 
+           background: '#fff', 
+           border: 'none', 
+           borderRadius: '20px', 
+           boxShadow: '0 2px 12px rgba(0,0,0,0.03)', 
+           cursor: 'pointer' 
+         }}
+       >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+             <div style={{ width: '48px', height: '48px', background: '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <User size={22} color="#1e293b" strokeWidth={2.5} />
              </div>
-             <ChevronRight size={20} color="#cbd5e1" />
-          </button>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>Account Settings</span>
+          </div>
+          <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
+       </button>
 
-          {/* Payment Methods */}
-          <button className="settings-item touch-active" onClick={() => setCurrentView('payment')}>
-             <div className="item-left">
-                <div className="item-icon-box">
-                   <Wallet size={22} color="#1e293b" />
-                </div>
-                <span className="item-label">Payment Methods</span>
+       {/* Payment Methods */}
+       <button 
+         className="settings-item touch-active" 
+         onClick={() => setCurrentView('payment')}
+         style={{ 
+           display: 'flex', 
+           alignItems: 'center', 
+           justifyContent: 'space-between', 
+           width: '100%', 
+           padding: '12px 16px', 
+           background: '#fff', 
+           border: 'none', 
+           borderRadius: '20px', 
+           boxShadow: '0 2px 12px rgba(0,0,0,0.03)', 
+           cursor: 'pointer' 
+         }}
+       >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+             <div style={{ width: '48px', height: '48px', background: '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Wallet size={22} color="#1e293b" strokeWidth={2.5} />
              </div>
-             <ChevronRight size={20} color="#cbd5e1" />
-          </button>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>Payment Methods</span>
+          </div>
+          <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
+       </button>
 
-          {/* Preferences */}
-          <button className="settings-item touch-active" onClick={() => setCurrentView('preferences')}>
-             <div className="item-left">
-                <div className="item-icon-box">
-                   <SlidersHorizontal size={22} color="#1e293b" />
-                </div>
-                <span className="item-label">Preferences</span>
+       {/* Preferences */}
+       <button 
+         className="settings-item touch-active" 
+         onClick={() => setCurrentView('preferences')}
+         style={{ 
+           display: 'flex', 
+           alignItems: 'center', 
+           justifyContent: 'space-between', 
+           width: '100%', 
+           padding: '12px 16px', 
+           background: '#fff', 
+           border: 'none', 
+           borderRadius: '20px', 
+           boxShadow: '0 2px 12px rgba(0,0,0,0.03)', 
+           cursor: 'pointer' 
+         }}
+       >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+             <div style={{ width: '48px', height: '48px', background: '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <SlidersHorizontal size={22} color="#1e293b" strokeWidth={2.5} />
              </div>
-             <ChevronRight size={20} color="#cbd5e1" />
-          </button>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>Preferences</span>
+          </div>
+          <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
+       </button>
 
-          {/* Export Data */}
-          <button className="settings-item touch-active" onClick={() => setCurrentView('export')}>
-             <div className="item-left">
-                <div className="item-icon-box">
-                   <FileText size={22} color="#1e293b" />
-                </div>
-                <span className="item-label">Export Data</span>
+       {/* Export Data */}
+       <button 
+         className="settings-item touch-active" 
+         onClick={() => setCurrentView('export')}
+         style={{ 
+           display: 'flex', 
+           alignItems: 'center', 
+           justifyContent: 'space-between', 
+           width: '100%', 
+           padding: '12px 16px', 
+           background: '#fff', 
+           border: 'none', 
+           borderRadius: '20px', 
+           boxShadow: '0 2px 12px rgba(0,0,0,0.03)', 
+           cursor: 'pointer' 
+         }}
+       >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+             <div style={{ width: '48px', height: '48px', background: '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FileText size={22} color="#1e293b" strokeWidth={2.5} />
              </div>
-             <ChevronRight size={20} color="#cbd5e1" />
-          </button>
-       </div>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>Export Data</span>
+          </div>
+          <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
+       </button>
     </div>
   );
 
   const renderAccountSettings = () => (
     <div className="animate-slide-in-right">
-       <button className="back-btn touch-active" onClick={() => setCurrentView('main')}>
-          <ChevronLeft size={24} color="#1e293b" />
+       <button 
+         className="back-btn touch-active" 
+         onClick={() => setCurrentView('main')}
+         style={{ display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: 'transparent', fontSize: '1rem', fontWeight: 800, color: '#64748b', marginBottom: '20px', cursor: 'pointer', padding: '0' }}
+       >
+          <ChevronLeft size={20} strokeWidth={3} />
           <span>Back</span>
        </button>
 
-       <h2 className="sub-page-title">Account Settings</h2>
+       <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1e293b', marginBottom: '24px' }}>Account Settings</h2>
 
-       <div className="menu-sec">
-          <div className="sec-label">{tAny.appearance || "Appearance"}</div>
-          <div className="sec-card">
-            {/* Language Selector Row */}
-            <button
-              className="list-row touch-active"
-              onClick={() => setIsLangModalOpen(true)}
-            >
-              <div className="row-start">
-                <div className="icon-wrap-uz blue">
-                  <Globe size={18} />
+       {/* Appearance Section */}
+       <div style={{ marginBottom: '24px' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', marginLeft: '4px', letterSpacing: '0.5px' }}>
+             {tAny.appearance || "Appearance"}
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+             {/* Language Dropdown Card */}
+             <button
+               className="settings-item touch-active"
+               onClick={() => setIsLangModalOpen(true)}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: '#fff', border: 'none', borderRadius: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', cursor: 'pointer' }}
+             >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                      <Globe size={20} strokeWidth={2.5} />
+                   </div>
+                   <div style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e293b' }}>{tAny.langTitle || "Language"}</div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8' }}>{currentLang.name}</div>
+                   </div>
                 </div>
-                <span className="row-label">
-                  {tAny.langTitle || "Language"}
-                </span>
-              </div>
-              <div className="row-end">
-                <div className="current-lang-wrap">
-                  <span className="current-flag-wrapper">
-                    <Image
-                      src={getFlagUrl(currentLang.country)}
-                      alt={currentLang.name}
-                      width={40}
-                      height={28}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </span>
-                  <span className="val-uz">{currentLang.name}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                   <div style={{ width: '28px', height: '18px', borderRadius: '4px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid rgba(0,0,0,0.05)' }}>
+                      <Image
+                        src={getFlagUrl(currentLang.country)}
+                        alt={currentLang.name}
+                        width={28}
+                        height={18}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                   </div>
+                   <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} className={isRTL ? "rotate-180" : ""} />
                 </div>
-                <ChevronRight
-                  size={16}
-                  opacity={0.3}
-                  className={isRTL ? "rotate-180" : ""}
-                />
-              </div>
-            </button>
+             </button>
 
-            <div className="hr-uz" />
-
-            {/* Theme Toggle */}
-            <div
-              className="list-row touch-active"
-              onClick={() => setTheme(darkMode ? "light" : "dark")}
-            >
-              <div className="row-start">
-                <div className="icon-wrap-uz purple">
-                  <Palette size={18} />
+             {/* Theme Toggle Card */}
+             <button
+               className="settings-item touch-active"
+               onClick={() => setTheme(darkMode ? "light" : "dark")}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: '#fff', border: 'none', borderRadius: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', cursor: 'pointer' }}
+             >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #8b5cf6, #a78bfa)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                      {darkMode ? <Moon size={20} strokeWidth={2.5} /> : <Sun size={20} strokeWidth={2.5} />}
+                   </div>
+                   <div style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e293b' }}>{t.themeTitle}</div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8' }}>{darkMode ? t.darkModeLabel : t.lightModeLabel}</div>
+                   </div>
                 </div>
-                <span className="row-label">{t.themeTitle}</span>
-              </div>
-              <div className="row-end">
-                <span className="val-uz">
-                  {darkMode ? t.darkModeLabel : t.lightModeLabel}
-                </span>
                 {darkMode ? (
-                  <Moon size={16} color="#8b5cf6" />
+                  <div style={{ padding: '6px', background: '#f5f3ff', borderRadius: '10px' }}><Moon size={16} color="#8b5cf6" strokeWidth={3} /></div>
                 ) : (
-                  <Sun size={16} color="#f59e0b" />
+                  <div style={{ padding: '6px', background: '#fffbeb', borderRadius: '10px' }}><Sun size={16} color="#f59e0b" strokeWidth={3} /></div>
                 )}
-              </div>
-            </div>
+             </button>
           </div>
        </div>
 
-       <div className="menu-sec">
-          <div className="sec-label">{tAny.account || "Account"}</div>
-          <div className="sec-card">
-            <button
-              className="list-row touch-active"
-              onClick={() => setConfirmationType("clear")}
-            >
-              <div className="row-start">
-                <div className="icon-wrap-uz slate">
-                  <Trash2 size={18} />
+       {/* Account Section */}
+       <div style={{ marginBottom: '24px' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', marginLeft: '4px', letterSpacing: '0.5px' }}>
+             {tAny.account || "Account"}
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+             {/* Clear Data Card */}
+             <button
+               className="settings-item touch-active"
+               onClick={() => setConfirmationType("clear")}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: '#fff', border: 'none', borderRadius: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', cursor: 'pointer' }}
+             >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #64748b, #94a3b8)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                      <Trash2 size={20} strokeWidth={2.5} />
+                   </div>
+                   <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e293b' }}>{tAny.clearData}</span>
                 </div>
-                <span className="row-label">{tAny.clearData}</span>
-              </div>
-              <ChevronRight
-                size={16}
-                opacity={0.3}
-                className={isRTL ? "rotate-180" : ""}
-              />
-            </button>
+                <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} className={isRTL ? "rotate-180" : ""} />
+             </button>
 
-            <div className="hr-uz" />
-
-            <button
-              className="list-row touch-active danger"
-              onClick={() => setConfirmationType("logout")}
-            >
-              <div className="row-start">
-                <div className="icon-wrap-uz red">
-                  <LogOut size={18} />
+             {/* Logout Card */}
+             <button
+               className="settings-item touch-active"
+               onClick={() => setConfirmationType("logout")}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: '#fff', border: 'none', borderRadius: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', cursor: 'pointer' }}
+             >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #ef4444, #f87171)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                      <LogOut size={20} strokeWidth={2.5} />
+                   </div>
+                   <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#ef4444' }}>{tAny.logout}</span>
                 </div>
-                <span className="row-label" style={{ color: "#ef4444" }}>
-                  {tAny.logout}
-                </span>
-              </div>
-              <ChevronRight
-                size={16}
-                opacity={0.3}
-                className={isRTL ? "rotate-180" : ""}
-              />
-            </button>
+                <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} className={isRTL ? "rotate-180" : ""} />
+             </button>
           </div>
        </div>
     </div>
@@ -898,15 +946,15 @@ export default function SettingsPage() {
         }
 
         /* --- NEW SETTINGS UI --- */
-        .settings-list-card {
-           background: #fff;
-           border-radius: 20px;
-           box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-           overflow: hidden;
+        .settings-card-list-vertical {
+           background: transparent;
+           border-radius: 0;
+           box-shadow: none;
+           overflow: visible;
            display: flex;
            flex-direction: column !important;
-           gap: 12px;
-           padding: 12px;
+           gap: 16px;
+           padding: 0 4px;
            width: 100%;
         }
 
@@ -915,37 +963,37 @@ export default function SettingsPage() {
            align-items: center;
            justify-content: space-between;
            width: 100%;
-           padding: 16px;
+           padding: 20px 24px;
            background: #fff;
-           border: 1px solid #f1f5f9;
-           border-radius: 16px;
+           border: none;
+           border-radius: 24px;
            cursor: pointer;
-           transition: all 0.2s;
+           transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+           box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
         
         .settings-item:active {
            transform: scale(0.98);
-           background: #f8fafc;
         }
 
         .item-left {
            display: flex;
            align-items: center;
-           gap: 16px;
+           gap: 18px;
         }
 
         .item-icon-box {
-           width: 48px;
-           height: 48px;
+           width: 56px;
+           height: 56px;
            background: #f1f5f9;
-           border-radius: 14px;
+           border-radius: 18px;
            display: flex;
            align-items: center;
            justify-content: center;
         }
 
         .item-label {
-           font-size: 1rem;
+           font-size: 1.05rem;
            font-weight: 700;
            color: #0f172a;
         }
@@ -989,9 +1037,9 @@ export default function SettingsPage() {
            to { opacity: 1; transform: translateX(0); }
         }
         /* Dark Mode Support for New UI */
-        :global(.dark) .settings-list-card {
-           background: #1e293b;
-           box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        :global(.dark) .settings-card-list-vertical {
+           background: transparent;
+           box-shadow: none;
         }
         :global(.dark) .settings-item {
            background: #1e293b;

@@ -1,17 +1,17 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useFinance } from '@/context/FinanceContext';
 
 const Portal = ({ children }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
+    // eslint-disable-next-line
     setMounted(true);
-    return () => setMounted(false);
   }, []);
   if (!mounted) return null;
   return createPortal(children, document.body);
 };
-import { useFinance } from '@/context/FinanceContext';
 
 interface DatePickerProps {
   value: string;
@@ -257,7 +257,7 @@ export default function DatePicker({ value, onChange, label, customTrigger }: Da
                 flexDirection: 'column',
                 zIndex: 100000,
                 transform: 'translateZ(0)' // Hardware acceleration hack
-              } as any}
+              } as React.CSSProperties}
               onClick={(e) => e.stopPropagation()}
               onContextMenu={(e) => e.preventDefault()}
             >
@@ -274,7 +274,7 @@ export default function DatePicker({ value, onChange, label, customTrigger }: Da
                    type="button"
                    onClick={(e) => { e.stopPropagation(); changeYear(-1); }} 
                    onContextMenu={(e) => e.preventDefault()}
-                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', padding: '10px', fontSize: '1.2rem', fontWeight: 900, touchAction: 'manipulation', cursor: 'pointer', WebkitTapHighlightColor: 'transparent', WebkitTouchCallout: 'none' } as any}
+                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', padding: '10px', fontSize: '1.2rem', fontWeight: 900, touchAction: 'manipulation', cursor: 'pointer', WebkitTapHighlightColor: 'transparent', WebkitTouchCallout: 'none' } as React.CSSProperties}
                    onPointerDown={(e) => e.preventDefault()}
                  >«</button>
                  <span style={{ fontSize: '0.85rem', fontWeight: 900, color: 'var(--text-main)' }}>{currentDate.year}</span>
@@ -282,7 +282,7 @@ export default function DatePicker({ value, onChange, label, customTrigger }: Da
                    type="button"
                    onClick={(e) => { e.stopPropagation(); changeYear(1); }} 
                    onContextMenu={(e) => e.preventDefault()}
-                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', padding: '10px', fontSize: '1.2rem', fontWeight: 900, touchAction: 'manipulation', cursor: 'pointer', WebkitTapHighlightColor: 'transparent', WebkitTouchCallout: 'none' } as any}
+                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', padding: '10px', fontSize: '1.2rem', fontWeight: 900, touchAction: 'manipulation', cursor: 'pointer', WebkitTapHighlightColor: 'transparent', WebkitTouchCallout: 'none' } as React.CSSProperties}
                    onPointerDown={(e) => e.preventDefault()}
                  >»</button>
               </div>
@@ -312,7 +312,7 @@ export default function DatePicker({ value, onChange, label, customTrigger }: Da
                     WebkitTapHighlightColor: 'transparent',
                     touchAction: 'manipulation',
                     WebkitTouchCallout: 'none'
-                  } as any}
+                  } as React.CSSProperties}
                   onPointerDown={(e) => e.preventDefault()}
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" strokeWidth="3">
@@ -344,7 +344,7 @@ export default function DatePicker({ value, onChange, label, customTrigger }: Da
                     WebkitTapHighlightColor: 'transparent',
                     touchAction: 'manipulation',
                     WebkitTouchCallout: 'none'
-                  } as any}
+                  } as React.CSSProperties}
                   onPointerDown={(e) => e.preventDefault()}
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" strokeWidth="3">
@@ -438,7 +438,7 @@ export default function DatePicker({ value, onChange, label, customTrigger }: Da
                           WebkitTapHighlightColor: 'transparent',
                           touchAction: 'manipulation',
                           WebkitTouchCallout: 'none'
-                        } as any}
+                        } as React.CSSProperties}
                         onPointerDown={(e) => e.preventDefault()}
                       >
                         {day}
@@ -503,7 +503,7 @@ export default function DatePicker({ value, onChange, label, customTrigger }: Da
                     cursor: 'pointer',
                     WebkitTouchCallout: 'none',
                     WebkitTapHighlightColor: 'transparent'
-                  } as any}
+                  } as React.CSSProperties}
                 >
                   {t.clear}
                 </button>
@@ -524,7 +524,7 @@ export default function DatePicker({ value, onChange, label, customTrigger }: Da
                     boxShadow: '0 8px 20px rgba(112, 0, 255, 0.25)',
                     WebkitTouchCallout: 'none',
                     WebkitTapHighlightColor: 'transparent'
-                  } as any}
+                  } as React.CSSProperties}
                 >
                   {t.today}
                 </button>

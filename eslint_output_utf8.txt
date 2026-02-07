@@ -1,0 +1,42 @@
+﻿node.exe : (node:22424) 
+ESLintIgnoreWarning: The 
+".eslintignore" file is no 
+longer supported. Switch to 
+using the "ignores" 
+property in 
+"eslint.config.js": https://
+eslint.org/docs/latest/use/c
+onfigure/migration-guide#ign
+oring-files
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: ((node  
+  :22424) ES...#ignoring-   
+ files:String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+
+C:\Users\user\OneDrive\Desktop\finova.com-master\src\components\DatePicker.tsx
+  260:20   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  277:271  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  285:271  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  315:24   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  347:24   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  441:30   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  506:24   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  527:24   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 8 problems (8 errors, 0 warnings)
+
