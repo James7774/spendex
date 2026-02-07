@@ -140,42 +140,50 @@ export default function SettingsPage() {
   /* --- RENDERERS --- */
   const renderMainView = () => (
     <div className="animate-slide-up">
-       {/* Grid Menu */}
-       <div className="settings-grid">
+       {/* List Menu */}
+       <div className="settings-list-card">
           {/* Account Settings */}
-          <button className="settings-card touch-active" onClick={() => setCurrentView('account')}>
-             <div className="card-icon-wrap">
-                <User size={24} className="card-icon" />
+          <button className="settings-item touch-active" onClick={() => setCurrentView('account')}>
+             <div className="item-left">
+                <div className="item-icon-box">
+                   <User size={22} color="#1e293b" />
+                </div>
+                <span className="item-label">Account Settings</span>
              </div>
-             <span className="card-label">{tAny.account || "Account Settings"}</span>
-             <ChevronRight size={16} className="card-arrow" />
+             <ChevronRight size={20} color="#cbd5e1" />
           </button>
 
           {/* Payment Methods */}
-          <button className="settings-card touch-active" onClick={() => setCurrentView('payment')}>
-             <div className="card-icon-wrap">
-                <Wallet size={24} className="card-icon" />
+          <button className="settings-item touch-active" onClick={() => setCurrentView('payment')}>
+             <div className="item-left">
+                <div className="item-icon-box">
+                   <Wallet size={22} color="#1e293b" />
+                </div>
+                <span className="item-label">Payment Methods</span>
              </div>
-             <span className="card-label">Payment Methods</span>
-             <ChevronRight size={16} className="card-arrow" />
+             <ChevronRight size={20} color="#cbd5e1" />
           </button>
 
           {/* Preferences */}
-          <button className="settings-card touch-active" onClick={() => setCurrentView('preferences')}>
-             <div className="card-icon-wrap">
-                <SlidersHorizontal size={24} className="card-icon" />
+          <button className="settings-item touch-active" onClick={() => setCurrentView('preferences')}>
+             <div className="item-left">
+                <div className="item-icon-box">
+                   <SlidersHorizontal size={22} color="#1e293b" />
+                </div>
+                <span className="item-label">Preferences</span>
              </div>
-             <span className="card-label">Preferences</span>
-             <ChevronRight size={16} className="card-arrow" />
+             <ChevronRight size={20} color="#cbd5e1" />
           </button>
 
           {/* Export Data */}
-          <button className="settings-card touch-active" onClick={() => setCurrentView('export')}>
-             <div className="card-icon-wrap">
-                <FileText size={24} className="card-icon" />
+          <button className="settings-item touch-active" onClick={() => setCurrentView('export')}>
+             <div className="item-left">
+                <div className="item-icon-box">
+                   <FileText size={22} color="#1e293b" />
+                </div>
+                <span className="item-label">Export Data</span>
              </div>
-             <span className="card-label">Export Data</span>
-             <ChevronRight size={16} className="card-arrow" />
+             <ChevronRight size={20} color="#cbd5e1" />
           </button>
        </div>
     </div>
@@ -320,7 +328,7 @@ export default function SettingsPage() {
     <div className="profile-page animate-fade-in" dir={isRTL ? "rtl" : "ltr"}>
       {/* Banner Cover - Static & Reliable */}
       <div className="profile-banner">
-        <h1 className="banner-title">{tAny.profileTitle || "Profil"}</h1>
+        <h1 className="banner-title">{tAny.settings}</h1>
 
         {/* Decorative Circles */}
         <div className="banner-circle c1" />
@@ -578,11 +586,11 @@ export default function SettingsPage() {
 
         .profile-banner {
           width: 100%;
-          height: 240px;
+          height: 170px;
           background: linear-gradient(
             135deg,
-            #8b5cf6 0%,
-            #7c3aed 50%,
+            #7c3aed 0%,
+            #9061f9 100%,
             #6d28d9 100%
           );
           position: relative;
@@ -590,9 +598,9 @@ export default function SettingsPage() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          border-bottom-left-radius: 60px;
-          border-bottom-right-radius: 60px;
-          box-shadow: 0 20px 40px -10px rgba(124, 58, 237, 0.4);
+          border-bottom-left-radius: 40px;
+          border-bottom-right-radius: 40px;
+          box-shadow: 0 12px 30px -10px rgba(124, 58, 237, 0.35);
           overflow: visible;
           z-index: 10;
         }
@@ -610,11 +618,10 @@ export default function SettingsPage() {
           left: -100px;
         }
         .c2 {
-           width: 240px;
-           height: 240px;
-           bottom: -80px;
-           right: -60px;
-           background: rgba(255, 255, 255, 0.08);
+          width: 200px;
+          height: 200px;
+          bottom: -40px;
+          right: -40px;
         }
 
         .banner-title {
@@ -628,15 +635,16 @@ export default function SettingsPage() {
         }
 
         .banner-avatar-wrapper {
-          bottom: -60px; /* Half of height to overlap */
+          position: absolute;
+          bottom: -50px; /* Half of height to overlap */
           left: 50%;
           transform: translateX(-50%);
           z-index: 20;
         }
 
         .banner-avatar {
-          width: 120px;
-          height: 120px;
+          width: 110px;
+          height: 110px;
           border-radius: 9999px !important;
           border: 4px solid #10b981;
           background: white;
@@ -889,88 +897,57 @@ export default function SettingsPage() {
           margin: 0 16px;
         }
 
-        /* --- NEW SETTINGS UI (Grid System) --- */
-        .settings-grid {
-           display: grid;
-           grid-template-columns: repeat(3, 1fr);
-           gap: 12px;
-           width: 100%;
-           padding: 0 4px;
-        }
-
-        .settings-card {
-           display: flex;
-           flex-direction: column;
-           align-items: center;
-           justify-content: center;
-           text-align: center;
-           padding: 20px 12px;
+        /* --- NEW SETTINGS UI --- */
+        .settings-list-card {
            background: #fff;
-           border-radius: 24px;
-           border: 1px solid rgba(255,255,255,0.6);
-           box-shadow: 0 10px 30px rgba(0,0,0,0.03), 0 4px 10px rgba(0,0,0,0.01);
-           cursor: pointer;
-           transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-           height: 100%;
-           min-height: 110px;
-           position: relative;
+           border-radius: 20px;
+           box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+           overflow: hidden;
+           display: flex;
+           flex-direction: column !important;
+           gap: 12px;
+           padding: 12px;
+           width: 100%;
         }
 
-        .settings-card:active {
-           transform: scale(0.95);
-        }
-
-        .card-icon-wrap {
-           width: 50px;
-           height: 50px;
-           background: #f8fafc;
-           border-radius: 16px;
+        .settings-item {
            display: flex;
            align-items: center;
-           justify-content: center;
-           margin-bottom: 12px;
-           transition: 0.2s;
-           color: #1e293b;
-        }
-
-        .card-label {
-           font-size: 0.85rem;
-           font-weight: 700;
-           color: #0f172a;
-           line-height: 1.3;
-           display: -webkit-box;
-           -webkit-line-clamp: 2;
-           -webkit-box-orient: vertical;
-           overflow: hidden;
-        }
-
-        .card-arrow {
-           position: absolute;
-           bottom: 10px;
-           opacity: 0;
-           transform: translateY(-5px);
+           justify-content: space-between;
+           width: 100%;
+           padding: 16px;
+           background: #fff;
+           border: 1px solid #f1f5f9;
+           border-radius: 16px;
+           cursor: pointer;
            transition: all 0.2s;
-           color: #cbd5e1;
-        }
-
-        /* Hover/Active states for cards */
-        .settings-card:active .card-icon-wrap {
-           background: #e2e8f0;
-           transform: scale(0.9);
         }
         
-        /* Dark Mode for Cards */
-        :global(.dark) .settings-card {
-           background: #1e293b;
-           border-color: rgba(255, 255, 255, 0.05);
-           box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .settings-item:active {
+           transform: scale(0.98);
+           background: #f8fafc;
         }
-        :global(.dark) .card-icon-wrap {
-           background: #334155;
-           color: #cbd5e1;
+
+        .item-left {
+           display: flex;
+           align-items: center;
+           gap: 16px;
         }
-        :global(.dark) .card-label {
-           color: #f1f5f9;
+
+        .item-icon-box {
+           width: 48px;
+           height: 48px;
+           background: #f1f5f9;
+           border-radius: 14px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+        }
+
+        .item-label {
+           font-size: 1rem;
+           font-weight: 700;
+           color: #0f172a;
         }
 
         .back-btn {
