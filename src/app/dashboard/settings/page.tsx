@@ -717,49 +717,71 @@ export default function SettingsPage() {
 
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ 
-                width: '72px', 
-                height: '72px', 
-                background: 'rgba(112, 0, 255, 0.1)', 
-                borderRadius: '24px', 
+                width: '85px', 
+                height: '85px', 
+                background: 'linear-gradient(135deg, #7000ff 0%, #9061f9 100%)', 
+                borderRadius: '28px', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center',
-                color: '#7000ff',
-                marginBottom: '24px'
+                color: '#fff',
+                marginBottom: '28px',
+                boxShadow: '0 10px 25px rgba(112, 0, 255, 0.3)'
               }}>
-                <Lock size={36} />
+                <Lock size={42} />
               </div>
               
-              <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '40px', textAlign: 'center', fontWeight: 600, maxWidth: '280px' }}>
+              <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '40px', textAlign: 'center', fontWeight: 600, maxWidth: '280px', opacity: 0.8 }}>
                 {pinStep === "enter" 
                   ? "Ilovani himoya qilish uchun 4 xonali kod o'ylang" 
                   : "Tasdiqlash uchun kodni qayta kiriting"}
               </p>
 
-              <div style={{ display: 'flex', gap: '20px', marginBottom: '60px' }}>
+              <div style={{ display: 'flex', gap: '24px', marginBottom: '60px' }}>
                 {[1, 2, 3, 4].map(i => (
-                   <div key={i} style={{ 
-                      width: '16px', 
-                      height: '16px', 
-                      borderRadius: '50%', 
-                      border: '2px solid var(--border)',
-                      background: tempPin.length >= i ? '#7000ff' : 'transparent',
-                      transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                      transform: tempPin.length >= i ? 'scale(1.2)' : 'scale(1)'
-                   }} />
+                   <motion.div 
+                     key={i} 
+                     animate={tempPin.length >= i ? { 
+                       scale: [1, 1.3, 1], 
+                       backgroundColor: '#7000ff',
+                       borderColor: '#7000ff',
+                       boxShadow: '0 0 15px rgba(112, 0, 255, 0.4)'
+                     } : { 
+                       scale: 1, 
+                       backgroundColor: 'transparent',
+                       borderColor: 'var(--border)'
+                     }}
+                     style={{ 
+                        width: '14px', 
+                        height: '14px', 
+                        borderRadius: '50%', 
+                        border: '2.5px solid var(--border)',
+                        transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                     }} 
+                   />
                 ))}
               </div>
 
               <div style={{ 
                 display: 'grid', 
                 gridTemplateColumns: 'repeat(3, 1fr)', 
-                gap: '20px',
+                gap: '24px',
                 width: '100%',
-                maxWidth: '300px'
+                maxWidth: '320px'
               }}>
-                {[1,2,3,4,5,6,7,8,9].map(num => (
-                   <button key={num} onClick={() => {
-                      const newPin = tempPin + num;
+                {[
+                  { num: '1', letters: '' },
+                  { num: '2', letters: 'ABC' },
+                  { num: '3', letters: 'DEF' },
+                  { num: '4', letters: 'GHI' },
+                  { num: '5', letters: 'JKL' },
+                  { num: '6', letters: 'MNO' },
+                  { num: '7', letters: 'PQRS' },
+                  { num: '8', letters: 'TUV' },
+                  { num: '9', letters: 'WXYZ' }
+                ].map((item) => (
+                   <button key={item.num} onClick={() => {
+                      const newPin = tempPin + item.num;
                       if (newPin.length <= 4) setTempPin(newPin);
                       if (newPin.length === 4) {
                          if (pinStep === "enter") {
@@ -779,17 +801,24 @@ export default function SettingsPage() {
                             }
                          }
                       }
-                   }} className="num-btn touch-active" style={{
-                      height: '76px',
+                   }} className="num-btn-premium" style={{
+                      height: '80px',
                       borderRadius: '50%',
-                      border: 'none',
+                      border: '1px solid var(--border)',
                       background: 'var(--surface)',
                       color: 'var(--text-main)',
-                      fontSize: '1.6rem',
-                      fontWeight: 850,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       boxShadow: 'var(--shadow-sm)'
                    }}>
-                      {num}
+                      <span style={{ fontSize: '1.8rem', fontWeight: 800, lineHeight: 1 }}>{item.num}</span>
+                      {item.letters && (
+                        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '1px', marginTop: '2px' }}>
+                          {item.letters}
+                        </span>
+                      )}
                    </button>
                 ))}
                 <div />
@@ -814,27 +843,34 @@ export default function SettingsPage() {
                          }
                       }
                    }
-                }} className="num-btn touch-active" style={{
-                   height: '76px',
+                }} className="num-btn-premium" style={{
+                   height: '80px',
                    borderRadius: '50%',
-                   border: 'none',
+                   border: '1px solid var(--border)',
                    background: 'var(--surface)',
                    color: 'var(--text-main)',
-                   fontSize: '1.6rem',
-                   fontWeight: 850,
-                   boxShadow: 'var(--shadow-sm)'
-                }}>0</button>
-                <button onClick={() => setTempPin(prev => prev.slice(0, -1))} className="num-btn touch-active" style={{
-                   height: '76px',
-                   borderRadius: '50%',
-                   border: 'none',
-                   background: 'transparent',
-                   color: 'var(--text-secondary)',
                    display: 'flex',
                    alignItems: 'center',
-                   justifyContent: 'center'
-                }}>
-                  <X size={24} />
+                   justifyContent: 'center',
+                   fontSize: '1.8rem',
+                   fontWeight: 800,
+                   boxShadow: 'var(--shadow-sm)'
+                }}>0</button>
+                <button 
+                  onClick={() => setTempPin(prev => prev.slice(0, -1))} 
+                  className="touch-active" 
+                  style={{
+                    height: '80px',
+                    borderRadius: '50%',
+                    border: 'none',
+                    background: 'transparent',
+                    color: 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <X size={32} />
                 </button>
               </div>
             </div>
@@ -1458,6 +1494,21 @@ export default function SettingsPage() {
         .touch-active:active {
           transform: scale(0.96);
           opacity: 0.8;
+        }
+        .num-btn-premium {
+          transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          cursor: pointer;
+          border: 1px solid var(--border);
+        }
+        .num-btn-premium:active {
+          transform: scale(0.9);
+          background: #7000ff !important;
+          border-color: #7000ff !important;
+          color: #fff !important;
+          box-shadow: 0 5px 15px rgba(112, 0, 255, 0.3);
+        }
+        .num-btn-premium:active span {
+          color: #fff !important;
         }
         @keyframes zoom-in {
           from {
