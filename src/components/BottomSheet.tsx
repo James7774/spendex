@@ -14,17 +14,22 @@ interface BottomSheetProps {
 }
 
 export default function BottomSheet({ isOpen, onClose, title, children, height = 'auto', showCloseIcon = false }: BottomSheetProps) {
-  const { darkMode } = useFinance();
+  const { darkMode, setOverlayOpen } = useFinance();
 
   // Disable body scroll when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setOverlayOpen(true);
     } else {
       document.body.style.overflow = '';
+      setOverlayOpen(false);
     }
-    return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
+    return () => { 
+      document.body.style.overflow = '';
+      setOverlayOpen(false);
+    };
+  }, [isOpen, setOverlayOpen]);
 
   return (
     <AnimatePresence>
@@ -42,7 +47,7 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(0,0,0,0.5)',
+              background: 'rgba(0,0,0,0.7)',
               zIndex: 9998
               // Removed backdropFilter for better performance on Android
             }}

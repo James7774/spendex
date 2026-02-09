@@ -97,6 +97,8 @@ type FinanceContextType = {
   isLocked: boolean;
   unlock: (pin: string) => boolean;
   lockApp: () => void;
+  isOverlayOpen: boolean;
+  setOverlayOpen: (open: boolean) => void;
 };
 
 const FinanceContext = createContext<FinanceContextType | undefined>(undefined);
@@ -131,6 +133,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const [pinCode, setPinCodeState] = useState<string | null>(null);
   const [isLocked, setIsLocked] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isOverlayOpen, setOverlayOpen] = useState(false);
 
   // Update document direction and language when it changes
   useEffect(() => {
@@ -508,7 +511,9 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     setPinCode,
     isLocked,
     unlock,
-    lockApp
+    lockApp,
+    isOverlayOpen,
+    setOverlayOpen
   } as FinanceContextType), [
     language, isRTL, darkMode, transactions, goals, notes, 
     totalBalance, totalIncome, totalExpense, user,
@@ -517,7 +522,8 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     updateGoal, updateNote, updateUserProfile,
     setLanguage, toggleTheme, setTheme, logout, login,
     filters, setFilters, filteredTransactions, filteredNotes,
-    pinCode, setPinCode, isLocked, unlock, lockApp
+    pinCode, setPinCode, isLocked, unlock, lockApp,
+    isOverlayOpen, setOverlayOpen
   ]);
 
   return (

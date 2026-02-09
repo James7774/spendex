@@ -7,6 +7,7 @@ import PinLock from "@/components/PinLock";
 import { SplashScreen as CapSplash } from '@capacitor/splash-screen';
 import dynamic from "next/dynamic";
 import { useFinance } from "@/context/FinanceContext";
+import { motion } from "framer-motion";
 
 const SplashScreen = dynamic(() => import("@/components/SplashScreen"), { 
   ssr: false,
@@ -16,7 +17,7 @@ const SplashScreen = dynamic(() => import("@/components/SplashScreen"), {
 import { usePathname } from 'next/navigation';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user } = useFinance();
+  const { user, isOverlayOpen } = useFinance();
   const pathname = usePathname();
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState<boolean | null>(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -91,9 +92,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
         <AndroidOptimizer />
         <PinLock />
-        <div style={{ opacity: 1 }}>
+        <motion.div 
+            animate={{ 
+                opacity: isOverlayOpen ? 0 : 1,
+                scale: isOverlayOpen ? 0.96 : 1,
+                filter: isOverlayOpen ? 'blur(10px)' : 'blur(0px)'
+            }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            style={{ 
+                opacity: 1,
+                width: '100%',
+                pointerEvents: isOverlayOpen ? 'none' : 'auto'
+            }}
+        >
             {children}
-        </div>
+        </motion.div>
         {pathname === '/dashboard/settings' && <ChatBot />}
         {showSplash && (
           <div style={{ position: 'fixed', inset: 0, zIndex: 999999, opacity: splashOpacity, transition: 'opacity 0.5s', pointerEvents: 'none' }}>
