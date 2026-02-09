@@ -15,7 +15,9 @@ import {
   Wallet,
   SlidersHorizontal,
   FileText,
-  ChevronLeft
+  ChevronLeft,
+  ShieldCheck,
+  Lock
 } from "lucide-react";
 import Image from "next/image";
 import BottomSheet from "@/components/BottomSheet";
@@ -35,6 +37,8 @@ export default function SettingsPage() {
     setTheme,
     t,
     isRTL,
+    pinCode,
+    setPinCode,
   } = useFinance();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
@@ -63,6 +67,10 @@ export default function SettingsPage() {
     "clear" | "logout" | null
   >(null);
   const [isLangModalOpen, setIsLangModalOpen] = useState(false);
+  const [isPinModalOpen, setIsPinModalOpen] = useState(false);
+  const [tempPin, setTempPin] = useState("");
+  const [pinStep, setPinStep] = useState<"enter" | "confirm">("enter");
+  const [firstPin, setFirstPin] = useState("");
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(user?.name || "");
@@ -314,6 +322,60 @@ export default function SettingsPage() {
                 ) : (
                   <div style={{ padding: '6px', background: 'rgba(245, 158, 11, 0.1)', borderRadius: '10px' }}><Sun size={16} color="#f59e0b" strokeWidth={3} /></div>
                 )}
+             </button>
+          </div>
+       </div>
+
+       {/* Security Section */}
+       <div style={{ marginBottom: '24px' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', marginLeft: '4px', letterSpacing: '0.5px' }}>
+             {tAny.security || "Security"}
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+             {/* PIN Code Card */}
+             <button
+               className="settings-item touch-active"
+               onClick={() => {
+                  if (pinCode) {
+                     setPinCode(null);
+                  } else {
+                     setPinStep("enter");
+                     setTempPin("");
+                     setIsPinModalOpen(true);
+                  }
+               }}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
+             >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #10b981, #34d399)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                      <ShieldCheck size={20} strokeWidth={2.5} />
+                   </div>
+                   <div style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.pinCodeTitle || "PIN Code"}</div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{tAny.pinCodeDesc || "Protect app with code"}</div>
+                   </div>
+                </div>
+                <div style={{ 
+                   width: '42px', 
+                   height: '24px', 
+                   background: pinCode ? '#10b981' : 'var(--border)', 
+                   borderRadius: '12px', 
+                   position: 'relative',
+                   transition: 'all 0.3s'
+                }}>
+                   <div style={{ 
+                      width: '18px', 
+                      height: '18px', 
+                      background: '#fff', 
+                      borderRadius: '50%', 
+                      position: 'absolute', 
+                      top: '3px', 
+                      left: pinCode ? '21px' : '3px', 
+                      transition: 'all 0.3s',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                   }} />
+                </div>
              </button>
           </div>
        </div>
@@ -615,6 +677,129 @@ export default function SettingsPage() {
           </div>
         </div>
       </CenterModal>
+ 
+      {/* PIN Setup Modal */}
+      <BottomSheet
+        isOpen={isPinModalOpen}
+        onClose={() => {
+           setIsPinModalOpen(false);
+           setTempPin("");
+           setPinStep("enter");
+        }}
+        title={pinStep === "enter" ? (tAny.setPinCode || "PIN-kod o'rnatish") : (tAny.confirmPin || "Kodni tasdiqlang")}
+        showCloseIcon={true}
+      >
+        <div style={{ padding: '0 0 20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+           <div style={{ 
+              width: '64px', 
+              height: '64px', 
+              background: 'rgba(112, 0, 255, 0.1)', 
+              borderRadius: '20px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              color: '#7000ff',
+              marginBottom: '20px'
+           }}>
+              <Lock size={32} />
+           </div>
+           
+           <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '32px', textAlign: 'center', fontWeight: 600 }}>
+              {pinStep === "enter" 
+                ? "Ilovani himoya qilish uchun 4 xonali kod o'ylang" 
+                : "Tasdiqlash uchun kodni qayta kiriting"}
+           </p>
+
+           <div style={{ display: 'flex', gap: '20px', marginBottom: '40px' }}>
+              {[1, 2, 3, 4].map(i => (
+                 <div key={i} style={{ 
+                    width: '14px', 
+                    height: '14px', 
+                    borderRadius: '50%', 
+                    border: '2px solid var(--border)',
+                    background: tempPin.length >= i ? '#7000ff' : 'transparent',
+                    transition: 'all 0.2s'
+                 }} />
+              ))}
+           </div>
+
+           <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(3, 1fr)', 
+              gap: '16px',
+              width: '100%',
+              maxWidth: '280px'
+           }}>
+              {[1,2,3,4,5,6,7,8,9].map(num => (
+                 <button key={num} onClick={() => {
+                    const newPin = tempPin + num;
+                    if (newPin.length <= 4) setTempPin(newPin);
+                    if (newPin.length === 4) {
+                       if (pinStep === "enter") {
+                          setTimeout(() => {
+                             setFirstPin(newPin);
+                             setTempPin("");
+                             setPinStep("confirm");
+                          }, 300);
+                       } else {
+                          if (newPin === firstPin) {
+                             setPinCode(newPin);
+                             setIsPinModalOpen(false);
+                             setTempPin("");
+                          } else {
+                             alert("Kodlar mos kelmadi!");
+                             setTempPin("");
+                          }
+                       }
+                    }
+                 }} className="num-btn touch-active" style={{
+                    width: '100%',
+                    aspectRatio: '1',
+                    borderRadius: '20px',
+                    border: 'none',
+                    background: 'var(--background)',
+                    color: 'var(--text-main)',
+                    fontSize: '1.4rem',
+                    fontWeight: 850
+                 }}>
+                    {num}
+                 </button>
+              ))}
+              <div />
+              <button onClick={() => {
+                 const newPin = tempPin + "0";
+                 if (newPin.length <= 4) setTempPin(newPin);
+                 if (newPin.length === 4) {
+                    if (pinStep === "enter") {
+                       setTimeout(() => {
+                          setFirstPin(newPin);
+                          setTempPin("");
+                          setPinStep("confirm");
+                       }, 300);
+                    } else {
+                       if (newPin === firstPin) {
+                          setPinCode(newPin);
+                          setIsPinModalOpen(false);
+                          setTempPin("");
+                       } else {
+                          alert("Kodlar mos kelmadi!");
+                          setTempPin("");
+                       }
+                    }
+                 }
+              }} className="num-btn touch-active" style={{
+                 width: '100%',
+                 aspectRatio: '1',
+                 borderRadius: '20px',
+                 border: 'none',
+                 background: 'var(--background)',
+                 color: 'var(--text-main)',
+                 fontSize: '1.4rem',
+                 fontWeight: 850
+              }}>0</button>
+           </div>
+        </div>
+      </BottomSheet>
 
       <style jsx>{`
         .profile-page {

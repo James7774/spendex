@@ -154,6 +154,12 @@
   "logout": "Chiqish",
   "appearance": "Ko'rinish",
   "account": "Hisob",
+  "security": "Xavfsizlik",
+  "securitySettings": "Xavfsizlik sozlamalari",
+  "pinCodeTitle": "PIN-kod",
+  "pinCodeDesc": "Ilovaga kirishda kod so'rash",
+  "setPinCode": "PIN-kod o'rnatish",
+  "changePinCode": "PIN-kodni o'zgartirish",
   "confirmLogout": "Rostdan ham hisobdan chiqmoqchimisiz?",
   "confirmAction": "Ha, chiqish",
   "profile": {

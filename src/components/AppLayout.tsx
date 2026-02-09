@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import ChatBot from "@/components/ChatBot";
 import AndroidOptimizer from "@/components/AndroidOptimizer";
 import Onboarding from "@/components/Onboarding";
+import PinLock from "@/components/PinLock";
 import { SplashScreen as CapSplash } from '@capacitor/splash-screen';
 import dynamic from "next/dynamic";
 import { useFinance } from "@/context/FinanceContext";
@@ -89,6 +90,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
         <AndroidOptimizer />
+        <PinLock />
         <div style={{ opacity: 1 }}>
             {children}
         </div>

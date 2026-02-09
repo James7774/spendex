@@ -92,6 +92,11 @@ type FinanceContextType = {
   setFilters: (filters: Partial<FinanceFilters>) => void;
   filteredTransactions: Transaction[];
   filteredNotes: Note[];
+  pinCode: string | null;
+  setPinCode: (pin: string | null) => void;
+  isLocked: boolean;
+  unlock: (pin: string) => boolean;
+  lockApp: () => void;
 };
 
 const FinanceContext = createContext<FinanceContextType | undefined>(undefined);
@@ -123,6 +128,8 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [goals, setGoals] = useState<Goal[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
+  const [pinCode, setPinCodeState] = useState<string | null>(null);
+  const [isLocked, setIsLocked] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Update document direction and language when it changes
@@ -164,6 +171,12 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
         } catch {
           localStorage.removeItem('finflow_user');
         }
+      }
+      
+      const savedPin = localStorage.getItem('finflow_pin');
+      if (savedPin) {
+        setPinCodeState(savedPin);
+        setIsLocked(true);
       }
       
       setIsInitialized(true);
@@ -433,6 +446,30 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
 
   const setTheme = useCallback((theme: 'light' | 'dark') => setDarkMode(theme === 'dark'), []);
 
+  const setPinCode = useCallback((pin: string | null) => {
+    setPinCodeState(pin);
+    if (pin) {
+      localStorage.setItem('finflow_pin', pin);
+    } else {
+      localStorage.removeItem('finflow_pin');
+      setIsLocked(false);
+    }
+  }, []);
+
+  const unlock = useCallback((inputPin: string) => {
+    if (inputPin === pinCode) {
+      setIsLocked(false);
+      return true;
+    }
+    return false;
+  }, [pinCode]);
+
+  const lockApp = useCallback(() => {
+    if (pinCode) {
+      setIsLocked(true);
+    }
+  }, [pinCode]);
+
   // Compute RTL based on current language
   const isRTL = rtlLanguages.includes(language);
 
@@ -466,7 +503,12 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     filters,
     setFilters,
     filteredTransactions,
-    filteredNotes
+    filteredNotes,
+    pinCode,
+    setPinCode,
+    isLocked,
+    unlock,
+    lockApp
   } as FinanceContextType), [
     language, isRTL, darkMode, transactions, goals, notes, 
     totalBalance, totalIncome, totalExpense, user,
@@ -474,7 +516,8 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     deleteGoal, deleteNote, deleteTransaction, 
     updateGoal, updateNote, updateUserProfile,
     setLanguage, toggleTheme, setTheme, logout, login,
-    filters, setFilters, filteredTransactions, filteredNotes
+    filters, setFilters, filteredTransactions, filteredNotes,
+    pinCode, setPinCode, isLocked, unlock, lockApp
   ]);
 
   return (
