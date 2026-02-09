@@ -131,9 +131,10 @@ export default function PinLock() {
               key={item.num}
               onClick={() => handleNumberClick(item.num)}
               style={{
-                height: '80px',
+                width: '76px', // Fixed size
+                height: '76px', // Fixed size
                 borderRadius: '50%',
-                border: '1px solid var(--border)',
+                border: '1.2px solid var(--border)',
                 background: 'var(--surface)',
                 color: 'var(--text-main)',
                 display: 'flex',
@@ -142,13 +143,13 @@ export default function PinLock() {
                 justifyContent: 'center',
                 cursor: 'pointer',
                 boxShadow: 'var(--shadow-sm)',
-                transition: 'all 0.2s'
+                margin: '0 auto' // Center in grid cell
               }}
               className="num-btn-premium"
             >
-              <span style={{ fontSize: '1.8rem', fontWeight: 800, lineHeight: 1 }}>{item.num}</span>
+              <span style={{ fontSize: '1.7rem', fontWeight: 800, lineHeight: 1 }}>{item.num}</span>
               {item.letters && (
-                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '1px', marginTop: '2px' }}>
+                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.5px', marginTop: '1px' }}>
                   {item.letters}
                 </span>
               )}
@@ -158,15 +159,17 @@ export default function PinLock() {
           <button
             onClick={() => handleNumberClick('0')}
             style={{
-              height: '80px',
+              width: '76px', // Fixed size
+              height: '76px', // Fixed size
               borderRadius: '50%',
-              border: '1px solid var(--border)',
+              border: '1.2px solid var(--border)',
               background: 'var(--surface)',
               color: 'var(--text-main)',
-              fontSize: '1.8rem',
+              fontSize: '1.7rem',
               fontWeight: 800,
               cursor: 'pointer',
-              boxShadow: 'var(--shadow-sm)'
+              boxShadow: 'var(--shadow-sm)',
+              margin: '0 auto' // Center in grid cell
             }}
             className="num-btn-premium"
           >

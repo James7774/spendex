@@ -73,6 +73,7 @@ export default function SettingsPage() {
   const [tempPin, setTempPin] = useState("");
   const [pinStep, setPinStep] = useState<"enter" | "confirm">("enter");
   const [firstPin, setFirstPin] = useState("");
+  const [setupError, setSetupError] = useState(false);
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(user?.name || "");
@@ -716,25 +717,32 @@ export default function SettingsPage() {
             </div>
 
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ 
-                width: '85px', 
-                height: '85px', 
-                background: 'linear-gradient(135deg, #7000ff 0%, #9061f9 100%)', 
-                borderRadius: '28px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                color: '#fff',
-                marginBottom: '28px',
-                boxShadow: '0 10px 25px rgba(112, 0, 255, 0.3)'
-              }}>
+              <motion.div 
+                animate={setupError ? { x: [-10, 10, -10, 10, 0] } : {}}
+                transition={{ duration: 0.4 }}
+                style={{ 
+                  width: '85px', 
+                  height: '85px', 
+                  background: setupError ? 'linear-gradient(135deg, #ef4444 0%, #f87171 100%)' : 'linear-gradient(135deg, #7000ff 0%, #9061f9 100%)', 
+                  borderRadius: '28px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  color: '#fff',
+                  marginBottom: '28px',
+                  boxShadow: setupError ? '0 10px 25px rgba(239, 68, 68, 0.3)' : '0 10px 25px rgba(112, 0, 255, 0.3)',
+                  transition: 'all 0.3s'
+                }}
+              >
                 <Lock size={42} />
-              </div>
+              </motion.div>
               
-              <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '40px', textAlign: 'center', fontWeight: 600, maxWidth: '280px', opacity: 0.8 }}>
-                {pinStep === "enter" 
-                  ? "Ilovani himoya qilish uchun 4 xonali kod o'ylang" 
-                  : "Tasdiqlash uchun kodni qayta kiriting"}
+              <p style={{ fontSize: '0.95rem', color: setupError ? '#ef4444' : 'var(--text-secondary)', marginBottom: '40px', textAlign: 'center', fontWeight: 700, maxWidth: '280px', opacity: 1 }}>
+                {setupError 
+                  ? "Kodlar mos kelmadi!" 
+                  : (pinStep === "enter" 
+                      ? "Ilovani himoya qilish uchun 4 xonali kod o'ylang" 
+                      : "Tasdiqlash uchun kodni qayta kiriting")}
               </p>
 
               <div style={{ display: 'flex', gap: '24px', marginBottom: '60px' }}>
@@ -743,9 +751,9 @@ export default function SettingsPage() {
                      key={i} 
                      animate={tempPin.length >= i ? { 
                        scale: [1, 1.3, 1], 
-                       backgroundColor: '#7000ff',
-                       borderColor: '#7000ff',
-                       boxShadow: '0 0 15px rgba(112, 0, 255, 0.4)'
+                       backgroundColor: setupError ? '#ef4444' : '#7000ff',
+                       borderColor: setupError ? '#ef4444' : '#7000ff',
+                       boxShadow: setupError ? '0 0 15px rgba(239, 68, 68, 0.4)' : '0 0 15px rgba(112, 0, 255, 0.4)'
                      } : { 
                        scale: 1, 
                        backgroundColor: 'transparent',
@@ -781,6 +789,7 @@ export default function SettingsPage() {
                   { num: '9', letters: 'WXYZ' }
                 ].map((item) => (
                    <button key={item.num} onClick={() => {
+                      if (setupError) setSetupError(false);
                       const newPin = tempPin + item.num;
                       if (newPin.length <= 4) setTempPin(newPin);
                       if (newPin.length === 4) {
@@ -796,26 +805,31 @@ export default function SettingsPage() {
                                setIsPinModalOpen(false);
                                setTempPin("");
                             } else {
-                               alert("Kodlar mos kelmadi!");
-                               setTempPin("");
+                               setSetupError(true);
+                               setTimeout(() => {
+                                  setTempPin("");
+                                  setSetupError(false);
+                               }, 1000);
                             }
                          }
                       }
                    }} className="num-btn-premium" style={{
-                      height: '80px',
+                      width: '76px', // Fixed size for perfect circle
+                      height: '76px', // Fixed size for perfect circle
                       borderRadius: '50%',
-                      border: '1px solid var(--border)',
+                      border: '1.2px solid var(--border)',
                       background: 'var(--surface)',
                       color: 'var(--text-main)',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      boxShadow: 'var(--shadow-sm)'
+                      boxShadow: 'var(--shadow-sm)',
+                      margin: '0 auto' // Center in grid
                    }}>
-                      <span style={{ fontSize: '1.8rem', fontWeight: 800, lineHeight: 1 }}>{item.num}</span>
+                      <span style={{ fontSize: '1.7rem', fontWeight: 800, lineHeight: 1 }}>{item.num}</span>
                       {item.letters && (
-                        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '1px', marginTop: '2px' }}>
+                        <span style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.5px', marginTop: '1px' }}>
                           {item.letters}
                         </span>
                       )}
@@ -823,6 +837,7 @@ export default function SettingsPage() {
                 ))}
                 <div />
                 <button onClick={() => {
+                   if (setupError) setSetupError(false);
                    const newPin = tempPin + "0";
                    if (newPin.length <= 4) setTempPin(newPin);
                    if (newPin.length === 4) {
@@ -838,36 +853,46 @@ export default function SettingsPage() {
                             setIsPinModalOpen(false);
                             setTempPin("");
                          } else {
-                            alert("Kodlar mos kelmadi!");
-                            setTempPin("");
+                            setSetupError(true);
+                            setTimeout(() => {
+                               setTempPin("");
+                               setSetupError(false);
+                            }, 1000);
                          }
                       }
                    }
                 }} className="num-btn-premium" style={{
-                   height: '80px',
+                   width: '76px', // Fixed size
+                   height: '76px', // Fixed size
                    borderRadius: '50%',
-                   border: '1px solid var(--border)',
+                   border: '1.2px solid var(--border)',
                    background: 'var(--surface)',
                    color: 'var(--text-main)',
                    display: 'flex',
                    alignItems: 'center',
                    justifyContent: 'center',
-                   fontSize: '1.8rem',
+                   fontSize: '1.7rem',
                    fontWeight: 800,
-                   boxShadow: 'var(--shadow-sm)'
+                   boxShadow: 'var(--shadow-sm)',
+                   margin: '0 auto'
                 }}>0</button>
                 <button 
-                  onClick={() => setTempPin(prev => prev.slice(0, -1))} 
+                  onClick={() => {
+                    if (setupError) setSetupError(false);
+                    setTempPin(prev => prev.slice(0, -1));
+                  }}
                   className="touch-active" 
                   style={{
-                    height: '80px',
+                    width: '76px',
+                    height: '76px',
                     borderRadius: '50%',
                     border: 'none',
                     background: 'transparent',
                     color: 'var(--text-secondary)',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    margin: '0 auto'
                   }}
                 >
                   <X size={32} />
