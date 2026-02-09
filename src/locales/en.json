@@ -208,5 +208,10 @@
     "reqUpper": "1 uppercase letter",
     "reqDigit": "1 digit",
     "magicWord": "Welcome aboard! ✨"
-  }
+  },
+  "back": "Back",
+  "paymentMethods": "Payment Methods",
+  "preferences": "Preferences",
+  "exportData": "Export Data",
+  "accountSettings": "Account Settings"
 }

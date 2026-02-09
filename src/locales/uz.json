@@ -213,5 +213,10 @@
     "reqUpper": "1 ta katta harf",
     "reqDigit": "1 ta raqam",
     "magicWord": "Xush kelibsiz! ✨"
-  }
+  },
+  "back": "Orqaga",
+  "paymentMethods": "To'lov usullari",
+  "preferences": "Sozlamalar",
+  "exportData": "Ma'lumotlarni eksport qilish",
+  "accountSettings": "Hisob sozlamalari"
 }

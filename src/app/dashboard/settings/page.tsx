@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useState, useRef, ChangeEvent, useEffect, useMemo, useCallback } from "react";
 import { useFinance, Language } from "@/context/FinanceContext";
 import {
   Sun,
@@ -147,6 +147,37 @@ export default function SettingsPage() {
   /* --- VIEW STATE --- */
   const [currentView, setCurrentView] = useState<SettingsView>('main');
 
+  /* --- PROFILE EDIT STATE --- */
+  const [editFirstName, setEditFirstName] = useState("");
+  const [editLastName, setEditLastName] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Initialize edit fields when entering account view
+  useEffect(() => {
+    if (currentView === 'account' && user) {
+      const names = user.name.split(" ");
+      setEditFirstName(names[0] || "");
+      setEditLastName(names.slice(1).join(" ") || "");
+      setSaveSuccess(false);
+    }
+  }, [currentView, user]);
+
+  const handleProfileSave = () => {
+    if (!editFirstName.trim()) return;
+    setIsSaving(true);
+    
+    // Simulate API call for premium feel
+    setTimeout(() => {
+      updateUserProfile({
+        name: `${editFirstName.trim()} ${editLastName.trim()}`.trim()
+      });
+      setIsSaving(false);
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    }, 800);
+  };
+
   /* --- RENDERERS --- */
   const renderMainView = () => (
     <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', padding: '0 2px' }}>
@@ -171,7 +202,7 @@ export default function SettingsPage() {
              <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <User size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
              </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>Account Settings</span>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.accountSettings}</span>
           </div>
           <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
        </button>
@@ -197,7 +228,7 @@ export default function SettingsPage() {
              <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Wallet size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
              </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>Payment Methods</span>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.paymentMethods}</span>
           </div>
           <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
        </button>
@@ -223,7 +254,7 @@ export default function SettingsPage() {
              <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <SlidersHorizontal size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
              </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>Preferences</span>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.preferences}</span>
           </div>
           <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
        </button>
@@ -249,14 +280,153 @@ export default function SettingsPage() {
              <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <FileText size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
              </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>Export Data</span>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.exportData}</span>
           </div>
           <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
        </button>
     </div>
   );
 
-  const renderAccountSettings = () => (
+  const renderAccountSettings = () => {
+    const cardStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      padding: '14px 18px',
+      background: 'var(--surface)',
+      border: '1px solid var(--border)',
+      borderRadius: '24px',
+      boxShadow: 'var(--shadow-sm)',
+      width: '100%',
+      marginBottom: '12px'
+    };
+
+
+    const inputResetStyle: React.CSSProperties = {
+      width: '100%',
+      border: 'none',
+      background: 'transparent',
+      color: 'var(--text-main)',
+      fontSize: '1rem',
+      fontWeight: 700,
+      padding: '2px 0',
+      outline: 'none',
+      margin: 0,
+      appearance: 'none' as any,
+      WebkitAppearance: 'none' as any
+    };
+
+    const labelStyle: React.CSSProperties = {
+      fontSize: '0.7rem',
+      fontWeight: 850,
+      color: '#94a3b8',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+      display: 'block',
+      marginBottom: '2px'
+    };
+
+    return (
+      <div className="animate-slide-in-right" style={{ width: '100%', padding: '0 4px' }}>
+        {/* Top Header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+          <button 
+            onClick={() => setCurrentView('main')}
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '12px',
+              background: 'transparent',
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--text-main)',
+              cursor: 'pointer',
+              padding: 0
+            }}
+            className="touch-active"
+          >
+            <ChevronLeft size={24} strokeWidth={3} />
+          </button>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: 'var(--text-main)', margin: 0, letterSpacing: '-0.3px' }}>
+            {tAny.accountSettings}
+          </h2>
+        </div>
+        
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {/* Form Fields */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {/* First Name */}
+            <div style={cardStyle}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>Ism</span>
+                <input 
+                  type="text" 
+                  style={inputResetStyle}
+                  value={editFirstName}
+                  onChange={(e) => setEditFirstName(e.target.value)}
+                  placeholder="Ismingizni kiriting"
+                />
+              </div>
+            </div>
+
+            {/* Last Name */}
+            <div style={cardStyle}>
+              <div style={{ flex: 1 }}>
+                <span style={labelStyle}>Familiya</span>
+                <input 
+                  type="text" 
+                  style={inputResetStyle}
+                  value={editLastName}
+                  onChange={(e) => setEditLastName(e.target.value)}
+                  placeholder="Familiyangizni kiriting"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Action Button */}
+          <div style={{ marginTop: '12px' }}>
+            <button 
+              onClick={handleProfileSave}
+              disabled={isSaving || !editFirstName.trim()}
+              style={{
+                width: '100%',
+                padding: '18px',
+                borderRadius: '24px',
+                border: 'none',
+                background: saveSuccess ? '#10b981' : 'linear-gradient(to right, #7000ff, #9333ea)',
+                color: '#fff',
+                fontSize: '1.05rem',
+                fontWeight: 900,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '12px',
+                boxShadow: saveSuccess ? '0 10px 25px rgba(16, 185, 129, 0.3)' : '0 10px 25px rgba(112, 0, 255, 0.3)',
+                cursor: 'pointer',
+                transition: 'all 0.3s'
+              }}
+              className="touch-active"
+            >
+              {isSaving ? (
+                <div className="loader-white" />
+              ) : saveSuccess ? (
+                <><Check size={22} strokeWidth={3} /> Saqlandi</>
+              ) : (
+                <>Ma&apos;lumotlarni saqlash</>
+              )}
+            </button>
+            <p style={{ fontSize: '0.75rem', textAlign: 'center', color: 'var(--text-secondary)', padding: '16px 20px 0', lineHeight: 1.5, margin: 0 }}>
+              O&apos;zgarishlar faqat sizning qurilmangizda saqlanadi.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderPreferences = () => (
     <div className="animate-slide-in-right">
        <button 
          className="back-btn touch-active" 
@@ -264,10 +434,10 @@ export default function SettingsPage() {
          style={{ display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: 'transparent', fontSize: '1rem', fontWeight: 800, color: 'var(--text-secondary)', marginBottom: '20px', cursor: 'pointer', padding: '0' }}
        >
           <ChevronLeft size={20} strokeWidth={3} />
-          <span>Back</span>
+          <span>{tAny.back}</span>
        </button>
 
-       <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-main)', marginBottom: '24px' }}>Account Settings</h2>
+       <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-main)', marginBottom: '24px' }}>{tAny.preferences}</h2>
 
        {/* Appearance Section */}
        <div style={{ marginBottom: '24px' }}>
@@ -286,10 +456,10 @@ export default function SettingsPage() {
                    <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                       <Globe size={20} strokeWidth={2.5} />
                    </div>
-                   <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.langTitle || "Language"}</div>
-                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{currentLang.name}</div>
-                   </div>
+                    <div style={{ textAlign: 'left' }}>
+                       <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.selectLang || "Language"}</div>
+                       <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{currentLang.name}</div>
+                    </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                    <div style={{ width: '28px', height: '18px', borderRadius: '4px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid rgba(0,0,0,0.05)' }}>
@@ -383,7 +553,7 @@ export default function SettingsPage() {
           </div>
        </div>
 
-       {/* Account Section */}
+       {/* Account Section - Moved to Preferences for convenience */}
        <div style={{ marginBottom: '24px' }}>
           <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', marginLeft: '4px', letterSpacing: '0.5px' }}>
              {tAny.account || "Account"}
@@ -426,12 +596,16 @@ export default function SettingsPage() {
 
   const renderPlaceholder = (title: string) => (
     <div className="animate-slide-in-right">
-       <button className="back-btn touch-active" onClick={() => setCurrentView('main')}>
-          <ChevronLeft size={24} color="#1e293b" />
-          <span>Back</span>
+       <button 
+         className="back-btn touch-active" 
+         onClick={() => setCurrentView('main')}
+         style={{ display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: 'transparent', fontSize: '1rem', fontWeight: 800, color: 'var(--text-secondary)', marginBottom: '20px', cursor: 'pointer', padding: '0' }}
+       >
+          <ChevronLeft size={20} strokeWidth={3} />
+          <span>{tAny.back}</span>
        </button>
        <h2 className="sub-page-title">{title}</h2>
-       <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>
+       <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8', background: 'var(--surface)', borderRadius: '24px', border: '1px solid var(--border)' }}>
           Coming Soon...
        </div>
     </div>
@@ -583,9 +757,9 @@ export default function SettingsPage() {
         {/* Dynamic Content */}
         {currentView === 'main' && renderMainView()}
         {currentView === 'account' && renderAccountSettings()}
-        {currentView === 'payment' && renderPlaceholder('Payment Methods')}
-        {currentView === 'preferences' && renderPlaceholder('Preferences')}
-        {currentView === 'export' && renderPlaceholder('Export Data')}
+        {currentView === 'payment' && renderPlaceholder(tAny.paymentMethods)}
+        {currentView === 'preferences' && renderPreferences()}
+        {currentView === 'export' && renderPlaceholder(tAny.exportData)}
 
         <div className="footer-uz">Finova v3.5 • 2026</div>
       </main>
@@ -597,35 +771,41 @@ export default function SettingsPage() {
         title={tAny.selectLang || "Select Language"}
         showCloseIcon={true}
       >
-        <div className="lang-list-scroll">
+        <div className="lang-grid-uz">
           {languages.map((l) => (
             <button
               key={l.code}
-              className={`lang-item touch-active ${language === l.code ? "selected" : ""}`}
+              className={`lang-card-uz touch-active ${language === l.code ? "selected" : ""}`}
               onClick={() => {
                 setLanguage(l.code as Language);
                 setIsLangModalOpen(false);
               }}
             >
-              <div className="lang-left">
-                <span className="lang-flag">
+              <div className="lang-card-content">
+                <div className="lang-flag-wrapper">
                   <Image
                     src={getFlagUrl(l.country)}
                     alt={l.name}
-                    width={48}
-                    height={32}
+                    width={44}
+                    height={30}
                     style={{
-                      width: "48px",
-                      height: "32px",
-                      objectFit: "contain",
-                      borderRadius: "4px",
-                      border: "1px solid rgba(0,0,0,0.05)",
+                      width: "44px",
+                      height: "30px",
+                      objectFit: "cover",
+                      borderRadius: "6px",
                     }}
                   />
-                </span>
-                <span className="lang-name">{l.name}</span>
+                </div>
+                <div className="lang-info">
+                  <span className="lang-label">{l.name}</span>
+                  <span className="lang-sub-label">{l.code.toUpperCase()}</span>
+                </div>
               </div>
-              {language === l.code && <Check size={20} color="#7000ff" />}
+              {language === l.code && (
+                <div className="lang-check">
+                  <Check size={18} color="#fff" strokeWidth={3} />
+                </div>
+              )}
             </button>
           ))}
         </div>
@@ -1397,44 +1577,73 @@ export default function SettingsPage() {
           color: var(--text-main);
         }
 
-        .lang-list-scroll {
-          overflow-y: auto;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          padding-bottom: 20px;
+        .lang-grid-uz {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+          padding-bottom: 24px;
         }
-        .lang-item {
+        .lang-card-uz {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 16px;
-          border-radius: 20px;
-          background: var(--background);
+          padding: 14px 18px;
+          border-radius: 24px;
+          background: var(--surface);
           border: 1px solid var(--border);
           width: 100%;
-          transition: 0.2s;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+          box-shadow: var(--shadow-sm);
+          cursor: pointer;
         }
-        .lang-item.selected {
-          background: rgba(112, 0, 255, 0.1);
-          border-color: rgba(112, 0, 255, 0.3);
+        .lang-card-uz.selected {
+          border-color: #7000ff;
+          background: rgba(112, 0, 255, 0.03);
+          box-shadow: 0 4px 12px rgba(112, 0, 255, 0.08);
         }
-        .lang-left {
+        .lang-card-content {
           display: flex;
           align-items: center;
           gap: 16px;
         }
-        .lang-flag {
-          display: flex;
-          border-radius: 4px;
+        .lang-flag-wrapper {
+          width: 44px;
+          height: 30px;
+          border-radius: 6px;
           overflow: hidden;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          margin-right: 4px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          flex-shrink: 0;
+          border: 1px solid rgba(0,0,0,0.05);
         }
-        .lang-name {
+        .lang-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1px;
+        }
+        .lang-label {
           font-size: 1rem;
-          font-weight: 700;
+          font-weight: 800;
           color: var(--text-main);
+        }
+        .lang-sub-label {
+          font-size: 0.7rem;
+          font-weight: 700;
+          color: var(--text-secondary);
+          opacity: 0.6;
+          letter-spacing: 0.5px;
+        }
+        .lang-check {
+          width: 28px;
+          height: 28px;
+          background: #7000ff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 8px rgba(112, 0, 255, 0.3);
         }
 
         .confirm-icon-bg {
@@ -1626,15 +1835,15 @@ export default function SettingsPage() {
         :global(.dark) .sheet-handle {
           background: rgba(255, 255, 255, 0.1);
         }
-        :global(.dark) .lang-item {
+        :global(.dark) .lang-card-uz {
           background: #334155;
         }
-        :global(.dark) .lang-name {
+        :global(.dark) .lang-label {
           color: white;
         }
-        :global(.dark) .lang-item.selected {
-          background: rgba(112, 0, 255, 0.15);
-          border-color: rgba(112, 0, 255, 0.3);
+        :global(.dark) .lang-card-uz.selected {
+          background: rgba(112, 0, 255, 0.1);
+          border-color: #7000ff;
         }
         :global(.dark) .confirm-desc-minimal {
           color: #94a3b8;
@@ -1643,6 +1852,15 @@ export default function SettingsPage() {
           background: rgba(255, 255, 255, 0.05);
           color: #94a3b8;
         }
+        .loader-white {
+          width: 22px;
+          height: 22px;
+          border: 3px solid rgba(255,255,255,0.3);
+          border-top-color: #fff;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
     </div>
   );

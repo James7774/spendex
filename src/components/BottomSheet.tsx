@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFinance } from '@/context/FinanceContext';
 import { X } from 'lucide-react';
@@ -15,6 +16,11 @@ interface BottomSheetProps {
 
 export default function BottomSheet({ isOpen, onClose, title, children, height = 'auto', showCloseIcon = false }: BottomSheetProps) {
   const { darkMode, setOverlayOpen } = useFinance();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Disable body scroll when open
   useEffect(() => {
@@ -31,7 +37,9 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
     };
   }, [isOpen, setOverlayOpen]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -48,8 +56,7 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
               right: 0,
               bottom: 0,
               background: 'rgba(0,0,0,0.7)',
-              zIndex: 9998
-              // Removed backdropFilter for better performance on Android
+              zIndex: 99998
             }}
           />
 
@@ -60,13 +67,12 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 400, mass: 0.2 }}
             drag="y"
-            dragConstraints={{ top: -3000, bottom: 0 }} // Explicit large range for 1:1 UP movement
-            dragElastic={1} // Strictly 1:1 movement, no resistance
-            dragMomentum={false} // Stops instantly on release
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={{ top: 0, bottom: 1 }}
+            dragMomentum={false}
             onDragEnd={(event, info) => {
               const draggedDistance = info.offset.y;
               const velocity = info.velocity.y;
-              // Dismiss if dragged down > 100px OR flicked down with velocity > 300
               if (draggedDistance > 100 || (velocity > 300 && draggedDistance > 0)) {
                 onClose();
               }
@@ -80,27 +86,27 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
               borderTopLeftRadius: '28px',
               borderTopRightRadius: '28px',
               padding: '0',
-              zIndex: 9999,
+              zIndex: 99999,
               maxHeight: '92vh',
               height: height,
               display: 'flex',
               flexDirection: 'column',
-              boxShadow: '0 -4px 20px rgba(0,0,0,0.15)',
+              boxShadow: '0 -4px 30px rgba(0,0,0,0.3)',
               willChange: 'transform'
             }}
           >
-            {/* Extended Background (Apron) to prevent gaps when dragging up */}
+            {/* Extended Background (Apron) */}
             <div style={{
               position: 'absolute',
               top: '100%',
               left: 0,
               right: 0,
-              height: '1500px', // Massive extra height
+              height: '1500px',
               background: darkMode ? '#1e293b' : '#ffffff',
               pointerEvents: 'none'
             }} />
 
-            {/* 1. Drag Handle - Draggable */}
+            {/* 1. Drag Handle */}
             <div
               style={{
                 width: '100%',
@@ -120,7 +126,7 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
               }} />
             </div>
 
-            {/* 2. Fixed Header (Title + Close) - Draggable */}
+            {/* 2. Fixed Header */}
             {(title || showCloseIcon) && (
               <div style={{ 
                 padding: '0 24px 16px 24px',
@@ -145,7 +151,7 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
                  {showCloseIcon && (
                     <button
                       onClick={onClose}
-                      onPointerDown={(e) => e.stopPropagation()} // Prevent drag start when clicking close
+                      onPointerDown={(e) => e.stopPropagation()}
                       style={{
                         background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
                         border: 'none',
@@ -166,7 +172,7 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
               </div>
             )}
 
-            {/* 3. Content Container - NOT Draggable (Scrollable) */}
+            {/* 3. Content Container */}
             <div 
               onPointerDown={(e) => e.stopPropagation()}
               style={{
@@ -181,6 +187,7 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

@@ -1,5 +1,6 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFinance } from '@/context/FinanceContext';
 
@@ -12,8 +13,15 @@ interface CenterModalProps {
 
 export default function CenterModal({ isOpen, onClose, title, children }: CenterModalProps) {
   const { darkMode } = useFinance();
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -30,7 +38,7 @@ export default function CenterModal({ isOpen, onClose, title, children }: Center
               right: 0,
               bottom: 0,
               background: 'rgba(0,0,0,0.6)',
-              zIndex: 10000,
+              zIndex: 999998,
               backdropFilter: 'blur(5px)'
             }}
           />
@@ -45,7 +53,7 @@ export default function CenterModal({ isOpen, onClose, title, children }: Center
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 10001,
+            zIndex: 999999,
             padding: '20px',
             pointerEvents: 'none'
           }}>
@@ -60,7 +68,7 @@ export default function CenterModal({ isOpen, onClose, title, children }: Center
                 padding: '24px',
                 width: '100%',
                 maxWidth: '320px',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
                 pointerEvents: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
@@ -86,6 +94,7 @@ export default function CenterModal({ isOpen, onClose, title, children }: Center
           </div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

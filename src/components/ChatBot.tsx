@@ -26,11 +26,31 @@ export default function ChatBot() {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [initialHeight, setInitialHeight] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+
+    if (window.visualViewport) {
+      setInitialHeight(window.visualViewport.height);
+    }
+
+    // Keyboard visibility detection via Visual Viewport
+    const handleResize = () => {
+      if (window.visualViewport && (initialHeight > 0 || window.innerHeight > 0)) {
+        const h = window.visualViewport.height;
+        const totalH = initialHeight || window.innerHeight;
+        // If viewport height is significantly less than initial height, keyboard is likely open
+        const isVisible = h < totalH * 0.85;
+        setIsKeyboardVisible(isVisible);
+      }
+    };
+
+    window.visualViewport?.addEventListener('resize', handleResize);
+    return () => window.visualViewport?.removeEventListener('resize', handleResize);
+  }, [initialHeight]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -200,7 +220,13 @@ User Input: "${text}"
         <button 
           className={styles.chatButton} 
           onClick={() => setIsOpen(true)}
-          style={{ bottom: 'calc(var(--safe-bottom) + 5.5rem)', right: '1rem', zIndex: 999 }}
+          style={{ 
+            bottom: 'calc(var(--safe-bottom) + 5.5rem)', 
+            right: '12px', 
+            zIndex: 9999,
+            transform: isKeyboardVisible ? `translateY(calc(var(--safe-bottom) + 5.5rem - 14px))` : 'translateY(0)',
+            transition: 'none !important' as any,
+          }}
           aria-label="Open Chat Support"
         >
           <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderRadius: '50%' }}>

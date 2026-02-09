@@ -16,6 +16,8 @@ const SplashScreen = dynamic(() => import("@/components/SplashScreen"), {
 
 import { usePathname } from 'next/navigation';
 
+import BottomNav from "@/components/BottomNav";
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, isOverlayOpen } = useFinance();
   const pathname = usePathname();
@@ -94,19 +96,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <PinLock />
         <motion.div 
             animate={{ 
-                opacity: isOverlayOpen ? 0 : 1,
-                scale: isOverlayOpen ? 0.96 : 1,
+                opacity: isOverlayOpen ? 0.4 : 1, 
+                scale: isOverlayOpen ? 0.98 : 1,
                 filter: isOverlayOpen ? 'blur(10px)' : 'blur(0px)'
             }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
             style={{ 
-                opacity: 1,
                 width: '100%',
-                pointerEvents: isOverlayOpen ? 'none' : 'auto'
+                pointerEvents: isOverlayOpen ? 'none' : 'auto',
+                willChange: 'transform, filter, opacity'
             }}
         >
             {children}
         </motion.div>
+        
+        {/* Global UI Elements outside of animation container for stability */}
+        <BottomNav />
+        
         {pathname === '/dashboard/settings' && <ChatBot />}
         {showSplash && (
           <div style={{ position: 'fixed', inset: 0, zIndex: 999999, opacity: splashOpacity, transition: 'opacity 0.5s', pointerEvents: 'none' }}>
