@@ -103,7 +103,7 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
             width: '52px',
             height: '52px',
             borderRadius: '16px',
-            background: isExpanded ? brandColor : 'rgba(79, 70, 229, 0.08)',
+            background: isExpanded ? brandColor : 'var(--bg-secondary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -122,7 +122,7 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
                         {title}
                       </h4>
                       <span className="goal-percentage" style={{ 
-                        background: percentage >= 100 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(79, 70, 229, 0.1)',
+                        background: percentage >= 100 ? 'rgba(16, 185, 129, 0.15)' : 'rgba(79, 70, 229, 0.15)',
                         color: percentage >= 100 ? '#10B981' : brandColor
                       }}>
                           {Math.round(percentage)}%

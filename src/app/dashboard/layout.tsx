@@ -79,13 +79,25 @@ export default function DashboardLayout({
     };
   }, []);
 
+  // Dynamic Title Helper
+  const getPageTitle = () => {
+    switch(pathname) {
+      case '/dashboard': return 'Dashboard';
+      case '/dashboard/transactions': return t.transactions;
+      case '/dashboard/charts': return t.charts;
+      case '/dashboard/goals': return t.goals;
+      case '/dashboard/settings': return 'Profil';
+      default: return 'Finova';
+    }
+  };
+
   return (
     <div className={styles.layout}>
       {/* Sidebar - Desktop Only */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
           <div className={styles.brand}>
-            <span className={styles.brandHighlight}>Fi</span>nova
+            {getPageTitle()}
           </div>
         </div>
         
@@ -140,23 +152,7 @@ export default function DashboardLayout({
             className={styles.mobileHeader}
           >
             <div className={styles.brand}>
-              <span className={styles.brandHighlight}>Fi</span>nova
-            </div>
-            
-            <div className={styles.mobileProfile} onClick={() => router.push('/dashboard/settings')}>
-               {user?.avatar ? (
-                 <Image 
-                   src={user.avatar} 
-                   alt="me" 
-                   width={36} 
-                   height={36} 
-                   className={styles.mobileAvatarImg}
-                   unoptimized
-                 />
-               ) : (
-                  <div>{user?.name?.charAt(0).toUpperCase() || 'U'}</div>
-               )}
-               <div className={styles.statusDotMobile} />
+              {getPageTitle()}
             </div>
           </header>
         )}

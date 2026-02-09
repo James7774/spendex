@@ -145,18 +145,18 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding-top: var(--safe-top);
-  padding-bottom: 0.75rem;
-  padding-left: max(var(--space-md), var(--safe-left));
-  padding-right: max(var(--space-md), var(--safe-right));
+  padding-bottom: 0.5rem;
+  padding-left: 20px;
+  padding-right: 20px;
   border-bottom: 1px solid var(--border);
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  min-height: calc(60px + var(--safe-top));
+  min-height: calc(75px + var(--safe-top));
 }
 
 .menuBtn {
@@ -187,11 +187,11 @@
   border-radius: 50%;
   /* overflow: hidden; Removed to let dot show outside */
   border: 3px solid #10b981;
-  background: white;
+  background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #10b981;
+  color: var(--primary);
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
@@ -207,7 +207,7 @@
   width: 16px;
   height: 16px;
   background: #10b981;
-  border: 2.5px solid white;
+  border: 2.5px solid var(--surface);
   border-radius: 50%;
   z-index: 5;
 }
@@ -545,12 +545,13 @@
 
 /* Brand Logo Styling */
 .brand {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: 1.8rem;
+  font-weight: 900;
   color: var(--text-main);
-  letter-spacing: -0.5px;
+  letter-spacing: -1.2px;
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 }
 
 .brandHighlight {

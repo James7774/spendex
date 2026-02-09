@@ -203,23 +203,27 @@ export default function TransactionsFilter() {
 
       <style jsx>{`
         .filter-wrapper {
-          margin-bottom: 20px;
+          margin-bottom: 0;
         }
 
         .main-filter-trigger {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 10px 16px;
+          justify-content: center;
+          width: 54px;
+          height: 54px;
           background: ${darkMode ? 'rgba(255,255,255,0.05)' : '#fff'};
-          border: 1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'};
-          border-radius: 12px;
+          border: 1.5px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'var(--border)'};
+          border-radius: 20px;
           color: ${darkMode ? '#fff' : '#0f172a'};
-          font-weight: 600;
           cursor: pointer;
           position: relative;
           transition: all 0.2s;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .main-filter-trigger span:not(.filter-badge) {
+          display: none;
         }
 
         .filter-badge {

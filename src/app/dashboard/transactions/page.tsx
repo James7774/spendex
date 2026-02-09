@@ -73,30 +73,31 @@ export default function TransactionsPage() {
 
   return (
     <div className={styles.dashboardContent}>
-      <h1 className={styles.pageTitle}>{t.transactions}</h1>
-      
-      <TransactionsFilter />
-
       <div className={styles.searchWrapper}>
-        <div className={styles.searchContainer}>
-          <input 
-            type="text" 
-            className={styles.searchInput}
-            placeholder={tAny.searchPlaceholder || "Search transactions..."}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <div className={styles.innerSearchIcon}>
-             <SearchIcon size={20} />
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div className={styles.searchContainer} style={{ flex: 1 }}>
+            <input 
+              type="text" 
+              className={styles.searchInput}
+              placeholder={tAny.searchPlaceholder || "Search transactions..."}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ paddingLeft: '3rem' }}
+            />
+            <div className={styles.innerSearchIcon}>
+               <SearchIcon size={20} />
+            </div>
+            {searchQuery && (
+              <button 
+                className={styles.searchClearBtn}
+                onClick={() => setSearchQuery("")}
+                style={{ right: '12px' }}
+              >
+                <CloseIcon size={14} />
+              </button>
+            )}
           </div>
-          {searchQuery && (
-            <button 
-              className={styles.searchClearBtn}
-              onClick={() => setSearchQuery("")}
-            >
-              <CloseIcon size={14} />
-            </button>
-          )}
+          <TransactionsFilter />
         </div>
       </div>
 

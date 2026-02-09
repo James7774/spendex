@@ -13,6 +13,7 @@
   --border: #e2e8f0;
   --glass: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(226, 232, 240, 0.5);
+  --bg-secondary: #fdfdff;
 
   /* Status Colors */
   --success: #10b981;
@@ -67,6 +68,7 @@
   --border: #334155;
   --glass: rgba(15, 23, 42, 0.8);
   --glass-border: rgba(51, 65, 85, 0.5);
+  --bg-secondary: rgba(255, 255, 255, 0.05);
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);

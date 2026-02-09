@@ -111,7 +111,7 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
                 width: '40px',
                 height: '4px',
                 borderRadius: '4px',
-                background: darkMode ? 'rgba(255,255,255,0.2)' : '#cbd5e1'
+                background: 'var(--border)'
               }} />
             </div>
 
@@ -129,7 +129,7 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
                     <h3 style={{
                       fontSize: '1.4rem',
                       fontWeight: 750,
-                      color: darkMode ? '#fff' : '#0f172a',
+                      color: 'var(--text-main)',
                       margin: 0,
                       letterSpacing: '-0.5px'
                     }}>

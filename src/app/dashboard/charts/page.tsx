@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { motion } from 'framer-motion';
-import { BarChart3, Activity } from 'lucide-react';
+import { Activity } from 'lucide-react';
 import { useFinance, Transaction } from "@/context/FinanceContext";
 import AntigravityGoals from "@/components/AntigravityGoals";
 import { SearchIcon, CloseIcon } from "@/components/Icons";
@@ -43,50 +43,45 @@ export default function ChartsPage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="page-header">
-        <div className="header-left">
-          <div className="icon-badge">
-            <BarChart3 size={22} />
-          </div>
-          <h1 className={styles.pageTitle}>{t.charts}</h1>
-        </div>
-        
-        <div className="intel-status">
-          <Activity size={14} className="pulse-icon" />
-          <span className="status-text">{t.intelActive}</span>
-        </div>
-      </div>
-
-      <TransactionsFilter />
-
       <div className={styles.searchWrapper}>
-        <div className={styles.searchContainer}>
-          <input 
-            type="text" 
-            className={styles.searchInput}
-            placeholder={tAny.searchPlaceholder || "Filter charts..."}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <div className={styles.innerSearchIcon}>
-             <SearchIcon size={20} />
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div className={styles.searchContainer} style={{ flex: 1 }}>
+            <input 
+              type="text" 
+              className={styles.searchInput}
+              placeholder={tAny.searchPlaceholder || "Filter charts..."}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ paddingLeft: '3rem' }}
+            />
+            <div className={styles.innerSearchIcon}>
+               <SearchIcon size={20} />
+            </div>
+            {searchQuery && (
+              <button 
+                className={styles.searchClearBtn}
+                onClick={() => setSearchQuery("")}
+                style={{ right: '12px' }}
+              >
+                <CloseIcon size={14} />
+              </button>
+            )}
           </div>
-          {searchQuery && (
-            <button 
-              className={styles.searchClearBtn}
-              onClick={() => setSearchQuery("")}
-            >
-              <CloseIcon size={14} />
-            </button>
-          )}
+          <TransactionsFilter />
         </div>
       </div>
       
       <div className="main-chart-section">
         <div className="card-glass">
-            <div className="card-top">
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h3 className="card-heading">{t.expenseTrend}</h3>
+            <div className="card-top" style={{ flexWrap: 'wrap', gap: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <h3 className="card-heading">{t.expenseTrend}</h3>
+                        <div className="intel-status" style={{ margin: 0 }}>
+                          <Activity size={14} className="pulse-icon" />
+                          <span className="status-text">{t.intelActive}</span>
+                        </div>
+                    </div>
                     {searchQuery && (
                       <p style={{ margin: '4px 0 0 0', fontSize: '0.8rem', color: '#7000ff', fontWeight: 700 }}>
                         {tAny.resultsFound || "Results"}: {filteredTransactions.filter(tx => tx.type === 'expense').length}

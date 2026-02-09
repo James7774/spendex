@@ -149,18 +149,18 @@ export default function SettingsPage() {
            justifyContent: 'space-between', 
            width: '100%', 
            padding: '12px 16px', 
-           background: '#fff', 
-           border: 'none', 
+           background: 'var(--surface)', 
+           border: '1px solid var(--border)', 
            borderRadius: '20px', 
-           boxShadow: '0 2px 12px rgba(0,0,0,0.03)', 
+           boxShadow: 'var(--shadow-sm)', 
            cursor: 'pointer' 
          }}
        >
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-             <div style={{ width: '48px', height: '48px', background: '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <User size={22} color="#1e293b" strokeWidth={2.5} />
+             <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <User size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
              </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>Account Settings</span>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>Account Settings</span>
           </div>
           <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
        </button>
@@ -175,18 +175,18 @@ export default function SettingsPage() {
            justifyContent: 'space-between', 
            width: '100%', 
            padding: '12px 16px', 
-           background: '#fff', 
-           border: 'none', 
+           background: 'var(--surface)', 
+           border: '1px solid var(--border)', 
            borderRadius: '20px', 
-           boxShadow: '0 2px 12px rgba(0,0,0,0.03)', 
+           boxShadow: 'var(--shadow-sm)', 
            cursor: 'pointer' 
          }}
        >
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-             <div style={{ width: '48px', height: '48px', background: '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Wallet size={22} color="#1e293b" strokeWidth={2.5} />
+             <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Wallet size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
              </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>Payment Methods</span>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>Payment Methods</span>
           </div>
           <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
        </button>
@@ -201,18 +201,18 @@ export default function SettingsPage() {
            justifyContent: 'space-between', 
            width: '100%', 
            padding: '12px 16px', 
-           background: '#fff', 
-           border: 'none', 
+           background: 'var(--surface)', 
+           border: '1px solid var(--border)', 
            borderRadius: '20px', 
-           boxShadow: '0 2px 12px rgba(0,0,0,0.03)', 
+           boxShadow: 'var(--shadow-sm)', 
            cursor: 'pointer' 
          }}
        >
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-             <div style={{ width: '48px', height: '48px', background: '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <SlidersHorizontal size={22} color="#1e293b" strokeWidth={2.5} />
+             <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <SlidersHorizontal size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
              </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>Preferences</span>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>Preferences</span>
           </div>
           <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
        </button>
@@ -227,18 +227,18 @@ export default function SettingsPage() {
            justifyContent: 'space-between', 
            width: '100%', 
            padding: '12px 16px', 
-           background: '#fff', 
-           border: 'none', 
+           background: 'var(--surface)', 
+           border: '1px solid var(--border)', 
            borderRadius: '20px', 
-           boxShadow: '0 2px 12px rgba(0,0,0,0.03)', 
+           boxShadow: 'var(--shadow-sm)', 
            cursor: 'pointer' 
          }}
        >
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-             <div style={{ width: '48px', height: '48px', background: '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <FileText size={22} color="#1e293b" strokeWidth={2.5} />
+             <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FileText size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
              </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: '#1e293b' }}>Export Data</span>
+             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>Export Data</span>
           </div>
           <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
        </button>
@@ -250,13 +250,13 @@ export default function SettingsPage() {
        <button 
          className="back-btn touch-active" 
          onClick={() => setCurrentView('main')}
-         style={{ display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: 'transparent', fontSize: '1rem', fontWeight: 800, color: '#64748b', marginBottom: '20px', cursor: 'pointer', padding: '0' }}
+         style={{ display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: 'transparent', fontSize: '1rem', fontWeight: 800, color: 'var(--text-secondary)', marginBottom: '20px', cursor: 'pointer', padding: '0' }}
        >
           <ChevronLeft size={20} strokeWidth={3} />
           <span>Back</span>
        </button>
 
-       <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1e293b', marginBottom: '24px' }}>Account Settings</h2>
+       <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-main)', marginBottom: '24px' }}>Account Settings</h2>
 
        {/* Appearance Section */}
        <div style={{ marginBottom: '24px' }}>
@@ -269,15 +269,15 @@ export default function SettingsPage() {
              <button
                className="settings-item touch-active"
                onClick={() => setIsLangModalOpen(true)}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: '#fff', border: 'none', borderRadius: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', cursor: 'pointer' }}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
              >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                    <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                       <Globe size={20} strokeWidth={2.5} />
                    </div>
                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e293b' }}>{tAny.langTitle || "Language"}</div>
-                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8' }}>{currentLang.name}</div>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.langTitle || "Language"}</div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{currentLang.name}</div>
                    </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -298,21 +298,21 @@ export default function SettingsPage() {
              <button
                className="settings-item touch-active"
                onClick={() => setTheme(darkMode ? "light" : "dark")}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: '#fff', border: 'none', borderRadius: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', cursor: 'pointer' }}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
              >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                    <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #8b5cf6, #a78bfa)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                       {darkMode ? <Moon size={20} strokeWidth={2.5} /> : <Sun size={20} strokeWidth={2.5} />}
                    </div>
                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e293b' }}>{t.themeTitle}</div>
-                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8' }}>{darkMode ? t.darkModeLabel : t.lightModeLabel}</div>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{t.themeTitle}</div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{darkMode ? t.darkModeLabel : t.lightModeLabel}</div>
                    </div>
                 </div>
                 {darkMode ? (
-                  <div style={{ padding: '6px', background: '#f5f3ff', borderRadius: '10px' }}><Moon size={16} color="#8b5cf6" strokeWidth={3} /></div>
+                  <div style={{ padding: '6px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '10px' }}><Moon size={16} color="#8b5cf6" strokeWidth={3} /></div>
                 ) : (
-                  <div style={{ padding: '6px', background: '#fffbeb', borderRadius: '10px' }}><Sun size={16} color="#f59e0b" strokeWidth={3} /></div>
+                  <div style={{ padding: '6px', background: 'rgba(245, 158, 11, 0.1)', borderRadius: '10px' }}><Sun size={16} color="#f59e0b" strokeWidth={3} /></div>
                 )}
              </button>
           </div>
@@ -329,13 +329,13 @@ export default function SettingsPage() {
              <button
                className="settings-item touch-active"
                onClick={() => setConfirmationType("clear")}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: '#fff', border: 'none', borderRadius: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', cursor: 'pointer' }}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
              >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                    <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #64748b, #94a3b8)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                       <Trash2 size={20} strokeWidth={2.5} />
                    </div>
-                   <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e293b' }}>{tAny.clearData}</span>
+                   <span style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.clearData}</span>
                 </div>
                 <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} className={isRTL ? "rotate-180" : ""} />
              </button>
@@ -344,7 +344,7 @@ export default function SettingsPage() {
              <button
                className="settings-item touch-active"
                onClick={() => setConfirmationType("logout")}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: '#fff', border: 'none', borderRadius: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', cursor: 'pointer' }}
+               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
              >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                    <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #ef4444, #f87171)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
@@ -390,7 +390,7 @@ export default function SettingsPage() {
               style={{
                 borderRadius: "50%",
                 padding: "0",
-                background: "#fff",
+                background: "var(--surface)",
                 overflow: "hidden",
               }}
             >
@@ -446,7 +446,7 @@ export default function SettingsPage() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        background: "#f3f4f6",
+                        background: "var(--background)",
                         borderRadius: "50%",
                       }}
                     >
@@ -618,15 +618,7 @@ export default function SettingsPage() {
 
       <style jsx>{`
         .profile-page {
-          background: #f4f6f9;
-          min-height: 100vh;
-          padding-bottom: 50px;
-          overflow-x: hidden;
-          width: 100%;
-        }
-
-        .profile-page {
-          background: #f4f6f9;
+          background: var(--background);
           min-height: 100vh;
           overflow-x: hidden;
           width: 100%;
@@ -694,12 +686,12 @@ export default function SettingsPage() {
           width: 110px;
           height: 110px;
           border-radius: 9999px !important;
-          border: 4px solid #10b981;
+          border: 4px solid #9262f1;
           background: white;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+          box-shadow: 0 0 25px rgba(146, 98, 241, 0.4);
           position: relative;
           z-index: 20;
           overflow: hidden !important;
@@ -821,14 +813,14 @@ export default function SettingsPage() {
         .user-name {
           font-size: 1.6rem;
           font-weight: 900;
-          color: #0f172a;
+          color: var(--text-main);
           margin-bottom: 4px;
         }
 
         .name-edit-input {
           font-size: 1.6rem;
           font-weight: 850;
-          color: #0f172a;
+          color: var(--text-main);
           margin-bottom: 4px;
           text-align: center;
           border: none;
@@ -840,7 +832,7 @@ export default function SettingsPage() {
 
         .user-email {
           font-size: 0.9rem;
-          color: #64748b;
+          color: var(--text-secondary);
           font-weight: 600;
         }
 
@@ -858,10 +850,11 @@ export default function SettingsPage() {
           letter-spacing: 0.5px;
         }
         .sec-card {
-          background: white;
+          background: var(--surface);
           border-radius: 24px;
           padding: 6px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+          box-shadow: var(--shadow-sm);
+          border: 1px solid var(--border);
         }
         .list-row {
           padding: 16px;
@@ -872,11 +865,11 @@ export default function SettingsPage() {
           width: 100%;
           border: none;
           background: transparent;
-          color: #1e293b;
+          color: var(--text-main);
           transition: 0.2s;
         }
         .list-row:active {
-          background: #f8fafc;
+          background: var(--background);
           transform: scale(0.99);
         }
         .row-start {
@@ -887,7 +880,7 @@ export default function SettingsPage() {
         .row-label {
           font-size: 1rem;
           font-weight: 700;
-          color: #1e293b;
+          color: var(--text-main);
         }
         .row-end {
           display: flex;
@@ -912,7 +905,7 @@ export default function SettingsPage() {
         .val-uz {
           font-size: 0.95rem;
           font-weight: 700;
-          color: #0f172a;
+          color: var(--text-main);
           opacity: 1;
         }
 
@@ -941,7 +934,7 @@ export default function SettingsPage() {
 
         .hr-uz {
           height: 1px;
-          background: #f1f5f9;
+          background: var(--border);
           margin: 0 16px;
         }
 
@@ -964,12 +957,12 @@ export default function SettingsPage() {
            justify-content: space-between;
            width: 100%;
            padding: 20px 24px;
-           background: #fff;
-           border: none;
+           background: var(--surface);
+           border: 1px solid var(--border);
            border-radius: 24px;
            cursor: pointer;
            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-           box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+           box-shadow: var(--shadow-sm);
         }
         
         .settings-item:active {
@@ -985,7 +978,7 @@ export default function SettingsPage() {
         .item-icon-box {
            width: 56px;
            height: 56px;
-           background: #f1f5f9;
+           background: var(--background);
            border-radius: 18px;
            display: flex;
            align-items: center;
@@ -995,7 +988,7 @@ export default function SettingsPage() {
         .item-label {
            font-size: 1.05rem;
            font-weight: 700;
-           color: #0f172a;
+           color: var(--text-main);
         }
 
         .back-btn {
@@ -1006,7 +999,7 @@ export default function SettingsPage() {
            background: transparent;
            font-size: 1.1rem;
            font-weight: 700;
-           color: #1e293b;
+           color: var(--text-main);
            margin-bottom: 24px;
            cursor: pointer;
            padding: 0;
@@ -1016,7 +1009,7 @@ export default function SettingsPage() {
            font-size: 1.8rem;
            font-weight: 900;
            margin-bottom: 24px;
-           color: #0f172a;
+           color: var(--text-main);
         }
 
         .animate-slide-up {
@@ -1091,7 +1084,7 @@ export default function SettingsPage() {
           justify-content: center;
         }
         .bottom-sheet {
-          background: white;
+          background: var(--surface);
           width: 100%;
           max-width: 480px;
           border-radius: 32px 32px 0 0;
@@ -1105,7 +1098,7 @@ export default function SettingsPage() {
         .sheet-handle {
           width: 40px;
           height: 4px;
-          background: #e2e8f0;
+          background: var(--border);
           border-radius: 2px;
           margin: 0 auto 20px;
         }
@@ -1114,7 +1107,7 @@ export default function SettingsPage() {
           font-weight: 800;
           text-align: center;
           margin: 0 0 24px;
-          color: #0f172a;
+          color: var(--text-main);
         }
 
         .lang-list-scroll {
@@ -1130,14 +1123,14 @@ export default function SettingsPage() {
           justify-content: space-between;
           padding: 16px;
           border-radius: 20px;
-          background: #f8fafc;
-          border: 1px solid transparent;
+          background: var(--background);
+          border: 1px solid var(--border);
           width: 100%;
           transition: 0.2s;
         }
         .lang-item.selected {
-          background: #f5f3ff;
-          border-color: rgba(112, 0, 255, 0.2);
+          background: rgba(112, 0, 255, 0.1);
+          border-color: rgba(112, 0, 255, 0.3);
         }
         .lang-left {
           display: flex;
@@ -1154,7 +1147,7 @@ export default function SettingsPage() {
         .lang-name {
           font-size: 1rem;
           font-weight: 700;
-          color: #1e293b;
+          color: var(--text-main);
         }
 
         .confirm-icon-bg {
@@ -1213,7 +1206,7 @@ export default function SettingsPage() {
           box-shadow: 0 8px 20px rgba(112, 0, 255, 0.2);
         }
         .modal-action-btn.danger {
-          background: #ef4444;
+          background: var(--danger);
           box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);
         }
         .modal-cancel-btn {
@@ -1223,8 +1216,8 @@ export default function SettingsPage() {
           font-size: 1rem;
           font-weight: 700;
           border: none;
-          background: #f1f5f9;
-          color: #64748b;
+          background: var(--background);
+          color: var(--text-secondary);
           cursor: pointer;
         }
         .modal-action-btn:active,
