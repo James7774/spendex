@@ -28,29 +28,39 @@ export default function ChatBot() {
   const [mounted, setMounted] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [initialHeight, setInitialHeight] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState<string | number>('100vh');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
+    setInitialHeight(window.visualViewport ? window.visualViewport.height : window.innerHeight);
 
-    if (window.visualViewport) {
-      setInitialHeight(window.visualViewport.height);
-    }
-
-    // Keyboard visibility detection via Visual Viewport
     const handleResize = () => {
-      if (window.visualViewport && (initialHeight > 0 || window.innerHeight > 0)) {
-        const h = window.visualViewport.height;
-        const totalH = initialHeight || window.innerHeight;
-        // If viewport height is significantly less than initial height, keyboard is likely open
-        const isVisible = h < totalH * 0.85;
-        setIsKeyboardVisible(isVisible);
+      // Update height to match the visual viewport (handles keyboard)
+      if (window.visualViewport) {
+        setViewportHeight(window.visualViewport.height);
+        
+        // Check for keyboard visibility
+        const currentHeight = window.visualViewport.height;
+        const totalHeight = window.innerHeight;
+        // If significantly smaller, keyboard is likely open
+        setIsKeyboardVisible(currentHeight < totalHeight * 0.85);
+        
+        // Scroll to bottom when keyboard opens/resizes
+        setTimeout(scrollToBottom, 100);
       }
     };
 
-    window.visualViewport?.addEventListener('resize', handleResize);
-    return () => window.visualViewport?.removeEventListener('resize', handleResize);
-  }, [initialHeight]);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
+      // Set initial value
+      handleResize();
+    }
+
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleResize);
+    };
+  }, []); // Remove initialHeight dependency to prevent infinite loops if used badly
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -58,7 +68,7 @@ export default function ChatBot() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isKeyboardVisible]); // Scroll when keyboard visibility changes too
 
   useEffect(() => {
     const greetings = {
@@ -224,8 +234,9 @@ User Input: "${text}"
             bottom: 'calc(var(--safe-bottom) + 5.5rem)', 
             right: '12px', 
             zIndex: 9999,
-            transform: isKeyboardVisible ? `translateY(calc(var(--safe-bottom) + 5.5rem - 14px))` : 'translateY(0)',
-            transition: 'none !important' as any,
+            transform: isKeyboardVisible ? `translateY(-${initialHeight - (typeof viewportHeight === 'number' ? viewportHeight : initialHeight) + 10}px)` : 'translateY(0)',
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            transition: 'none !important' as any, 
           }}
           aria-label="Open Chat Support"
         >
@@ -242,7 +253,13 @@ User Input: "${text}"
       )}
 
       {isOpen && (
-        <div className={styles.chatWindow}>
+        <div 
+          className={styles.chatWindow} 
+          style={{ 
+            height: typeof viewportHeight === 'number' ? `${viewportHeight}px` : viewportHeight,
+            bottom: 0 // Force bottom alignment
+          }}
+        >
           <div className={styles.header}>
             <div className={styles.title} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Image 
