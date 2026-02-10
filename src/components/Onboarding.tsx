@@ -250,6 +250,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
         isOpen={isLangModalOpen}
         onClose={() => setIsLangModalOpen(false)}
         title={ot.selectLang || "Select Language"}
+        showCloseIcon
       >
         <div className="lang-list-scroll">
             {languages.map(l => (
