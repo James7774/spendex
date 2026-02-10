@@ -11,8 +11,13 @@ const firebaseConfig = {
   measurementId: "G-42QN7DEHF6"
 };
 
+import { getAnalytics, isSupported } from "firebase/analytics";
+
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleAuthProvider = new GoogleAuthProvider();
 
-export { auth, googleAuthProvider };
+// Initialize Analytics ONLY if it's supported (client-side)
+const analytics = typeof window !== "undefined" ? isSupported().then(yes => yes ? getAnalytics(app) : null) : null;
+
+export { auth, googleAuthProvider, analytics };
