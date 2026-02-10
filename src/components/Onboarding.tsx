@@ -278,7 +278,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
 
       <style jsx>{`
         .ob-wrapper { 
-          position: fixed; inset: 0; background: var(--background); z-index: 999999;
+          position: fixed; inset: 0; background: var(--background); z-index: 9990;
           display: flex; flex-direction: column; color: var(--text-main); overflow: hidden;
         }
         .ob-glow { position: absolute; width: min(400px, 80vw); height: min(400px, 80vw); border-radius: 50%; filter: blur(100px); opacity: 0.15; pointer-events: none; }
