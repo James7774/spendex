@@ -178,14 +178,23 @@ export default function SettingsPage() {
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Initialize edit fields when entering account view
+  const userName = user?.name;
+
+  // Initialize edit fields when entering account view
   useEffect(() => {
-    if (currentView === "account" && user) {
-      const names = user.name.split(" ");
-      setEditFirstName(names[0] || "");
-      setEditLastName(names.slice(1).join(" ") || "");
-      setSaveSuccess(false);
+    if (currentView === "account" && userName) {
+      const names = userName.split(" ");
+      const newFirst = names[0] || "";
+      const newLast = names.slice(1).join(" ") || "";
+      
+      // eslint-disable-next-line
+      setEditFirstName(prev => prev !== newFirst ? newFirst : prev);
+      // eslint-disable-next-line
+      setEditLastName(prev => prev !== newLast ? newLast : prev);
+      // eslint-disable-next-line
+      setSaveSuccess(prev => prev ? false : prev);
     }
-  }, [currentView, user]);
+  }, [currentView, userName]);
 
   const handleProfileSave = () => {
     if (!editFirstName.trim()) return;
@@ -431,8 +440,8 @@ export default function SettingsPage() {
       padding: "2px 0",
       outline: "none",
       margin: 0,
-      appearance: "none" as any,
-      WebkitAppearance: "none" as any,
+      appearance: "none" as const,
+      WebkitAppearance: "none" as const,
     };
 
     const labelStyle: React.CSSProperties = {

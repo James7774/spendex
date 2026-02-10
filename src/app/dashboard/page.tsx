@@ -26,6 +26,25 @@ export default function DashboardPage() {
     return amount.toLocaleString();
   };
 
+  // Helper to dynamically adjust font size based on length
+  const getResponsiveStyle = (amount: number, type: 'main' | 'card') => {
+    const str = amount.toLocaleString();
+    const len = str.length;
+    
+    if (type === 'main') {
+      if (len > 20) return { fontSize: '1.5rem', lineHeight: 1.1 }; // Huge numbers
+      if (len > 15) return { fontSize: '1.8rem', lineHeight: 1.1 }; // Very large
+      if (len > 12) return { fontSize: '2rem', lineHeight: 1.1 };   // Large
+      return { fontSize: '2.4rem', lineHeight: 1 };               // Normal
+    } else {
+       // For cards (Income/Expense)
+       if (len > 18) return { fontSize: '0.9rem', lineHeight: 1.2 };
+       if (len > 14) return { fontSize: '1rem', lineHeight: 1.2 };
+       if (len > 11) return { fontSize: '1.1rem', lineHeight: 1.2 };
+       return { fontSize: '1.25rem', lineHeight: 1.2 };
+    }
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
 
@@ -47,10 +66,16 @@ export default function DashboardPage() {
       }}>
         {/* Top Row: Total Balance & Profile */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
-           <div>
+           <div style={{ flex: 1, minWidth: 0, paddingRight: '10px' }}>
              <p style={{ fontSize: '0.95rem', opacity: 0.85, fontWeight: 500, marginBottom: '8px' }}>{t.totalBalance}</p>
-             <h1 style={{ fontSize: '2.4rem', fontWeight: 800, margin: 0, letterSpacing: '-1px', lineHeight: 1 }}>
-                {formatCurrency(totalBalance)} <span style={{ fontSize: '1.2rem', fontWeight: 500 }}>{t.currencyLabel}</span>
+             <h1 style={{ 
+               fontWeight: 800, 
+               margin: 0, 
+               letterSpacing: '-0.5px',
+               wordBreak: 'break-all', // Allow breaking if absolutely necessary
+               ...getResponsiveStyle(totalBalance, 'main')
+             }}>
+                {formatCurrency(totalBalance)} <span style={{ fontSize: '0.5em', fontWeight: 500, verticalAlign: 'middle' }}>{t.currencyLabel}</span>
              </h1>
            </div>
            
@@ -67,7 +92,8 @@ export default function DashboardPage() {
                cursor: 'pointer',
                border: '2px solid rgba(255,255,255,0.1)',
                overflow: 'hidden',
-               marginTop: '4px' // Slight alignment adjustment
+               marginTop: '4px',
+               flexShrink: 0 // Prevent shrinking
              }}>
                 {user?.avatar ? (
                   <Image 
@@ -90,6 +116,7 @@ export default function DashboardPage() {
           {/* Income Card */}
           <div style={{
              flex: 1,
+             minWidth: 0, // Critical for preventing overflow in flex items
              background: 'rgba(255, 255, 255, 0.1)',
              backdropFilter: 'blur(10px)',
              borderRadius: '24px',
@@ -108,13 +135,19 @@ export default function DashboardPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#4ade80' // Green-400
+                  color: '#4ade80', // Green-400
+                  flexShrink: 0
                 }}>
                   <IncomeIcon size={18} />
                 </div>
-                <span style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500 }}>{t.income}</span>
+                <span style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.income}</span>
              </div>
-             <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>
+             <h3 style={{ 
+               fontWeight: 700, 
+               margin: 0,
+               wordBreak: 'break-all',
+               ...getResponsiveStyle(totalIncome, 'card')
+             }}>
                {formatCurrency(totalIncome)}
              </h3>
           </div>
@@ -122,6 +155,7 @@ export default function DashboardPage() {
           {/* Expense Card */}
           <div style={{
              flex: 1,
+             minWidth: 0, // Critical for preventing overflow
              background: 'rgba(255, 255, 255, 0.1)',
              backdropFilter: 'blur(10px)',
              borderRadius: '24px',
@@ -140,13 +174,19 @@ export default function DashboardPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#f87171' // Red-400
+                  color: '#f87171', // Red-400
+                  flexShrink: 0
                 }}>
                   <ExpenseIcon size={18} />
                 </div>
-                <span style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500 }}>{t.expense}</span>
+                <span style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.expense}</span>
              </div>
-             <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>
+             <h3 style={{ 
+               fontWeight: 700, 
+               margin: 0,
+               wordBreak: 'break-all',
+               ...getResponsiveStyle(totalExpense, 'card')
+             }}>
                {formatCurrency(totalExpense)}
              </h3>
           </div>
