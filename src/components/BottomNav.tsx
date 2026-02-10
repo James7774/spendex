@@ -10,7 +10,7 @@ import styles from "@/app/dashboard/dashboard.module.css";
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const { t } = useFinance();
+  const { t, isOverlayOpen } = useFinance();
   
   const isActive = (path: string) => pathname === path;
 
@@ -74,11 +74,11 @@ export default function BottomNav() {
     <div 
         className={styles.bottomNavWrapper}
         style={{ 
-            display: (isKeyboardOpen || isLandscape) ? 'none' : 'flex',
-            opacity: (isKeyboardOpen || isLandscape) ? 0 : 1,
-            transform: (isKeyboardOpen || isLandscape) ? 'translateY(20px)' : 'translateY(0)',
-            transition: (isKeyboardOpen || isLandscape) ? 'none' : 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-            visibility: (isKeyboardOpen || isLandscape) ? 'hidden' : 'visible'
+            display: (isKeyboardOpen || isLandscape || isOverlayOpen) ? 'none' : 'flex',
+            opacity: (isKeyboardOpen || isLandscape || isOverlayOpen) ? 0 : 1,
+            transform: (isKeyboardOpen || isLandscape || isOverlayOpen) ? 'translateY(20px)' : 'translateY(0)',
+            transition: (isKeyboardOpen || isLandscape || isOverlayOpen) ? 'none' : 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            visibility: (isKeyboardOpen || isLandscape || isOverlayOpen) ? 'hidden' : 'visible'
         }}
     >
         <nav className={styles.bottomNav}>

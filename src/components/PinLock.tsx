@@ -5,28 +5,46 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, Delete, ShieldCheck } from 'lucide-react';
 
 export default function PinLock() {
-  const { isLocked, unlock } = useFinance();
+  const { isLocked, unlock, setOverlayOpen, pinCode } = useFinance();
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  React.useEffect(() => {
+    setOverlayOpen(isLocked);
+    if (isLocked) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      setIsSuccess(false);
+      setPin('');
+      setError(false);
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
+  }, [isLocked, setOverlayOpen]);
 
   if (!isLocked) return null;
 
   const handleNumberClick = (num: string) => {
-    if (pin.length < 4) {
+    if (pin.length < 4 && !isSuccess) {
       const newPin = pin + num;
       setPin(newPin);
       setError(false);
 
       if (newPin.length === 4) {
-        const success = unlock(newPin);
-        if (!success) {
+        if (newPin === pinCode) {
+          setIsSuccess(true);
+          // Wait for professional transition
+          setTimeout(() => {
+            unlock(newPin);
+          }, 800);
+        } else {
           setError(true);
           setTimeout(() => {
             setError(false);
             setPin('');
-          }, 600);
-        } else {
-          setPin('');
+          }, 800);
         }
       }
     }
@@ -57,28 +75,37 @@ export default function PinLock() {
       >
         <div style={{ textAlign: 'center', marginBottom: '50px' }}>
           <motion.div
-            animate={error ? { x: [-10, 10, -10, 10, 0] } : {}}
+            animate={error ? { x: [-10, 10, -10, 10, 0] } : isSuccess ? { scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] } : {}}
             transition={{ duration: 0.4 }}
             style={{
               width: '85px',
               height: '85px',
               borderRadius: '28px',
-              background: 'linear-gradient(135deg, #7000ff 0%, #9061f9 100%)',
+              background: isSuccess 
+                ? 'linear-gradient(135deg, #10b981 0%, #34d399 100%)'
+                : error 
+                  ? 'linear-gradient(135deg, #ef4444 0%, #f87171 100%)'
+                  : 'linear-gradient(135deg, #7000ff 0%, #9061f9 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 28px',
               color: '#fff',
-              boxShadow: '0 10px 25px rgba(112, 0, 255, 0.3)'
+              boxShadow: isSuccess 
+                ? '0 10px 25px rgba(16, 185, 129, 0.3)'
+                : error 
+                  ? '0 10px 25px rgba(239, 68, 68, 0.3)'
+                  : '0 10px 25px rgba(112, 0, 255, 0.3)',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
           >
-            {error ? <Lock size={42} /> : <ShieldCheck size={42} />}
+            {isSuccess ? <ShieldCheck size={42} /> : error ? <Lock size={42} /> : <Lock size={42} />}
           </motion.div>
           <h2 style={{ fontSize: '1.7rem', fontWeight: 900, color: 'var(--text-main)', marginBottom: '10px', letterSpacing: '-0.5px' }}>
-            {error ? "Noto'g'ri kod" : "Finova Xavfsizlik"}
+            {isSuccess ? "Muvaffaqiyatli!" : error ? "Noto'g'ri kod" : "Finova Xavfsizlik"}
           </h2>
-          <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontWeight: 600, opacity: 0.8 }}>
-            Davom etish uchun 4 xonali kodingizni kiriting
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600, opacity: 0.6 }}>
+            {isSuccess ? "Ilovaga kirilmoqda..." : "Davom etish uchun 4 xonali kodingizni kiriting"}
           </p>
         </div>
 
@@ -89,9 +116,13 @@ export default function PinLock() {
               key={i}
               animate={pin.length >= i ? { 
                 scale: [1, 1.3, 1], 
-                backgroundColor: '#7000ff',
-                borderColor: '#7000ff',
-                boxShadow: '0 0 15px rgba(112, 0, 255, 0.4)'
+                backgroundColor: isSuccess ? '#10b981' : error ? '#ef4444' : '#7000ff',
+                borderColor: isSuccess ? '#10b981' : error ? '#ef4444' : '#7000ff',
+                boxShadow: isSuccess 
+                  ? '0 0 15px rgba(16, 185, 129, 0.4)'
+                  : error 
+                    ? '0 0 15px rgba(239, 68, 68, 0.4)'
+                    : '0 0 15px rgba(112, 0, 255, 0.4)'
               } : { 
                 scale: 1, 
                 backgroundColor: 'transparent',
@@ -131,62 +162,60 @@ export default function PinLock() {
               key={item.num}
               onClick={() => handleNumberClick(item.num)}
               style={{
-                width: '76px', // Fixed size
-                height: '76px', // Fixed size
+                width: '76px',
+                height: '76px',
                 borderRadius: '50%',
-                border: '1.2px solid var(--border)',
-                background: 'var(--surface)',
+                border: 'none',
+                background: 'var(--bg-secondary)',
                 color: 'var(--text-main)',
                 display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                boxShadow: 'var(--shadow-sm)',
-                margin: '0 auto' // Center in grid cell
+                margin: '0 auto',
+                fontWeight: 600,
+                fontSize: '1.8rem',
+                transition: 'all 0.15s ease'
               }}
-              className="num-btn-premium"
+              className="pin-btn-simple"
             >
-              <span style={{ fontSize: '1.7rem', fontWeight: 800, lineHeight: 1 }}>{item.num}</span>
-              {item.letters && (
-                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.5px', marginTop: '1px' }}>
-                  {item.letters}
-                </span>
-              )}
+              {item.num}
             </button>
           ))}
           <div />
           <button
             onClick={() => handleNumberClick('0')}
             style={{
-              width: '76px', // Fixed size
-              height: '76px', // Fixed size
+              width: '76px',
+              height: '76px',
               borderRadius: '50%',
-              border: '1.2px solid var(--border)',
-              background: 'var(--surface)',
+              border: 'none',
+              background: 'var(--bg-secondary)',
               color: 'var(--text-main)',
-              fontSize: '1.7rem',
-              fontWeight: 800,
+              fontSize: '1.8rem',
+              fontWeight: 600,
               cursor: 'pointer',
-              boxShadow: 'var(--shadow-sm)',
-              margin: '0 auto' // Center in grid cell
+              margin: '0 auto',
+              transition: 'all 0.15s ease'
             }}
-            className="num-btn-premium"
+            className="pin-btn-simple"
           >
             0
           </button>
           <button
             onClick={handleDelete}
             style={{
-              height: '80px',
+              width: '76px',
+              height: '76px',
               borderRadius: '50%',
               border: 'none',
               background: 'transparent',
-              color: 'var(--text-secondary)',
+              color: 'var(--text-main)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              margin: '0 auto'
             }}
             className="touch-active"
           >
@@ -195,22 +224,13 @@ export default function PinLock() {
         </div>
 
         <style jsx>{`
-          .num-btn-premium {
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-          }
-          .num-btn-premium:active {
-            transform: scale(0.9);
-            background: #7000ff !important;
-            border-color: #7000ff !important;
-            color: #fff !important;
-            box-shadow: 0 5px 15px rgba(112, 0, 255, 0.3);
-          }
-          .num-btn-premium:active span {
-            color: #fff !important;
+          .pin-btn-simple:active {
+            transform: scale(0.92);
+            background: var(--border) !important;
           }
           .touch-active:active {
-            transform: scale(0.85);
-            opacity: 0.6;
+            transform: scale(0.9);
+            opacity: 0.5;
           }
         `}</style>
       </motion.div>

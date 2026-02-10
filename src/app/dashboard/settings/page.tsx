@@ -1,5 +1,12 @@
 "use client";
-import React, { useState, useRef, ChangeEvent, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  ChangeEvent,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { useFinance, Language } from "@/context/FinanceContext";
 import {
   Sun,
@@ -18,14 +25,14 @@ import {
   ChevronLeft,
   ShieldCheck,
   Lock,
-  X
+  X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import BottomSheet from "@/components/BottomSheet";
 import CenterModal from "@/components/CenterModal";
 
-type SettingsView = 'main' | 'account' | 'payment' | 'preferences' | 'export';
+type SettingsView = "main" | "account" | "payment" | "preferences" | "export";
 
 export default function SettingsPage() {
   const {
@@ -41,6 +48,7 @@ export default function SettingsPage() {
     isRTL,
     pinCode,
     setPinCode,
+    setOverlayOpen
   } = useFinance();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
@@ -70,10 +78,26 @@ export default function SettingsPage() {
   >(null);
   const [isLangModalOpen, setIsLangModalOpen] = useState(false);
   const [isPinModalOpen, setIsPinModalOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [tempPin, setTempPin] = useState("");
-  const [pinStep, setPinStep] = useState<"enter" | "confirm">("enter");
+  const [pinStep, setPinStep] = useState<"enter" | "confirm" | "verify">("enter");
   const [firstPin, setFirstPin] = useState("");
   const [setupError, setSetupError] = useState(false);
+
+  useEffect(() => {
+    setOverlayOpen(isPinModalOpen);
+    if (isPinModalOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [isPinModalOpen, setOverlayOpen]);
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(user?.name || "");
@@ -145,7 +169,7 @@ export default function SettingsPage() {
   };
 
   /* --- VIEW STATE --- */
-  const [currentView, setCurrentView] = useState<SettingsView>('main');
+  const [currentView, setCurrentView] = useState<SettingsView>("main");
 
   /* --- PROFILE EDIT STATE --- */
   const [editFirstName, setEditFirstName] = useState("");
@@ -155,7 +179,7 @@ export default function SettingsPage() {
 
   // Initialize edit fields when entering account view
   useEffect(() => {
-    if (currentView === 'account' && user) {
+    if (currentView === "account" && user) {
       const names = user.name.split(" ");
       setEditFirstName(names[0] || "");
       setEditLastName(names.slice(1).join(" ") || "");
@@ -166,11 +190,11 @@ export default function SettingsPage() {
   const handleProfileSave = () => {
     if (!editFirstName.trim()) return;
     setIsSaving(true);
-    
+
     // Simulate API call for premium feel
     setTimeout(() => {
       updateUserProfile({
-        name: `${editFirstName.trim()} ${editLastName.trim()}`.trim()
+        name: `${editFirstName.trim()} ${editLastName.trim()}`.trim(),
       });
       setIsSaving(false);
       setSaveSuccess(true);
@@ -180,188 +204,302 @@ export default function SettingsPage() {
 
   /* --- RENDERERS --- */
   const renderMainView = () => (
-    <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', padding: '0 2px' }}>
-       {/* Account Settings */}
-       <button 
-         className="settings-item touch-active" 
-         onClick={() => setCurrentView('account')}
-         style={{ 
-           display: 'flex', 
-           alignItems: 'center', 
-           justifyContent: 'space-between', 
-           width: '100%', 
-           padding: '12px 16px', 
-           background: 'var(--surface)', 
-           border: '1px solid var(--border)', 
-           borderRadius: '20px', 
-           boxShadow: 'var(--shadow-sm)', 
-           cursor: 'pointer' 
-         }}
-       >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-             <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <User size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
-             </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.accountSettings}</span>
+    <div
+      className="animate-slide-up"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px",
+        width: "100%",
+        padding: "0 2px",
+      }}
+    >
+      {/* Account Settings */}
+      <button
+        className="settings-item touch-active"
+        onClick={() => setCurrentView("account")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+          padding: "12px 16px",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
+          borderRadius: "20px",
+          boxShadow: "var(--shadow-sm)",
+          cursor: "pointer",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div
+            style={{
+              width: "48px",
+              height: "48px",
+              background: darkMode ? "rgba(255,255,255,0.05)" : "#f1f5f9",
+              borderRadius: "15px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <User
+              size={22}
+              color={darkMode ? "#fff" : "#1e293b"}
+              strokeWidth={2.5}
+            />
           </div>
-          <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
-       </button>
+          <span
+            style={{
+              fontSize: "1rem",
+              fontWeight: 800,
+              color: "var(--text-main)",
+            }}
+          >
+            {tAny.accountSettings}
+          </span>
+        </div>
+        <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
+      </button>
 
-       {/* Payment Methods */}
-       <button 
-         className="settings-item touch-active" 
-         onClick={() => setCurrentView('payment')}
-         style={{ 
-           display: 'flex', 
-           alignItems: 'center', 
-           justifyContent: 'space-between', 
-           width: '100%', 
-           padding: '12px 16px', 
-           background: 'var(--surface)', 
-           border: '1px solid var(--border)', 
-           borderRadius: '20px', 
-           boxShadow: 'var(--shadow-sm)', 
-           cursor: 'pointer' 
-         }}
-       >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-             <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Wallet size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
-             </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.paymentMethods}</span>
+      {/* Payment Methods */}
+      <button
+        className="settings-item touch-active"
+        onClick={() => setCurrentView("payment")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+          padding: "12px 16px",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
+          borderRadius: "20px",
+          boxShadow: "var(--shadow-sm)",
+          cursor: "pointer",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div
+            style={{
+              width: "48px",
+              height: "48px",
+              background: darkMode ? "rgba(255,255,255,0.05)" : "#f1f5f9",
+              borderRadius: "15px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Wallet
+              size={22}
+              color={darkMode ? "#fff" : "#1e293b"}
+              strokeWidth={2.5}
+            />
           </div>
-          <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
-       </button>
+          <span
+            style={{
+              fontSize: "1rem",
+              fontWeight: 800,
+              color: "var(--text-main)",
+            }}
+          >
+            {tAny.paymentMethods}
+          </span>
+        </div>
+        <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
+      </button>
 
-       {/* Preferences */}
-       <button 
-         className="settings-item touch-active" 
-         onClick={() => setCurrentView('preferences')}
-         style={{ 
-           display: 'flex', 
-           alignItems: 'center', 
-           justifyContent: 'space-between', 
-           width: '100%', 
-           padding: '12px 16px', 
-           background: 'var(--surface)', 
-           border: '1px solid var(--border)', 
-           borderRadius: '20px', 
-           boxShadow: 'var(--shadow-sm)', 
-           cursor: 'pointer' 
-         }}
-       >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-             <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <SlidersHorizontal size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
-             </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.preferences}</span>
+      {/* Preferences */}
+      <button
+        className="settings-item touch-active"
+        onClick={() => setCurrentView("preferences")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+          padding: "12px 16px",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
+          borderRadius: "20px",
+          boxShadow: "var(--shadow-sm)",
+          cursor: "pointer",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div
+            style={{
+              width: "48px",
+              height: "48px",
+              background: darkMode ? "rgba(255,255,255,0.05)" : "#f1f5f9",
+              borderRadius: "15px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <SlidersHorizontal
+              size={22}
+              color={darkMode ? "#fff" : "#1e293b"}
+              strokeWidth={2.5}
+            />
           </div>
-          <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
-       </button>
+          <span
+            style={{
+              fontSize: "1rem",
+              fontWeight: 800,
+              color: "var(--text-main)",
+            }}
+          >
+            {tAny.preferences}
+          </span>
+        </div>
+        <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
+      </button>
 
-       {/* Export Data */}
-       <button 
-         className="settings-item touch-active" 
-         onClick={() => setCurrentView('export')}
-         style={{ 
-           display: 'flex', 
-           alignItems: 'center', 
-           justifyContent: 'space-between', 
-           width: '100%', 
-           padding: '12px 16px', 
-           background: 'var(--surface)', 
-           border: '1px solid var(--border)', 
-           borderRadius: '20px', 
-           boxShadow: 'var(--shadow-sm)', 
-           cursor: 'pointer' 
-         }}
-       >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-             <div style={{ width: '48px', height: '48px', background: darkMode ? 'rgba(255,255,255,0.05)' : '#f1f5f9', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <FileText size={22} color={darkMode ? '#fff' : '#1e293b'} strokeWidth={2.5} />
-             </div>
-             <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.exportData}</span>
+      {/* Export Data */}
+      <button
+        className="settings-item touch-active"
+        onClick={() => setCurrentView("export")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+          padding: "12px 16px",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
+          borderRadius: "20px",
+          boxShadow: "var(--shadow-sm)",
+          cursor: "pointer",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div
+            style={{
+              width: "48px",
+              height: "48px",
+              background: darkMode ? "rgba(255,255,255,0.05)" : "#f1f5f9",
+              borderRadius: "15px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FileText
+              size={22}
+              color={darkMode ? "#fff" : "#1e293b"}
+              strokeWidth={2.5}
+            />
           </div>
-          <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
-       </button>
+          <span
+            style={{
+              fontSize: "1rem",
+              fontWeight: 800,
+              color: "var(--text-main)",
+            }}
+          >
+            {tAny.exportData}
+          </span>
+        </div>
+        <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} />
+      </button>
     </div>
   );
 
   const renderAccountSettings = () => {
     const cardStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      padding: '14px 18px',
-      background: 'var(--surface)',
-      border: '1px solid var(--border)',
-      borderRadius: '24px',
-      boxShadow: 'var(--shadow-sm)',
-      width: '100%',
-      marginBottom: '12px'
+      display: "flex",
+      alignItems: "center",
+      padding: "14px 18px",
+      background: "var(--surface)",
+      border: "1px solid var(--border)",
+      borderRadius: "24px",
+      boxShadow: "var(--shadow-sm)",
+      width: "100%",
+      marginBottom: "12px",
     };
 
-
     const inputResetStyle: React.CSSProperties = {
-      width: '100%',
-      border: 'none',
-      background: 'transparent',
-      color: 'var(--text-main)',
-      fontSize: '1rem',
+      width: "100%",
+      border: "none",
+      background: "transparent",
+      color: "var(--text-main)",
+      fontSize: "1rem",
       fontWeight: 700,
-      padding: '2px 0',
-      outline: 'none',
+      padding: "2px 0",
+      outline: "none",
       margin: 0,
-      appearance: 'none' as any,
-      WebkitAppearance: 'none' as any
+      appearance: "none" as any,
+      WebkitAppearance: "none" as any,
     };
 
     const labelStyle: React.CSSProperties = {
-      fontSize: '0.7rem',
+      fontSize: "0.7rem",
       fontWeight: 850,
-      color: '#94a3b8',
-      textTransform: 'uppercase',
-      letterSpacing: '0.5px',
-      display: 'block',
-      marginBottom: '2px'
+      color: "#94a3b8",
+      textTransform: "uppercase",
+      letterSpacing: "0.5px",
+      display: "block",
+      marginBottom: "2px",
     };
 
     return (
-      <div className="animate-slide-in-right" style={{ width: '100%', padding: '0 4px' }}>
+      <div
+        className="animate-slide-in-right"
+        style={{ width: "100%", padding: "0 4px" }}
+      >
         {/* Top Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-          <button 
-            onClick={() => setCurrentView('main')}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            marginBottom: "16px",
+          }}
+        >
+          <button
+            onClick={() => setCurrentView("main")}
             style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '12px',
-              background: 'transparent',
-              border: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--text-main)',
-              cursor: 'pointer',
-              padding: 0
+              width: "40px",
+              height: "40px",
+              borderRadius: "12px",
+              background: "transparent",
+              border: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "var(--text-main)",
+              cursor: "pointer",
+              padding: 0,
             }}
             className="touch-active"
           >
             <ChevronLeft size={24} strokeWidth={3} />
           </button>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: 'var(--text-main)', margin: 0, letterSpacing: '-0.3px' }}>
+          <h2
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 900,
+              color: "var(--text-main)",
+              margin: 0,
+              letterSpacing: "-0.3px",
+            }}
+          >
             {tAny.accountSettings}
           </h2>
         </div>
-        
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {/* Form Fields */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             {/* First Name */}
             <div style={cardStyle}>
               <div style={{ flex: 1 }}>
                 <span style={labelStyle}>Ism</span>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   style={inputResetStyle}
                   value={editFirstName}
                   onChange={(e) => setEditFirstName(e.target.value)}
@@ -374,8 +512,8 @@ export default function SettingsPage() {
             <div style={cardStyle}>
               <div style={{ flex: 1 }}>
                 <span style={labelStyle}>Familiya</span>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   style={inputResetStyle}
                   value={editLastName}
                   onChange={(e) => setEditLastName(e.target.value)}
@@ -386,38 +524,53 @@ export default function SettingsPage() {
           </div>
 
           {/* Action Button */}
-          <div style={{ marginTop: '12px' }}>
-            <button 
+          <div style={{ marginTop: "12px" }}>
+            <button
               onClick={handleProfileSave}
               disabled={isSaving || !editFirstName.trim()}
               style={{
-                width: '100%',
-                padding: '18px',
-                borderRadius: '24px',
-                border: 'none',
-                background: saveSuccess ? '#10b981' : 'linear-gradient(to right, #7000ff, #9333ea)',
-                color: '#fff',
-                fontSize: '1.05rem',
+                width: "100%",
+                padding: "18px",
+                borderRadius: "24px",
+                border: "none",
+                background: saveSuccess
+                  ? "#10b981"
+                  : "linear-gradient(to right, #7000ff, #9333ea)",
+                color: "#fff",
+                fontSize: "1.05rem",
                 fontWeight: 900,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                boxShadow: saveSuccess ? '0 10px 25px rgba(16, 185, 129, 0.3)' : '0 10px 25px rgba(112, 0, 255, 0.3)',
-                cursor: 'pointer',
-                transition: 'all 0.3s'
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "12px",
+                boxShadow: saveSuccess
+                  ? "0 10px 25px rgba(16, 185, 129, 0.3)"
+                  : "0 10px 25px rgba(112, 0, 255, 0.3)",
+                cursor: "pointer",
+                transition: "all 0.3s",
               }}
               className="touch-active"
             >
               {isSaving ? (
                 <div className="loader-white" />
               ) : saveSuccess ? (
-                <><Check size={22} strokeWidth={3} /> Saqlandi</>
+                <>
+                  <Check size={22} strokeWidth={3} /> Saqlandi
+                </>
               ) : (
                 <>Ma&apos;lumotlarni saqlash</>
               )}
             </button>
-            <p style={{ fontSize: '0.75rem', textAlign: 'center', color: 'var(--text-secondary)', padding: '16px 20px 0', lineHeight: 1.5, margin: 0 }}>
+            <p
+              style={{
+                fontSize: "0.75rem",
+                textAlign: "center",
+                color: "var(--text-secondary)",
+                padding: "16px 20px 0",
+                lineHeight: 1.5,
+                margin: 0,
+              }}
+            >
               O&apos;zgarishlar faqat sizning qurilmangizda saqlanadi.
             </p>
           </div>
@@ -428,186 +581,485 @@ export default function SettingsPage() {
 
   const renderPreferences = () => (
     <div className="animate-slide-in-right">
-       <button 
-         className="back-btn touch-active" 
-         onClick={() => setCurrentView('main')}
-         style={{ display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: 'transparent', fontSize: '1rem', fontWeight: 800, color: 'var(--text-secondary)', marginBottom: '20px', cursor: 'pointer', padding: '0' }}
-       >
-          <ChevronLeft size={20} strokeWidth={3} />
-          <span>{tAny.back}</span>
-       </button>
+      <button
+        className="back-btn touch-active"
+        onClick={() => setCurrentView("main")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          border: "none",
+          background: "transparent",
+          fontSize: "1rem",
+          fontWeight: 800,
+          color: "var(--text-secondary)",
+          marginBottom: "20px",
+          cursor: "pointer",
+          padding: "0",
+        }}
+      >
+        <ChevronLeft size={20} strokeWidth={3} />
+        <span>{tAny.back}</span>
+      </button>
 
-       <h2 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-main)', marginBottom: '24px' }}>{tAny.preferences}</h2>
+      <h2
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: 900,
+          color: "var(--text-main)",
+          marginBottom: "24px",
+        }}
+      >
+        {tAny.preferences}
+      </h2>
 
-       {/* Appearance Section */}
-       <div style={{ marginBottom: '24px' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', marginLeft: '4px', letterSpacing: '0.5px' }}>
-             {tAny.appearance || "Appearance"}
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-             {/* Language Dropdown Card */}
-             <button
-               className="settings-item touch-active"
-               onClick={() => setIsLangModalOpen(true)}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
-             >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #3b82f6, #60a5fa)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                      <Globe size={20} strokeWidth={2.5} />
-                   </div>
-                    <div style={{ textAlign: 'left' }}>
-                       <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.selectLang || "Language"}</div>
-                       <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{currentLang.name}</div>
-                    </div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                   <div style={{ width: '28px', height: '18px', borderRadius: '4px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid rgba(0,0,0,0.05)' }}>
-                      <Image
-                        src={getFlagUrl(currentLang.country)}
-                        alt={currentLang.name}
-                        width={28}
-                        height={18}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                   </div>
-                   <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} className={isRTL ? "rotate-180" : ""} />
-                </div>
-             </button>
+      {/* Appearance Section */}
+      <div style={{ marginBottom: "24px" }}>
+        <div
+          style={{
+            fontSize: "0.75rem",
+            fontWeight: 900,
+            color: "#94a3b8",
+            textTransform: "uppercase",
+            marginBottom: "12px",
+            marginLeft: "4px",
+            letterSpacing: "0.5px",
+          }}
+        >
+          {tAny.appearance || "Appearance"}
+        </div>
 
-             {/* Theme Toggle Card */}
-             <button
-               className="settings-item touch-active"
-               onClick={() => setTheme(darkMode ? "light" : "dark")}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
-             >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #8b5cf6, #a78bfa)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                      {darkMode ? <Moon size={20} strokeWidth={2.5} /> : <Sun size={20} strokeWidth={2.5} />}
-                   </div>
-                   <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{t.themeTitle}</div>
-                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{darkMode ? t.darkModeLabel : t.lightModeLabel}</div>
-                   </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {/* Language Dropdown Card */}
+          <button
+            className="settings-item touch-active"
+            onClick={() => setIsLangModalOpen(true)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "12px 16px",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: "20px",
+              boxShadow: "var(--shadow-sm)",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  background: "linear-gradient(135deg, #3b82f6, #60a5fa)",
+                  borderRadius: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                }}
+              >
+                <Globe size={20} strokeWidth={2.5} />
+              </div>
+              <div style={{ textAlign: "left" }}>
+                <div
+                  style={{
+                    fontSize: "0.95rem",
+                    fontWeight: 800,
+                    color: "var(--text-main)",
+                  }}
+                >
+                  {tAny.selectLang || "Language"}
                 </div>
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  {currentLang.name}
+                </div>
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div
+                style={{
+                  width: "28px",
+                  height: "18px",
+                  borderRadius: "4px",
+                  overflow: "hidden",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+                  border: "1px solid rgba(0,0,0,0.05)",
+                }}
+              >
+                <Image
+                  src={getFlagUrl(currentLang.country)}
+                  alt={currentLang.name}
+                  width={28}
+                  height={18}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              </div>
+              <ChevronRight
+                size={18}
+                color="#cbd5e1"
+                strokeWidth={3}
+                className={isRTL ? "rotate-180" : ""}
+              />
+            </div>
+          </button>
+
+          {/* Theme Toggle Card */}
+          <button
+            className="settings-item touch-active"
+            onClick={() => setTheme(darkMode ? "light" : "dark")}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "12px 16px",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: "20px",
+              boxShadow: "var(--shadow-sm)",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  background: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
+                  borderRadius: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                }}
+              >
                 {darkMode ? (
-                  <div style={{ padding: '6px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '10px' }}><Moon size={16} color="#8b5cf6" strokeWidth={3} /></div>
+                  <Moon size={20} strokeWidth={2.5} />
                 ) : (
-                  <div style={{ padding: '6px', background: 'rgba(245, 158, 11, 0.1)', borderRadius: '10px' }}><Sun size={16} color="#f59e0b" strokeWidth={3} /></div>
+                  <Sun size={20} strokeWidth={2.5} />
                 )}
-             </button>
-          </div>
-       </div>
+              </div>
+              <div style={{ textAlign: "left" }}>
+                <div
+                  style={{
+                    fontSize: "0.95rem",
+                    fontWeight: 800,
+                    color: "var(--text-main)",
+                  }}
+                >
+                  {t.themeTitle}
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  {darkMode ? t.darkModeLabel : t.lightModeLabel}
+                </div>
+              </div>
+            </div>
+            {darkMode ? (
+              <div
+                style={{
+                  padding: "6px",
+                  background: "rgba(139, 92, 246, 0.1)",
+                  borderRadius: "10px",
+                }}
+              >
+                <Moon size={16} color="#8b5cf6" strokeWidth={3} />
+              </div>
+            ) : (
+              <div
+                style={{
+                  padding: "6px",
+                  background: "rgba(245, 158, 11, 0.1)",
+                  borderRadius: "10px",
+                }}
+              >
+                <Sun size={16} color="#f59e0b" strokeWidth={3} />
+              </div>
+            )}
+          </button>
+        </div>
+      </div>
 
-       {/* Security Section */}
-       <div style={{ marginBottom: '24px' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', marginLeft: '4px', letterSpacing: '0.5px' }}>
-             {tAny.security || "Security"}
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-             {/* PIN Code Card */}
-             <button
-               className="settings-item touch-active"
-               onClick={() => {
-                  if (pinCode) {
-                     setPinCode(null);
-                  } else {
-                     setPinStep("enter");
-                     setTempPin("");
-                     setIsPinModalOpen(true);
-                  }
-               }}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
-             >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #10b981, #34d399)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                      <ShieldCheck size={20} strokeWidth={2.5} />
-                   </div>
-                   <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.pinCodeTitle || "PIN Code"}</div>
-                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>{tAny.pinCodeDesc || "Protect app with code"}</div>
-                   </div>
-                </div>
-                <div style={{ 
-                   width: '42px', 
-                   height: '24px', 
-                   background: pinCode ? '#10b981' : 'var(--border)', 
-                   borderRadius: '12px', 
-                   position: 'relative',
-                   transition: 'all 0.3s'
-                }}>
-                   <div style={{ 
-                      width: '18px', 
-                      height: '18px', 
-                      background: '#fff', 
-                      borderRadius: '50%', 
-                      position: 'absolute', 
-                      top: '3px', 
-                      left: pinCode ? '21px' : '3px', 
-                      transition: 'all 0.3s',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                   }} />
-                </div>
-             </button>
-          </div>
-       </div>
+      {/* Security Section */}
+      <div style={{ marginBottom: "24px" }}>
+        <div
+          style={{
+            fontSize: "0.75rem",
+            fontWeight: 900,
+            color: "#94a3b8",
+            textTransform: "uppercase",
+            marginBottom: "12px",
+            marginLeft: "4px",
+            letterSpacing: "0.5px",
+          }}
+        >
+          {tAny.security || "Security"}
+        </div>
 
-       {/* Account Section - Moved to Preferences for convenience */}
-       <div style={{ marginBottom: '24px' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', marginLeft: '4px', letterSpacing: '0.5px' }}>
-             {tAny.account || "Account"}
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-             {/* Clear Data Card */}
-             <button
-               className="settings-item touch-active"
-               onClick={() => setConfirmationType("clear")}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
-             >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #64748b, #94a3b8)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                      <Trash2 size={20} strokeWidth={2.5} />
-                   </div>
-                   <span style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-main)' }}>{tAny.clearData}</span>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {/* PIN Code Card */}
+          <button
+            className="settings-item touch-active"
+            onClick={() => {
+              setIsSuccess(false);
+              setSetupError(false);
+              const savedPin = localStorage.getItem("finflow_pin");
+              if (savedPin) {
+                setPinStep("verify");
+                setTempPin("");
+                setIsPinModalOpen(true);
+              } else {
+                setPinStep("enter");
+                setTempPin("");
+                setIsPinModalOpen(true);
+              }
+            }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "12px 16px",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: "20px",
+              boxShadow: "var(--shadow-sm)",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  background: "linear-gradient(135deg, #10b981, #34d399)",
+                  borderRadius: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                }}
+              >
+                <ShieldCheck size={20} strokeWidth={2.5} />
+              </div>
+              <div style={{ textAlign: "left" }}>
+                <div
+                  style={{
+                    fontSize: "0.95rem",
+                    fontWeight: 800,
+                    color: "var(--text-main)",
+                  }}
+                >
+                  {tAny.pinCodeTitle || "PIN Code"}
                 </div>
-                <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} className={isRTL ? "rotate-180" : ""} />
-             </button>
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  {tAny.pinCodeDesc || "Protect app with code"}
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                width: "42px",
+                height: "24px",
+                background: pinCode ? "#10b981" : "var(--border)",
+                borderRadius: "12px",
+                position: "relative",
+                transition: "all 0.3s",
+              }}
+            >
+              <div
+                style={{
+                  width: "18px",
+                  height: "18px",
+                  background: "#fff",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  top: "3px",
+                  left: pinCode ? "21px" : "3px",
+                  transition: "all 0.3s",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                }}
+              />
+            </div>
+          </button>
+        </div>
+      </div>
 
-             {/* Logout Card */}
-             <button
-               className="settings-item touch-active"
-               onClick={() => setConfirmationType("logout")}
-               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 16px', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '20px', boxShadow: 'var(--shadow-sm)', cursor: 'pointer' }}
-             >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                   <div style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #ef4444, #f87171)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                      <LogOut size={20} strokeWidth={2.5} />
-                   </div>
-                   <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#ef4444' }}>{tAny.logout}</span>
-                </div>
-                <ChevronRight size={18} color="#cbd5e1" strokeWidth={3} className={isRTL ? "rotate-180" : ""} />
-             </button>
-          </div>
-       </div>
+      {/* Account Section - Moved to Preferences for convenience */}
+      <div style={{ marginBottom: "24px" }}>
+        <div
+          style={{
+            fontSize: "0.75rem",
+            fontWeight: 900,
+            color: "#94a3b8",
+            textTransform: "uppercase",
+            marginBottom: "12px",
+            marginLeft: "4px",
+            letterSpacing: "0.5px",
+          }}
+        >
+          {tAny.account || "Account"}
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {/* Clear Data Card */}
+          <button
+            className="settings-item touch-active"
+            onClick={() => setConfirmationType("clear")}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "12px 16px",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: "20px",
+              boxShadow: "var(--shadow-sm)",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  background: "linear-gradient(135deg, #64748b, #94a3b8)",
+                  borderRadius: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                }}
+              >
+                <Trash2 size={20} strokeWidth={2.5} />
+              </div>
+              <span
+                style={{
+                  fontSize: "0.95rem",
+                  fontWeight: 800,
+                  color: "var(--text-main)",
+                }}
+              >
+                {tAny.clearData}
+              </span>
+            </div>
+            <ChevronRight
+              size={18}
+              color="#cbd5e1"
+              strokeWidth={3}
+              className={isRTL ? "rotate-180" : ""}
+            />
+          </button>
+
+          {/* Logout Card */}
+          <button
+            className="settings-item touch-active"
+            onClick={() => setConfirmationType("logout")}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "12px 16px",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: "20px",
+              boxShadow: "var(--shadow-sm)",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  background: "linear-gradient(135deg, #ef4444, #f87171)",
+                  borderRadius: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                }}
+              >
+                <LogOut size={20} strokeWidth={2.5} />
+              </div>
+              <span
+                style={{
+                  fontSize: "0.95rem",
+                  fontWeight: 800,
+                  color: "#ef4444",
+                }}
+              >
+                {tAny.logout}
+              </span>
+            </div>
+            <ChevronRight
+              size={18}
+              color="#cbd5e1"
+              strokeWidth={3}
+              className={isRTL ? "rotate-180" : ""}
+            />
+          </button>
+        </div>
+      </div>
     </div>
   );
 
   const renderPlaceholder = (title: string) => (
     <div className="animate-slide-in-right">
-       <button 
-         className="back-btn touch-active" 
-         onClick={() => setCurrentView('main')}
-         style={{ display: 'flex', alignItems: 'center', gap: '8px', border: 'none', background: 'transparent', fontSize: '1rem', fontWeight: 800, color: 'var(--text-secondary)', marginBottom: '20px', cursor: 'pointer', padding: '0' }}
-       >
-          <ChevronLeft size={20} strokeWidth={3} />
-          <span>{tAny.back}</span>
-       </button>
-       <h2 className="sub-page-title">{title}</h2>
-       <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8', background: 'var(--surface)', borderRadius: '24px', border: '1px solid var(--border)' }}>
-          Coming Soon...
-       </div>
+      <button
+        className="back-btn touch-active"
+        onClick={() => setCurrentView("main")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          border: "none",
+          background: "transparent",
+          fontSize: "1rem",
+          fontWeight: 800,
+          color: "var(--text-secondary)",
+          marginBottom: "20px",
+          cursor: "pointer",
+          padding: "0",
+        }}
+      >
+        <ChevronLeft size={20} strokeWidth={3} />
+        <span>{tAny.back}</span>
+      </button>
+      <h2 className="sub-page-title">{title}</h2>
+      <div
+        style={{
+          padding: "40px",
+          textAlign: "center",
+          color: "#94a3b8",
+          background: "var(--surface)",
+          borderRadius: "24px",
+          border: "1px solid var(--border)",
+        }}
+      >
+        Coming Soon...
+      </div>
     </div>
   );
 
@@ -696,7 +1148,6 @@ export default function SettingsPage() {
               </div>
             </div>
 
-
             {user?.avatar ? (
               <button
                 className="delete-avatar-btn"
@@ -708,8 +1159,8 @@ export default function SettingsPage() {
                 <Trash2 size={16} color="#fff" />
               </button>
             ) : (
-              <div 
-                className="edit-badge touch-active" 
+              <div
+                className="edit-badge touch-active"
                 style={{ zIndex: 100 }}
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -729,7 +1180,7 @@ export default function SettingsPage() {
 
       <main className="main-content-uz">
         {/* User Info - ALWAYS VISIBLE in MAIN VIEW */}
-        {currentView === 'main' && (
+        {currentView === "main" && (
           <div className="user-info-section">
             {isEditingName ? (
               <input
@@ -755,11 +1206,11 @@ export default function SettingsPage() {
         )}
 
         {/* Dynamic Content */}
-        {currentView === 'main' && renderMainView()}
-        {currentView === 'account' && renderAccountSettings()}
-        {currentView === 'payment' && renderPlaceholder(tAny.paymentMethods)}
-        {currentView === 'preferences' && renderPreferences()}
-        {currentView === 'export' && renderPlaceholder(tAny.exportData)}
+        {currentView === "main" && renderMainView()}
+        {currentView === "account" && renderAccountSettings()}
+        {currentView === "payment" && renderPlaceholder(tAny.paymentMethods)}
+        {currentView === "preferences" && renderPreferences()}
+        {currentView === "export" && renderPlaceholder(tAny.exportData)}
 
         <div className="footer-uz">Finova v3.5 • 2026</div>
       </main>
@@ -860,7 +1311,7 @@ export default function SettingsPage() {
           </div>
         </div>
       </CenterModal>
- 
+
       <AnimatePresence>
         {isPinModalOpen && (
           <motion.div
@@ -868,214 +1319,336 @@ export default function SettingsPage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             style={{
-              position: 'fixed',
+              position: "fixed",
               inset: 0,
-              background: 'var(--background)',
+              background: "var(--background)",
               zIndex: 99999,
-              display: 'flex',
-              flexDirection: 'column',
-              padding: '24px',
-              paddingTop: 'var(--safe-top, 40px)',
+              display: "flex",
+              flexDirection: "column",
+              padding: "24px",
+              paddingTop: "var(--safe-top, 40px)",
+              touchAction: "none",
+              overflow: "hidden",
             }}
           >
             {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px' }}>
-              <button 
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "40px",
+              }}
+            >
+              <button
                 onClick={() => {
                   setIsPinModalOpen(false);
                   setTempPin("");
-                  setPinStep("enter");
                 }}
-                style={{ border: 'none', background: 'transparent', color: 'var(--text-main)', padding: '8px' }}
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  color: "var(--text-main)",
+                  padding: "8px",
+                }}
               >
                 <X size={28} />
               </button>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-main)', margin: 0 }}>
-                {pinStep === "enter" ? (tAny.setPinCode || "PIN-kod o'rnatish") : (tAny.confirmPin || "Kodni tasdiqlang")}
-              </h3>
-              <div style={{ width: '40px' }} /> {/* Spacer */}
-            </div>
-
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <motion.div 
-                animate={setupError ? { x: [-10, 10, -10, 10, 0] } : {}}
-                transition={{ duration: 0.4 }}
-                style={{ 
-                  width: '85px', 
-                  height: '85px', 
-                  background: setupError ? 'linear-gradient(135deg, #ef4444 0%, #f87171 100%)' : 'linear-gradient(135deg, #7000ff 0%, #9061f9 100%)', 
-                  borderRadius: '28px', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  color: '#fff',
-                  marginBottom: '28px',
-                  boxShadow: setupError ? '0 10px 25px rgba(239, 68, 68, 0.3)' : '0 10px 25px rgba(112, 0, 255, 0.3)',
-                  transition: 'all 0.3s'
+              <h3
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: 900,
+                  color: "var(--text-main)",
+                  margin: 0,
                 }}
               >
-                <Lock size={42} />
-              </motion.div>
-              
-              <p style={{ fontSize: '0.95rem', color: setupError ? '#ef4444' : 'var(--text-secondary)', marginBottom: '40px', textAlign: 'center', fontWeight: 700, maxWidth: '280px', opacity: 1 }}>
-                {setupError 
-                  ? "Kodlar mos kelmadi!" 
-                  : (pinStep === "enter" 
-                      ? "Ilovani himoya qilish uchun 4 xonali kod o'ylang" 
-                      : "Tasdiqlash uchun kodni qayta kiriting")}
-              </p>
+                {pinStep === "verify" 
+                  ? tAny.verifyPin || "PIN-kodni kiriting"
+                  : pinStep === "enter"
+                    ? tAny.setPinCode || "PIN-kod o'rnatish"
+                    : tAny.confirmPin || "Kodni tasdiqlang"}
+              </h3>
+              <div style={{ width: "40px" }} /> {/* Spacer */}
+            </div>
 
-              <div style={{ display: 'flex', gap: '24px', marginBottom: '60px' }}>
-                {[1, 2, 3, 4].map(i => (
-                   <motion.div 
-                     key={i} 
-                     animate={tempPin.length >= i ? { 
-                       scale: [1, 1.3, 1], 
-                       backgroundColor: setupError ? '#ef4444' : '#7000ff',
-                       borderColor: setupError ? '#ef4444' : '#7000ff',
-                       boxShadow: setupError ? '0 0 15px rgba(239, 68, 68, 0.4)' : '0 0 15px rgba(112, 0, 255, 0.4)'
-                     } : { 
-                       scale: 1, 
-                       backgroundColor: 'transparent',
-                       borderColor: 'var(--border)'
-                     }}
-                     style={{ 
-                        width: '14px', 
-                        height: '14px', 
-                        borderRadius: '50%', 
-                        border: '2.5px solid var(--border)',
-                        transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                     }} 
-                   />
-                ))}
+            <div
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "space-evenly",
+                width: "100%",
+                maxHeight: "800px",
+                margin: "0 auto",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <motion.div
+                  animate={setupError ? { x: [-10, 10, -10, 10, 0] } : isSuccess ? { scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] } : {}}
+                  transition={{ duration: 0.4 }}
+                  style={{
+                    width: "75px",
+                    height: "75px",
+                    background: isSuccess
+                      ? "linear-gradient(135deg, #10b981 0%, #34d399 100%)"
+                      : setupError
+                        ? "linear-gradient(135deg, #ef4444 0%, #f87171 100%)"
+                        : "linear-gradient(135deg, #7000ff 0%, #9061f9 100%)",
+                    borderRadius: "24px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#fff",
+                    marginBottom: "20px",
+                    boxShadow: isSuccess
+                      ? "0 10px 25px rgba(16, 185, 129, 0.3)"
+                      : setupError
+                        ? "0 10px 25px rgba(239, 68, 68, 0.3)"
+                        : "0 10px 25px rgba(112, 0, 255, 0.3)",
+                    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                >
+                  {isSuccess ? <ShieldCheck size={36} /> : <Lock size={36} />}
+                </motion.div>
+
+                <p
+                  style={{
+                    fontSize: "0.9rem",
+                    color: isSuccess ? "#10b981" : setupError ? "#ef4444" : "var(--text-secondary)",
+                    marginBottom: "32px",
+                    textAlign: "center",
+                    fontWeight: 700,
+                    maxWidth: "280px",
+                    opacity: 1,
+                  }}
+                >
+                  {isSuccess 
+                    ? (pinStep === "verify" ? (tAny.pinRemoved || "PIN-kod o'chirildi!") : (tAny.saveSuccess || "Muvaffaqiyatli saqlandi!"))
+                    : setupError
+                      ? (tAny.pinMismatch || "PIN-kodlar mos kelmadi. Qayta urinib ko'ring.")
+                      : pinStep === "verify"
+                        ? (tAny.enterCurrentPin || "PIN-kodni o'chirish uchun amaldagi kodni kiriting")
+                        : pinStep === "enter"
+                          ? (tAny.enterNewPin || "Ilovani himoya qilish uchun 4 xonali kod o'ylang")
+                          : (tAny.confirmNewPin || "Tasdiqlash uchun kodni qayta kiriting")}
+                </p>
+
+                <div
+                  style={{ display: "flex", gap: "20px", marginBottom: "20px" }}
+                >
+                  {[1, 2, 3, 4].map((i) => (
+                    <motion.div
+                    key={i}
+                    animate={tempPin.length >= i ? {
+                      scale: [1, 1.3, 1],
+                      backgroundColor: isSuccess ? "#10b981" : setupError ? "#ef4444" : "#7000ff",
+                      borderColor: isSuccess ? "#10b981" : setupError ? "#ef4444" : "#7000ff",
+                      boxShadow: isSuccess
+                        ? "0 0 15px rgba(16, 185, 129, 0.4)"
+                        : setupError
+                          ? "0 0 15px rgba(239, 68, 68, 0.4)"
+                          : "0 0 15px rgba(112, 0, 255, 0.4)"
+                    } : {
+                      scale: 1,
+                      backgroundColor: "transparent",
+                      borderColor: "var(--border)"
+                    }}
+                    style={{
+                      width: "14px",
+                      height: "14px",
+                      borderRadius: "50%",
+                      border: "2.5px solid var(--border)",
+                      transition: "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                    }}
+                  />
+                  ))}
+                </div>
               </div>
 
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(3, 1fr)', 
-                gap: '24px',
-                width: '100%',
-                maxWidth: '320px'
-              }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, 1fr)",
+                  gap: "16px",
+                  width: "100%",
+                  maxWidth: "300px",
+                  paddingBottom: "20px",
+                }}
+              >
                 {[
-                  { num: '1', letters: '' },
-                  { num: '2', letters: 'ABC' },
-                  { num: '3', letters: 'DEF' },
-                  { num: '4', letters: 'GHI' },
-                  { num: '5', letters: 'JKL' },
-                  { num: '6', letters: 'MNO' },
-                  { num: '7', letters: 'PQRS' },
-                  { num: '8', letters: 'TUV' },
-                  { num: '9', letters: 'WXYZ' }
+                  { num: "1", letters: "" },
+                  { num: "2", letters: "ABC" },
+                  { num: "3", letters: "DEF" },
+                  { num: "4", letters: "GHI" },
+                  { num: "5", letters: "JKL" },
+                  { num: "6", letters: "MNO" },
+                  { num: "7", letters: "PQRS" },
+                  { num: "8", letters: "TUV" },
+                  { num: "9", letters: "WXYZ" },
                 ].map((item) => (
-                   <button key={item.num} onClick={() => {
+                  <button
+                    key={item.num}
+                    onClick={() => {
                       if (setupError) setSetupError(false);
                       const newPin = tempPin + item.num;
                       if (newPin.length <= 4) setTempPin(newPin);
                       if (newPin.length === 4) {
-                         if (pinStep === "enter") {
-                            setTimeout(() => {
-                               setFirstPin(newPin);
-                               setTempPin("");
-                               setPinStep("confirm");
-                            }, 300);
-                         } else {
-                            if (newPin === firstPin) {
-                               setPinCode(newPin);
-                               setIsPinModalOpen(false);
-                               setTempPin("");
-                            } else {
-                               setSetupError(true);
-                               setTimeout(() => {
-                                  setTempPin("");
-                                  setSetupError(false);
-                               }, 1000);
-                            }
-                         }
-                      }
-                   }} className="num-btn-premium" style={{
-                      width: '76px', // Fixed size for perfect circle
-                      height: '76px', // Fixed size for perfect circle
-                      borderRadius: '50%',
-                      border: '1.2px solid var(--border)',
-                      background: 'var(--surface)',
-                      color: 'var(--text-main)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: 'var(--shadow-sm)',
-                      margin: '0 auto' // Center in grid
-                   }}>
-                      <span style={{ fontSize: '1.7rem', fontWeight: 800, lineHeight: 1 }}>{item.num}</span>
-                      {item.letters && (
-                        <span style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.5px', marginTop: '1px' }}>
-                          {item.letters}
-                        </span>
-                      )}
-                   </button>
-                ))}
-                <div />
-                <button onClick={() => {
-                   if (setupError) setSetupError(false);
-                   const newPin = tempPin + "0";
-                   if (newPin.length <= 4) setTempPin(newPin);
-                   if (newPin.length === 4) {
-                      if (pinStep === "enter") {
-                         setTimeout(() => {
+                        if (pinStep === "enter") {
+                          setTimeout(() => {
                             setFirstPin(newPin);
                             setTempPin("");
                             setPinStep("confirm");
-                         }, 300);
-                      } else {
-                         if (newPin === firstPin) {
+                          }, 300);
+                        } else if (pinStep === "verify") {
+                          if (newPin === (pinCode || localStorage.getItem("finflow_pin"))) {
+                            setIsSuccess(true);
+                            setTimeout(() => {
+                              setPinCode(null);
+                              setIsPinModalOpen(false);
+                              setTempPin("");
+                              setIsSuccess(false);
+                              setPinStep("enter");
+                            }, 800);
+                          } else {
+                            setSetupError(true);
+                            setTimeout(() => {
+                              setTempPin("");
+                              setSetupError(false);
+                            }, 1000);
+                          }
+                        } else if (newPin === firstPin) {
+                          setIsSuccess(true);
+                          setTimeout(() => {
                             setPinCode(newPin);
                             setIsPinModalOpen(false);
                             setTempPin("");
-                         } else {
-                            setSetupError(true);
-                            setTimeout(() => {
-                               setTempPin("");
-                               setSetupError(false);
-                            }, 1000);
-                         }
+                            setIsSuccess(false);
+                          }, 800);
+                        } else {
+                          setSetupError(true);
+                          setTimeout(() => {
+                            setTempPin("");
+                            setSetupError(false);
+                          }, 1000);
+                        }
                       }
-                   }
-                }} className="num-btn-premium" style={{
-                   width: '76px', // Fixed size
-                   height: '76px', // Fixed size
-                   borderRadius: '50%',
-                   border: '1.2px solid var(--border)',
-                   background: 'var(--surface)',
-                   color: 'var(--text-main)',
-                   display: 'flex',
-                   alignItems: 'center',
-                   justifyContent: 'center',
-                   fontSize: '1.7rem',
-                   fontWeight: 800,
-                   boxShadow: 'var(--shadow-sm)',
-                   margin: '0 auto'
-                }}>0</button>
-                <button 
+                    }}
+                    style={{
+                      width: "76px",
+                      height: "76px",
+                      borderRadius: "50%",
+                      border: "none",
+                      background: "var(--bg-secondary)",
+                      color: "var(--text-main)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "1.8rem",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      margin: "0 auto",
+                      transition: "all 0.15s ease",
+                    }}
+                    className="pin-btn-simple"
+                  >
+                    {item.num}
+                  </button>
+                ))}
+                <div />
+                <button
                   onClick={() => {
                     if (setupError) setSetupError(false);
-                    setTempPin(prev => prev.slice(0, -1));
+                    const newPin = tempPin + "0";
+                    if (newPin.length <= 4) setTempPin(newPin);
+                    if (newPin.length === 4) {
+                      if (pinStep === "enter") {
+                        setTimeout(() => {
+                          setFirstPin(newPin);
+                          setTempPin("");
+                          setPinStep("confirm");
+                        }, 300);
+                      } else if (pinStep === "verify") {
+                        if (newPin === (pinCode || localStorage.getItem("finflow_pin"))) {
+                          setIsSuccess(true);
+                          setTimeout(() => {
+                            setPinCode(null);
+                            setIsPinModalOpen(false);
+                            setTempPin("");
+                            setIsSuccess(false);
+                            setPinStep("enter");
+                          }, 800);
+                        } else {
+                          setSetupError(true);
+                          setTimeout(() => {
+                            setTempPin("");
+                            setSetupError(false);
+                          }, 1000);
+                        }
+                      } else if (newPin === firstPin) {
+                        setIsSuccess(true);
+                        setTimeout(() => {
+                          setPinCode(newPin);
+                          setIsPinModalOpen(false);
+                          setTempPin("");
+                          setIsSuccess(false);
+                        }, 800);
+                      } else {
+                        setSetupError(true);
+                        setTimeout(() => {
+                          setTempPin("");
+                          setSetupError(false);
+                        }, 1000);
+                      }
+                    }
                   }}
-                  className="touch-active" 
                   style={{
-                    width: '76px',
-                    height: '76px',
-                    borderRadius: '50%',
-                    border: 'none',
-                    background: 'transparent',
-                    color: 'var(--text-secondary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto'
+                    width: "76px",
+                    height: "76px",
+                    borderRadius: "50%",
+                    border: "none",
+                    background: "var(--bg-secondary)",
+                    color: "var(--text-main)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1.8rem",
+                    fontWeight: 600,
+                    margin: "0 auto",
+                    cursor: "pointer",
+                    transition: "all 0.15s ease",
                   }}
+                  className="pin-btn-simple"
                 >
-                  <X size={32} />
+                  0
+                </button>
+                <button
+                  onClick={() => {
+                    if (setupError) setSetupError(false);
+                    setTempPin((prev) => prev.slice(0, -1));
+                  }}
+                  style={{
+                    width: "76px",
+                    height: "76px",
+                    borderRadius: "50%",
+                    border: "none",
+                    background: "transparent",
+                    color: "var(--text-main)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto",
+                    cursor: "pointer",
+                  }}
+                  className="touch-active"
+                >
+                  <X size={28} />
                 </button>
               </div>
             </div>
@@ -1084,6 +1657,14 @@ export default function SettingsPage() {
       </AnimatePresence>
 
       <style jsx>{`
+        .pin-btn-simple:active {
+          transform: scale(0.92);
+          background: var(--border) !important;
+        }
+        .touch-active:active {
+          transform: scale(0.9);
+          opacity: 0.5;
+        }
         .profile-page {
           background: var(--background);
           min-height: 100vh;
@@ -1190,8 +1771,6 @@ export default function SettingsPage() {
           font-weight: 900;
           color: #7000ff;
         }
-
-
 
         .edit-badge {
           position: absolute;
@@ -1407,129 +1986,141 @@ export default function SettingsPage() {
 
         /* --- NEW SETTINGS UI --- */
         .settings-card-list-vertical {
-           background: transparent;
-           border-radius: 0;
-           box-shadow: none;
-           overflow: visible;
-           display: flex;
-           flex-direction: column !important;
-           gap: 16px;
-           padding: 0 4px;
-           width: 100%;
+          background: transparent;
+          border-radius: 0;
+          box-shadow: none;
+          overflow: visible;
+          display: flex;
+          flex-direction: column !important;
+          gap: 16px;
+          padding: 0 4px;
+          width: 100%;
         }
 
         .settings-item {
-           display: flex;
-           align-items: center;
-           justify-content: space-between;
-           width: 100%;
-           padding: 20px 24px;
-           background: var(--surface);
-           border: 1px solid var(--border);
-           border-radius: 24px;
-           cursor: pointer;
-           transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-           box-shadow: var(--shadow-sm);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: 20px 24px;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 24px;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+          box-shadow: var(--shadow-sm);
         }
-        
+
         .settings-item:active {
-           transform: scale(0.98);
+          transform: scale(0.98);
         }
 
         .item-left {
-           display: flex;
-           align-items: center;
-           gap: 18px;
+          display: flex;
+          align-items: center;
+          gap: 18px;
         }
 
         .item-icon-box {
-           width: 56px;
-           height: 56px;
-           background: var(--background);
-           border-radius: 18px;
-           display: flex;
-           align-items: center;
-           justify-content: center;
+          width: 56px;
+          height: 56px;
+          background: var(--background);
+          border-radius: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .item-label {
-           font-size: 1.05rem;
-           font-weight: 700;
-           color: var(--text-main);
+          font-size: 1.05rem;
+          font-weight: 700;
+          color: var(--text-main);
         }
 
         .back-btn {
-           display: flex;
-           align-items: center;
-           gap: 8px;
-           border: none;
-           background: transparent;
-           font-size: 1.1rem;
-           font-weight: 700;
-           color: var(--text-main);
-           margin-bottom: 24px;
-           cursor: pointer;
-           padding: 0;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border: none;
+          background: transparent;
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: var(--text-main);
+          margin-bottom: 24px;
+          cursor: pointer;
+          padding: 0;
         }
 
         .sub-page-title {
-           font-size: 1.8rem;
-           font-weight: 900;
-           margin-bottom: 24px;
-           color: var(--text-main);
+          font-size: 1.8rem;
+          font-weight: 900;
+          margin-bottom: 24px;
+          color: var(--text-main);
         }
 
         .animate-slide-up {
-           animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
+
         .animate-slide-in-right {
-           animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes slideUp {
-           from { opacity: 0; transform: translateY(20px); }
-           to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         @keyframes slideInRight {
-           from { opacity: 0; transform: translateX(20px); }
-           to { opacity: 1; transform: translateX(0); }
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
         }
         /* Dark Mode Support for New UI */
         :global(.dark) .settings-card-list-vertical {
-           background: transparent;
-           box-shadow: none;
+          background: transparent;
+          box-shadow: none;
         }
         :global(.dark) .settings-item {
-           background: #1e293b;
-           border-color: rgba(255, 255, 255, 0.05);
+          background: #1e293b;
+          border-color: rgba(255, 255, 255, 0.05);
         }
         :global(.dark) .settings-item:active {
-           background: #334155;
+          background: #334155;
         }
         :global(.dark) .item-icon-box {
-           background: #334155;
+          background: #334155;
         }
         :global(.dark) .item-icon-box svg {
-           color: #cbd5e1;
-           stroke: #cbd5e1;
+          color: #cbd5e1;
+          stroke: #cbd5e1;
         }
         :global(.dark) .item-label {
-           color: #fff;
+          color: #fff;
         }
         :global(.dark) .back-btn {
-           color: #fff;
+          color: #fff;
         }
         :global(.dark) .back-btn span {
-           color: #fff;
+          color: #fff;
         }
         :global(.dark) .back-btn svg {
-           color: #fff;
-           stroke: #fff;
+          color: #fff;
+          stroke: #fff;
         }
         :global(.dark) .sub-page-title {
-           color: #fff;
+          color: #fff;
         }
         .footer-uz {
           text-align: center;
@@ -1613,9 +2204,9 @@ export default function SettingsPage() {
           height: 30px;
           border-radius: 6px;
           overflow: hidden;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           flex-shrink: 0;
-          border: 1px solid rgba(0,0,0,0.05);
+          border: 1px solid rgba(0, 0, 0, 0.05);
         }
         .lang-info {
           display: flex;
@@ -1855,12 +2446,16 @@ export default function SettingsPage() {
         .loader-white {
           width: 22px;
           height: 22px;
-          border: 3px solid rgba(255,255,255,0.3);
+          border: 3px solid rgba(255, 255, 255, 0.3);
           border-top-color: #fff;
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
       `}</style>
     </div>
   );

@@ -7,7 +7,6 @@ import PinLock from "@/components/PinLock";
 import { SplashScreen as CapSplash } from '@capacitor/splash-screen';
 import dynamic from "next/dynamic";
 import { useFinance } from "@/context/FinanceContext";
-import { motion } from "framer-motion";
 
 const SplashScreen = dynamic(() => import("@/components/SplashScreen"), { 
   ssr: false,
@@ -94,26 +93,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
         <AndroidOptimizer />
         <PinLock />
-        <motion.div 
-            animate={{ 
-                opacity: isOverlayOpen ? 0.4 : 1, 
-                scale: isOverlayOpen ? 0.98 : 1,
-                filter: isOverlayOpen ? 'blur(10px)' : 'blur(0px)'
-            }}
-            transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-            style={{ 
-                width: '100%',
-                pointerEvents: isOverlayOpen ? 'none' : 'auto',
-                willChange: 'transform, filter, opacity'
-            }}
-        >
+        <div style={{ width: '100%' }}>
             {children}
-        </motion.div>
+        </div>
         
         {/* Global UI Elements outside of animation container for stability */}
         <BottomNav />
         
-        {pathname === '/dashboard/settings' && <ChatBot />}
+        {pathname === '/dashboard/settings' && !isOverlayOpen && <ChatBot />}
         {showSplash && (
           <div style={{ position: 'fixed', inset: 0, zIndex: 999999, opacity: splashOpacity, transition: 'opacity 0.5s', pointerEvents: 'none' }}>
              <SplashScreen />

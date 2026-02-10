@@ -184,6 +184,21 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
       
       setIsInitialized(true);
     }
+
+    // Auto-lock when app goes to background
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        const currentPin = localStorage.getItem('finflow_pin');
+        if (currentPin) {
+          setIsLocked(true);
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   // 2. Data Segregation: Load data based on current active User
