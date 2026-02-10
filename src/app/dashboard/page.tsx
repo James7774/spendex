@@ -154,7 +154,7 @@ export default function DashboardPage() {
       </header>
 
       {/* Main Content Area */}
-      <div style={{ padding: '0 20px 100px' }}>
+      <div style={{ padding: '0 20px 160px' }}>
         
         {/* Action Buttons Row */}
         <div style={{ display: 'flex', gap: '16px', marginBottom: '32px' }}>
