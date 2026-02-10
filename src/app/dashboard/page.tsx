@@ -56,8 +56,8 @@ export default function DashboardPage() {
            
            <Link href="/dashboard/settings">
              <div style={{
-               width: '48px',
-               height: '48px',
+               width: '36px',
+               height: '36px',
                borderRadius: '50%',
                background: 'rgba(255,255,255,0.2)',
                display: 'flex',
@@ -73,8 +73,8 @@ export default function DashboardPage() {
                   <Image 
                     src={user.avatar} 
                     alt="Profile" 
-                    width={48} 
-                    height={48} 
+                    width={36} 
+                    height={36} 
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     unoptimized
                   />
