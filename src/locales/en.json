@@ -215,52 +215,5 @@
   "paymentMethods": "Payment Methods",
   "preferences": "Preferences",
   "exportData": "Export Data",
-  "accountSettings": "Account Settings",
-  "landingPage": {
-    "nav": {
-      "features": "Features",
-      "pricing": "Pricing",
-      "faq": "FAQ"
-    },
-    "hero": {
-      "badge": "Exclusive for Android",
-      "title": "All Finances",
-      "titleHighlight": "In One App.",
-      "description": "Know exactly where your money goes and make right decisions for your future. No paperwork or complex spreadsheets.",
-      "download": "Download App",
-      "forAndroid": "For Android",
-      "version": "v1.0.2 • 15 MB • Android 8.0+"
-    },
-    "features": {
-      "title": "Why Finovo?",
-      "fast": {
-        "title": "Fast & Easy",
-        "desc": "It takes seconds to add expenses. No extra steps, simple interface."
-      },
-      "control": {
-        "title": "100% Control",
-        "desc": "Track where your money goes with clear charts and diagrams."
-      },
-      "secure": {
-        "title": "Secure & Private",
-        "desc": "Your data is stored only on your phone. We don't see anything."
-      }
-    },
-    "audience": {
-      "title": "Who is Finovo for?",
-      "students": {
-        "title": "For Students",
-        "desc": "Learn to manage personal funds wisely and achieve financial independence."
-      },
-      "families": {
-        "title": "For Families",
-        "desc": "Strengthen your family budget and monitor income and expenses for big goals."
-      },
-      "business": {
-        "title": "For Entrepreneurs",
-        "desc": "Separate business and personal finances to control every penny professionally."
-      }
-    },
-    "footer": "© 2026 Finovo. All rights reserved."
-  }
+  "accountSettings": "Account Settings"
 }
