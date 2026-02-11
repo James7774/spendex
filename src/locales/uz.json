@@ -221,5 +221,52 @@
   "paymentMethods": "To'lov usullari",
   "preferences": "Sozlamalar",
   "exportData": "Ma'lumotlarni eksport qilish",
-  "accountSettings": "Hisob sozlamalari"
+  "accountSettings": "Hisob sozlamalari",
+  "landingPage": {
+    "nav": {
+      "features": "Imkoniyatlar",
+      "pricing": "Narxlar",
+      "faq": "FAQ"
+    },
+    "hero": {
+      "badge": "Android uchun maxsus",
+      "title": "Barcha Moliya",
+      "titleHighlight": "Bitta Ilovada.",
+      "description": "Pullaringiz qayerga ketayotganini aniq bilib, kelajagingiz uchun to'g'ri qarorlar qabul qiling. Ortiqcha qog'ozbozlik va murakkab jadvallarsiz.",
+      "download": "Ilovani Yuklab Olish",
+      "forAndroid": "Android uchun",
+      "version": "v1.0.2 • 15 MB • Android 8.0+"
+    },
+    "features": {
+      "title": "Nega aynan Finova?",
+      "fast": {
+        "title": "Tezkor va Oson",
+        "desc": "Xarajatlarni kiritish uchun bir necha soniya kifoya. Ortiqcha bosqichlarsiz, sodda interfeys."
+      },
+      "control": {
+        "title": "100% Nazorat",
+        "desc": "Pullaringiz qayerga ketayotganini aniq grafiklar va diagrammalar orqali ko'rib boring."
+      },
+      "secure": {
+        "title": "Xavfsiz va Maxfiy",
+        "desc": "Sizning ma'lumotlaringiz faqat o'zingizning telefoningizda saqlanadi. Biz hech narsani ko'rmaymiz."
+      }
+    },
+    "audience": {
+      "title": "Finova kimlar uchun?",
+      "students": {
+        "title": "Talabalar uchun",
+        "desc": "Shaxsiy mablag'larni aniq va to'g'ri boshqarishni o'rganib, moliyaviy mustaqillikka erishing."
+      },
+      "families": {
+        "title": "Oilalar uchun",
+        "desc": "Oilaviy byudjetni mustahkamlang, daromad va xarajatlarni nazorat qilib, katta maqsadlar sari yuring."
+      },
+      "business": {
+        "title": "Tadbirkorlar uchun",
+        "desc": "Biznes va shaxsiy hamyonni ajratib, har bir so'mning hisobini professional darajada yuriting."
+      }
+    },
+    "footer": "© 2026 Finovo. Barcha huquqlar himoyalangan."
+  }
 }

@@ -21,6 +21,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, isOverlayOpen } = useFinance();
   const pathname = usePathname();
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState<boolean | null>(null);
+
+
   const [isMounted, setIsMounted] = useState(false);
   
   // Splash State
@@ -63,6 +65,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     localStorage.setItem('hasSeenOnboarding', 'true');
     setHasSeenOnboarding(true);
   };
+
+  // Landing Page Bypass
+  if (pathname === '/') {
+     return <>{children}</>;
+  }
 
   // Prevent ANY rendering including dashboard flash while checking or mounting
   if (!isMounted || hasSeenOnboarding === null) {
