@@ -305,7 +305,7 @@
   justify-content: center;
   align-items: flex-end;
   /* Multi-device Safe Area Handling */
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 20px);
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
   pointer-events: none;
@@ -315,55 +315,83 @@
 
 .bottomNav {
   pointer-events: auto;
-  margin-bottom: 0.75rem; /* Gap from system area */
-  width: calc(100% - 1.5rem);
+  margin-bottom: 10px;
+  width: auto;
+  min-width: 320px;
   max-width: 460px;
-  height: clamp(64px, 12vh, 72px);
-  background: var(--surface);
-  border-radius: 28px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--border);
+  height: 64px;
+  background: rgba(20, 20, 20, 0.92); /* Dark Telegram-like background */
+  border-radius: 32px; /* Rounded pill shape */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly; /* Even spacing */
   align-items: center;
-  padding: 0 6px;
+  padding: 0 12px;
   box-sizing: border-box;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .bottomNavItem {
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--text-secondary);
+  padding: 0 12px;
+  color: #8e8e93; /* Inactive grey */
   font-size: 0.65rem;
-  font-weight: 750;
-  gap: 2px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-width: 0;
+  font-weight: 600;
+  gap: 4px;
+  transition: all 0.3s ease;
+  min-width: 60px;
   text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bottomNavActive {
-  color: var(--primary);
-  background: rgba(79, 70, 229, 0.08);
-  border-radius: 16px;
-  margin: 4px;
-  height: calc(100% - 8px);
+  color: #5bb2eb; /* Telegram Blue-ish */
+  font-weight: 700;
+}
+
+/* Container for Icon + Pill */
+.iconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px; /* Wider for pill shape */
+  height: 32px;
+  margin-bottom: 4px;
+}
+
+/* The Animated Pill behind the icon */
+.activePill {
+  position: absolute;
+  inset: 0;
+  background: rgba(91, 178, 235, 0.15); /* Subtle blue glow */
+  border-radius: 16px; /* Pill Radius */
+  z-index: 0;
 }
 
 .navIcon {
   width: 24px;
   height: 24px;
+  z-index: 1; /* Above the pill */
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bottomNavActive .navIcon {
+  transform: scale(1.1); /* Subtle pop */
 }
 
 /* Transactions Table/List Responsive */
 .transactionItem {
   display: flex;
-  align-items: center; 
+  align-items: center;
   justify-content: space-between;
   padding: 1rem 0;
   border-bottom: 1px solid var(--border);
@@ -413,7 +441,7 @@
   justify-content: flex-end;
   gap: 8px;
   flex-shrink: 0;
-  max-width: 45%; 
+  max-width: 45%;
 }
 
 .tAmount {
@@ -436,7 +464,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 /* Mobile & Tablet Logic */

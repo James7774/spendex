@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ import {
   UserIcon,
   EditBoxIcon
 } from "@/components/Icons";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardLayout({
   children,
@@ -21,13 +23,47 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const { t, user } = useFinance();
   const router = useRouter();
-  // Helper to check active link
+  
+  const tabOrder = [
+    '/dashboard',
+    '/dashboard/transactions',
+    '/dashboard/charts',
+    '/dashboard/goals',
+    '/dashboard/settings'
+  ];
+
+  const [direction, setDirection] = useState(0);
+  const [prevPath, setPrevPath] = useState(pathname);
+
+  // Senior Logic: Sync direction immediately to prevent frame mismatch
+  if (pathname !== prevPath) {
+    const currentIndex = tabOrder.indexOf(pathname);
+    const prevIndex = tabOrder.indexOf(prevPath);
+    
+    if (currentIndex !== -1 && prevIndex !== -1) {
+      setDirection(currentIndex > prevIndex ? 1 : -1);
+    }
+    setPrevPath(pathname);
+  }
+
   const isActive = (path: string) => pathname === path;
 
-  // Dashboard Layout should be focused on structural organization
-  // Responsive behaviors for BottomNav are handled by the component itself outside the animation container
+  // PREMIUM TELEGRAM-LIKE ANIMATION (Optimized for Android Performance)
+  const variants = {
+    initial: (dir: number) => ({
+      x: dir > 0 ? "100%" : "-100%",
+      zIndex: 0,
+    }),
+    animate: {
+      x: 0,
+      zIndex: 1,
+    },
+    exit: (dir: number) => ({
+      x: dir > 0 ? "-100%" : "100%",
+      zIndex: 0,
+    }),
+  };
 
-  // Dynamic Title Helper
   const getPageTitle = () => {
     switch(pathname) {
       case '/dashboard': return 'Dashboard';
@@ -41,7 +77,6 @@ export default function DashboardLayout({
 
   return (
     <div className={styles.layout}>
-      {/* Sidebar - Desktop Only */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
           <div className={styles.brand}>
@@ -68,17 +103,9 @@ export default function DashboardLayout({
         </nav>
 
         {user && (
-            <div 
-                className={styles.userProfile} 
-                onClick={() => router.push('/dashboard/settings')}
-                style={{ cursor: 'pointer' }}
-            >
+            <div className={styles.userProfile} onClick={() => router.push('/dashboard/settings')}>
               <div className={styles.avatar}>
-                  {user.avatar ? (
-                      <Image src={user.avatar} alt="avatar" width={48} height={48} />
-                  ) : (
-                      user.name?.charAt(0).toUpperCase() || 'U'
-                  )}
+                  {user.avatar ? <Image src={user.avatar} alt="avatar" width={48} height={48} /> : user.name?.charAt(0).toUpperCase() || 'U'}
                   <div className={styles.statusDotSmall} />
               </div>
               <div className={styles.userInfo}>
@@ -92,21 +119,49 @@ export default function DashboardLayout({
         )}
       </aside>
 
-      {/* Main Content */}
       <main className={styles.main}>
-        {/* Mobile Header - Hidden on Profile and Dashboard pages for custom headers */}
         {pathname !== '/dashboard/settings' && pathname !== '/dashboard' && (
-          <header 
-            className={styles.mobileHeader}
-          >
-            <div className={styles.brand}>
-              {getPageTitle()}
-            </div>
+          <header className={styles.mobileHeader}>
+            <div className={styles.brand}>{getPageTitle()}</div>
           </header>
         )}
 
-        <div className={`${styles.contentContainer} ${(pathname === '/dashboard/settings' || pathname === '/dashboard') ? styles.fullScreenContent : ''}`}>
-            {children}
+        <div 
+          className={`${styles.contentContainer} ${(pathname === '/dashboard/settings' || pathname === '/dashboard') ? styles.fullScreenContent : ''}`}
+          style={{ 
+            position: 'relative', 
+            overflow: 'hidden',
+            background: 'var(--background)',
+            minHeight: '100vh',
+            display: 'grid', // Use grid to stack exiting/entering elements perfectly
+            gridTemplateColumns: '100%',
+            gridTemplateRows: '100%',
+          }}
+        >
+            <AnimatePresence custom={direction} initial={false}>
+              <motion.div
+                key={pathname}
+                custom={direction}
+                variants={variants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{
+                  x: { type: "tween", ease: [0.25, 1, 0.5, 1], duration: 0.28 }
+                }}
+                style={{
+                  gridColumn: 1, // Stack them on top of each other
+                  gridRow: 1,
+                  width: '100%',
+                  willChange: 'transform',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                  transform: 'translateZ(0)',
+                }}
+              >
+                {children}
+              </motion.div>
+            </AnimatePresence>
         </div>
       </main>
     </div>

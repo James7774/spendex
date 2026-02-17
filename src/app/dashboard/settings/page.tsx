@@ -1085,7 +1085,7 @@ export default function SettingsPage() {
         <div className="banner-avatar-wrapper">
           <div className="banner-avatar-container">
             <div
-              className="banner-avatar touch-active"
+              className="banner-avatar"
               onClick={() => fileInputRef.current?.click()}
               style={{
                 borderRadius: "50%",
@@ -1169,7 +1169,7 @@ export default function SettingsPage() {
               </button>
             ) : (
               <div
-                className="edit-badge touch-active"
+                className="edit-badge"
                 style={{ zIndex: 100 }}
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -1191,25 +1191,9 @@ export default function SettingsPage() {
         {/* User Info - ALWAYS VISIBLE in MAIN VIEW */}
         {currentView === "main" && (
           <div className="user-info-section">
-            {isEditingName ? (
-              <input
-                className="name-edit-input"
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                autoFocus
-                onBlur={handleSaveName}
-                onKeyDown={(e) => e.key === "Enter" && handleSaveName()}
-                placeholder={tAny.firstName || "Name"}
-              />
-            ) : (
-              <div
-                className="name-wrapper"
-                onClick={() => setIsEditingName(true)}
-              >
-                <h2 className="user-name">{user?.name}</h2>
-              </div>
-            )}
+            <div className="name-wrapper">
+              <h2 className="user-name">{user?.name}</h2>
+            </div>
             <p className="user-email">{user?.phone || "finova@info.com"}</p>
           </div>
         )}
