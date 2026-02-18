@@ -27,7 +27,7 @@
   "myGoals": "Mening Maqsadlarim",
   "viewAll": "Hammasi",
   "chartTitle": "Moliya Trendi (Haftalik)",
-  "intelActive": "FINOVA AI INTEL FAOL",
+  "intelActive": "SPENDEX AI INTEL FAOL",
   "sevenDays": "7 KUN",
   "financialGoals": "Moliyaviy Maqsadlar",
   "save": "Saqlash",
@@ -96,7 +96,7 @@
       "howBtn": "Qanday ishlaydi?"
     },
     "features": {
-      "title": "Nega aynan Finovo?",
+      "title": "Nega aynan Spendex?",
       "stats": { "title": "Aniq Statistikalar", "desc": "Pullaringiz qayerga ketayotganini chiroyli grafiklarda ko‘ring." },
       "goals": { "title": "Maqsadlar", "desc": "Telefon, sayohat yoki mashina uchun pul yig‘ishni rejalashtiring." },
       "fast": { "title": "Tezkor Kiritish", "desc": "Xarajatni kiritish uchun bor-yo‘g‘i 3 soniya vaqt ketadi." }
@@ -144,7 +144,7 @@
         "sun": "Yak" 
       }
     },
-    "footer": "© 2026 Finovo. Barcha huquqlar himoyalangan.",
+    "footer": "© 2026 Spendex. Barcha huquqlar himoyalangan.",
     "phoneTitle": "Telefon raqamingiz",
     "phonePrompt": "Raqamingizni kiriting (Masalan: 90 123 45 67)",
     "phonePlaceholder": "Telefon raqam",
@@ -194,7 +194,7 @@
     "selectLang": "Tilni tanlang"
   },
   "auth": {
-    "welcomeTitle": "Finovo ga xush kelibsiz",
+    "welcomeTitle": "Spendex ga xush kelibsiz",
     "welcomeSubtitle": "Barcha moliyaviy hisobingiz bir joyda",
     "continueGoogle": "Google orqali",
     "continueApple": "Apple orqali",

@@ -36,7 +36,7 @@
   "myGoals": "My Goals",
   "viewAll": "View All",
   "chartTitle": "Financial Trend (Weekly)",
-  "intelActive": "FINOVA AI INTEL ACTIVE",
+  "intelActive": "SPENDEX AI INTEL ACTIVE",
   "sevenDays": "7 DAYS",
   "financialGoals": "Financial Goals",
   "save": "Save",
@@ -104,7 +104,7 @@
       "howBtn": "How it works?"
     },
     "features": {
-      "title": "Why Finovo?",
+      "title": "Why Spendex?",
       "stats": { "title": "Precision Stats", "desc": "See where your money goes with beautiful charts." },
       "goals": { "title": "Goals", "desc": "Plan to save for a phone, travel, or car." },
       "fast": { "title": "Fast Entry", "desc": "It only takes 3 seconds to add an expense." }
@@ -144,7 +144,7 @@
       },
       "weekDays": { "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", "sun": "Sun" }
     },
-    "footer": "© 2026 Finovo. All rights reserved.",
+    "footer": "© 2026 Spendex. All rights reserved.",
     "phoneTitle": "Your phone number",
     "phonePrompt": "Enter your number (e.g., 90 123 45 67)",
     "phonePlaceholder": "Phone number",
@@ -188,7 +188,7 @@
     "selectLang": "Select Language"
   },
   "auth": {
-    "welcomeTitle": "Welcome to Finovo",
+    "welcomeTitle": "Welcome to Spendex",
     "welcomeSubtitle": "All your finances in one place",
     "continueGoogle": "With Google",
     "continueApple": "With Apple",

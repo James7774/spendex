@@ -2,17 +2,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import ExpensesChart from "@/components/ExpensesChart";
-import GoalCard from "@/components/GoalCard";
+
 import AddTransactionForm from "@/components/AddTransactionForm";
 import BottomSheet from "@/components/BottomSheet";
 import styles from "./dashboard.module.css";
 import { useFinance } from "@/context/FinanceContext";
 import { IncomeIcon, ExpenseIcon, ArrowRightIcon } from "@/components/Icons";
-import { Plus, User } from "lucide-react";
+import { Plus, User, UtensilsCrossed, Car, Home, Clapperboard, HeartPulse, Wallet, ShoppingBag, Receipt, GraduationCap, Gift, MoreHorizontal, ArrowRight } from "lucide-react";
 
 export default function DashboardPage() {
-  const { t, totalBalance, totalIncome, totalExpense, transactions, goals, deleteGoal, updateGoal, user } = useFinance();
+  const { t, totalBalance, totalIncome, totalExpense, transactions, user } = useFinance();
   const [showAddForm, setShowAddForm] = useState(false);
   const [initialTxType, setInitialTxType] = useState<'expense' | 'income'>('expense');
 
@@ -21,27 +20,29 @@ export default function DashboardPage() {
     setShowAddForm(true);
   };
 
-  // Helper for small currency format
+  // Format numbers with commas, no abbreviation
   const formatCurrency = (amount: number) => {
     return amount.toLocaleString();
   };
 
-  // Helper to dynamically adjust font size based on length
+  // Dynamically shrink font based on character count
   const getResponsiveStyle = (amount: number, type: 'main' | 'card') => {
-    const str = amount.toLocaleString();
-    const len = str.length;
+    const len = formatCurrency(amount).length;
     
     if (type === 'main') {
-      if (len > 20) return { fontSize: '1.5rem', lineHeight: 1.1 }; // Huge numbers
-      if (len > 15) return { fontSize: '1.8rem', lineHeight: 1.1 }; // Very large
-      if (len > 12) return { fontSize: '2rem', lineHeight: 1.1 };   // Large
-      return { fontSize: '2.4rem', lineHeight: 1 };               // Normal
+      if (len > 25) return { fontSize: '1rem', lineHeight: '1.15' };
+      if (len > 20) return { fontSize: '1.2rem', lineHeight: '1.15' };
+      if (len > 16) return { fontSize: '1.4rem', lineHeight: '1.1' };
+      if (len > 13) return { fontSize: '1.7rem', lineHeight: '1.1' };
+      if (len > 10) return { fontSize: '2rem', lineHeight: '1.05' };
+      return { fontSize: '2.2rem', lineHeight: '1' };
     } else {
-       // For cards (Income/Expense)
-       if (len > 18) return { fontSize: '0.9rem', lineHeight: 1.2 };
-       if (len > 14) return { fontSize: '1rem', lineHeight: 1.2 };
-       if (len > 11) return { fontSize: '1.1rem', lineHeight: 1.2 };
-       return { fontSize: '1.25rem', lineHeight: 1.2 };
+       if (len > 20) return { fontSize: '0.6rem', lineHeight: '1.15' };
+       if (len > 16) return { fontSize: '0.7rem', lineHeight: '1.15' };
+       if (len > 12) return { fontSize: '0.8rem', lineHeight: '1.2' };
+       if (len > 9) return { fontSize: '0.9rem', lineHeight: '1.2' };
+       if (len > 7) return { fontSize: '1.05rem', lineHeight: '1.2' };
+       return { fontSize: '1.2rem', lineHeight: '1.2' };
     }
   };
 
@@ -49,33 +50,33 @@ export default function DashboardPage() {
   const tAny = t as any;
 
   return (
-    <div className={styles.dashboardContent} style={{ padding: 0 }}>
-      {/* Premium Header Section */}
+    <div className={styles.dashboardContent} style={{ padding: 0, background: 'var(--background)' }}>
+      {/* Premium Header Section - Mockup Style */}
       <header style={{
-        background: 'linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%)',
-        padding: 'calc(env(safe-area-inset-top) + 24px) 24px 36px',
-        borderBottomLeftRadius: '40px',
-        borderBottomRightRadius: '40px',
+        background: 'linear-gradient(135deg, #0F172A 0%, #334155 100%)', // Deep Midnight Blue - Premium & Serious
+        padding: 'calc(env(safe-area-inset-top) + 20px) 24px 40px', // Reduced height
+        borderBottomLeftRadius: '32px', // Less rounded, more "tortburchakroq"
+        borderBottomRightRadius: '32px',
         color: 'white',
-        boxShadow: '0 10px 30px rgba(91, 33, 182, 0.3)',
-        marginBottom: '24px',
-        position: 'sticky', // Changed from relative to sticky
-        top: 0,
+        position: 'relative', 
         zIndex: 900,
-        overflow: 'hidden' 
+        width: '101%', // Strong bleed
+        marginLeft: '-0.5%',
+        boxSizing: 'border-box',
+        boxShadow: '0 15px 30px rgba(124, 58, 237, 0.15)'
       }}>
         {/* Top Row: Total Balance & Profile */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
-           <div style={{ flex: 1, minWidth: 0, paddingRight: '10px' }}>
-             <p style={{ fontSize: '0.95rem', opacity: 0.85, fontWeight: 500, marginBottom: '8px' }}>{t.totalBalance}</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+           <div>
+             <p style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500, marginBottom: '6px' }}>{t.totalBalance}</p>
              <h1 style={{ 
                fontWeight: 800, 
                margin: 0, 
-               letterSpacing: '-0.5px',
-               wordBreak: 'break-all', // Allow breaking if absolutely necessary
-               ...getResponsiveStyle(totalBalance, 'main')
+               letterSpacing: '-1px',
+               ...getResponsiveStyle(totalBalance, 'main'),
+               wordBreak: 'break-word' as const,
              }}>
-                {formatCurrency(totalBalance)} <span style={{ fontSize: '0.5em', fontWeight: 500, verticalAlign: 'middle' }}>{t.currencyLabel}</span>
+                {formatCurrency(totalBalance)} <span style={{ fontSize: '0.45em', opacity: 0.8, fontWeight: 500 }}>{t.currencyLabel}</span>
              </h1>
            </div>
            
@@ -84,16 +85,13 @@ export default function DashboardPage() {
                width: '36px',
                height: '36px',
                borderRadius: '50%',
-               background: 'rgba(255,255,255,0.2)',
+               background: 'rgba(255,255,255,0.15)',
                display: 'flex',
                alignItems: 'center',
                justifyContent: 'center',
                backdropFilter: 'blur(10px)',
-               cursor: 'pointer',
-               border: '2px solid rgba(255,255,255,0.1)',
+               border: '1px solid rgba(255,255,255,0.2)',
                overflow: 'hidden',
-               marginTop: '4px',
-               flexShrink: 0 // Prevent shrinking
              }}>
                 {user?.avatar ? (
                   <Image 
@@ -101,136 +99,112 @@ export default function DashboardPage() {
                     alt="Profile" 
                     width={36} 
                     height={36} 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                     unoptimized
                   />
                 ) : (
-                  <User size={24} color="white" />
+                  <User size={18} color="white" />
                 )}
              </div>
            </Link>
         </div>
 
-        {/* Summary Cards Row */}
+        {/* Summary Cards Row - Mockup Style */}
         <div style={{ display: 'flex', gap: '16px' }}>
           {/* Income Card */}
           <div style={{
              flex: 1,
-             minWidth: 0, // Critical for preventing overflow in flex items
-             background: 'rgba(255, 255, 255, 0.1)',
-             backdropFilter: 'blur(10px)',
+             background: 'rgba(30, 41, 59, 0.45)',
+             backdropFilter: 'blur(12px)',
              borderRadius: '24px',
-             padding: '20px',
-             display: 'flex',
-             flexDirection: 'column',
-             gap: '12px',
-             border: '1px solid rgba(255,255,255,0.1)'
+             padding: '16px',
+             border: '1px solid rgba(255,255,255,0.08)',
+             boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
           }}>
-             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                 <div style={{ 
-                  width: '36px', 
-                  height: '36px', 
-                  borderRadius: '10px', 
-                  background: 'rgba(74, 222, 128, 0.2)', // Green tint
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#4ade80', // Green-400
-                  flexShrink: 0
+                  width: '32px', height: '32px', borderRadius: '10px', 
+                  background: 'rgba(34, 197, 94, 0.15)', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center', color: '#4ade80'
                 }}>
-                  <IncomeIcon size={18} />
+                  <IncomeIcon size={16} />
                 </div>
-                <span style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.income}</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{t.income}</span>
              </div>
-             <h3 style={{ 
-               fontWeight: 700, 
-               margin: 0,
-               wordBreak: 'break-all',
-               ...getResponsiveStyle(totalIncome, 'card')
-             }}>
-               {formatCurrency(totalIncome)}
-             </h3>
+             <div style={{ fontWeight: 700, ...getResponsiveStyle(totalIncome, 'card'), color: '#fff', wordBreak: 'break-word' as const, letterSpacing: '-0.5px' }}>{formatCurrency(totalIncome)}</div>
           </div>
 
           {/* Expense Card */}
           <div style={{
              flex: 1,
-             minWidth: 0, // Critical for preventing overflow
-             background: 'rgba(255, 255, 255, 0.1)',
-             backdropFilter: 'blur(10px)',
+             background: 'rgba(30, 41, 59, 0.45)',
+             backdropFilter: 'blur(12px)',
              borderRadius: '24px',
-             padding: '20px',
-             display: 'flex',
-             flexDirection: 'column',
-             gap: '12px',
-             border: '1px solid rgba(255,255,255,0.1)'
+             padding: '16px',
+             border: '1px solid rgba(255,255,255,0.08)',
+             boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
           }}>
-             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                 <div style={{ 
-                  width: '36px', 
-                  height: '36px', 
-                  borderRadius: '10px', 
-                  background: 'rgba(248, 113, 113, 0.2)', // Red tint
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#f87171', // Red-400
-                  flexShrink: 0
+                  width: '32px', height: '32px', borderRadius: '10px', 
+                  background: 'rgba(248, 113, 113, 0.15)', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center', color: '#f87171'
                 }}>
-                  <ExpenseIcon size={18} />
+                  <ExpenseIcon size={16} />
                 </div>
-                <span style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.expense}</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{t.expense}</span>
              </div>
-             <h3 style={{ 
-               fontWeight: 700, 
-               margin: 0,
-               wordBreak: 'break-all',
-               ...getResponsiveStyle(totalExpense, 'card')
-             }}>
-               {formatCurrency(totalExpense)}
-             </h3>
+             <div style={{ fontWeight: 700, ...getResponsiveStyle(totalExpense, 'card'), color: '#fff', wordBreak: 'break-word' as const, letterSpacing: '-0.5px' }}>{formatCurrency(totalExpense)}</div>
           </div>
         </div>
       </header>
 
       {/* Main Content Area */}
-      <div style={{ padding: '0 20px 160px' }}>
+      <div style={{ 
+        background: 'var(--background)',
+        padding: '32px 20px 160px',
+        width: '100%',
+        boxSizing: 'border-box',
+        position: 'relative' as const,
+        zIndex: 1,
+      }}>
         
-        {/* Action Buttons Row */}
-        <div style={{ display: 'flex', gap: '16px', marginBottom: '32px' }}>
+        {/* Action Buttons Row - Modest & Clean */}
+        <div style={{ display: 'flex', gap: '12px', marginBottom: '32px' }}>
+
+           {/* Add Expense Button - Modest */}
            <button 
              onClick={() => openAddForm('expense')}
              className="touch-active"
              style={{
                flex: 1,
-               background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
-               color: 'white',
-               border: 'none',
-               borderRadius: '28px',
-               padding: '24px 0',
+               background: 'var(--surface)', // Adaptive surface color
+               color: 'var(--text-main)',
+               border: '1px solid var(--border)',
+               borderRadius: '20px',
+               height: '56px',
                display: 'flex',
-               flexDirection: 'column',
                alignItems: 'center',
                justifyContent: 'center',
-               gap: '12px',
-               boxShadow: '0 8px 20px rgba(124, 58, 237, 0.3)',
-               cursor: 'pointer'
+               gap: '10px',
+               boxShadow: 'var(--shadow-sm)',
+               cursor: 'pointer',
+               position: 'relative',
+               overflow: 'hidden'
              }}
            >
               <div style={{ 
-                 background: 'rgba(255,255,255,0.2)', 
-                 width: '48px', 
-                 height: '48px', 
-                 borderRadius: '50%',
-                 display: 'flex',
-                 alignItems: 'center',
-                 justifyContent: 'center'
+                 background: 'rgba(239, 68, 68, 0.1)', // Subtle red tint
+                 width: '28px', height: '28px', borderRadius: '50%',
+                 display: 'flex', alignItems: 'center', justifyContent: 'center',
+                 color: '#ef4444'
               }}>
-                <Plus size={24} />
+                <ArrowRight size={18} strokeWidth={2.5} style={{ transform: 'rotate(90deg)' }} />
               </div>
-              <span style={{ fontSize: '1rem', fontWeight: 700 }}>{tAny.yourExpenses || "Xarajat"}</span>
+              <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{t.addExpense}</span>
            </button>
 
+           {/* Add Income Button - Modest */}
            <button 
              onClick={() => openAddForm('income')}
              className="touch-active"
@@ -238,111 +212,149 @@ export default function DashboardPage() {
                flex: 1,
                background: 'var(--surface)',
                color: 'var(--text-main)',
-               border: '1px solid var(--border)', // Subtle border
-               borderRadius: '28px',
-               padding: '24px 0',
+               border: '1px solid var(--border)',
+               borderRadius: '20px',
+               height: '56px',
                display: 'flex',
-               flexDirection: 'column',
                alignItems: 'center',
                justifyContent: 'center',
-               gap: '12px',
-               boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-               cursor: 'pointer'
+               gap: '10px',
+               boxShadow: 'var(--shadow-sm)',
+               cursor: 'pointer',
+               position: 'relative',
+               overflow: 'hidden'
              }}
            >
               <div style={{ 
-                 background: '#dcfce7', // Light green
-                 width: '48px', 
-                 height: '48px', 
-                 borderRadius: '50%',
-                 display: 'flex',
-                 alignItems: 'center',
-                 justifyContent: 'center',
-                 color: '#16a34a'
+                 background: 'rgba(16, 185, 129, 0.1)', // Subtle green tint
+                 width: '28px', height: '28px', borderRadius: '50%',
+                 display: 'flex', alignItems: 'center', justifyContent: 'center',
+                 color: '#10b981'
               }}>
-                <Plus size={24} />
+                <ArrowRight size={18} strokeWidth={2.5} style={{ transform: 'rotate(-90deg)' }} />
               </div>
-              <span style={{ fontSize: '1rem', fontWeight: 700 }}>{tAny.yourIncome || "Kirim"}</span>
+              <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{t.addIncome}</span>
            </button>
         </div>
 
-        {/* Chart Section */}
-        <section className={styles.section}>
-          <div style={{ marginBottom: '1rem', padding: '0 4px' }}>
-            <h3 className={styles.sectionHeader} style={{ margin: 0 }}>{t.chartTitle}</h3>
-          </div>
-          <div style={{height: '350px', paddingBottom: '10px'}}>
-            <ExpensesChart />
-          </div>
-        </section>
+        {/* Recent Transactions — Premium Card Style */}
+        {/* Recent Transactions Section - Modern List Style (No White Block) */}
+        <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 4px' }}>
+          <h3 style={{ margin: 0, fontWeight: 800, fontSize: '1.25rem', color: 'var(--text-main)' }}>{t.recentTransactions}</h3>
+          <Link href="/dashboard/transactions" style={{ 
+            color: 'var(--primary)', 
+            fontSize: '0.9rem', 
+            fontWeight: 600,
+            textDecoration: 'none'
+          }}>{t.viewAll}</Link>
+        </div>
 
-        {/* Goals Section */}
-        <section className={styles.section}>
-          <div className={styles.flexBetween} style={{ marginBottom: '1rem' }}>
-            <h3 className={styles.sectionHeader} style={{ margin: 0 }}>{t.myGoals}</h3>
-            <Link href="/dashboard/goals" style={{ color: 'var(--primary)', fontSize: '0.9rem', fontWeight: 600 }}>{t.viewAll}</Link>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {goals.map(goal => (
-              <GoalCard 
-                key={goal.id} 
-                id={goal.id}
-                title={goal.title}
-                targetAmount={goal.targetAmount}
-                currentAmount={goal.currentAmount}
-                icon={goal.icon}
-                onDelete={() => deleteGoal(goal.id)} 
-                onUpdate={(id, newAmount) => updateGoal(id, { currentAmount: newAmount })}
-              />
-            ))}
-            {goals.length === 0 && (
-              <div className={styles.emptyState} style={{ background: 'var(--background)', border: 'none', boxShadow: 'none' }}>
-                  {t.nothingFound}
-              </div>
-            )}
-          </div>
-        </section>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {transactions.slice(0, 6).map((tx) => {
+            // Category-specific colors & SVG icons
+            const categoryConfig: Record<string, { bg: string; color: string; Icon: React.ElementType }> = {
+              food:          { bg: '#FFF3E0', color: '#E65100', Icon: UtensilsCrossed },
+              transport:     { bg: '#E3F2FD', color: '#1565C0', Icon: Car },
+              home:          { bg: '#F3E5F5', color: '#7B1FA2', Icon: Home },
+              entertainment: { bg: '#FCE4EC', color: '#C62828', Icon: Clapperboard },
+              health:        { bg: '#E8F5E9', color: '#2E7D32', Icon: HeartPulse },
+              salary:        { bg: '#E0F2F1', color: '#00695C', Icon: Wallet },
+              shopping:      { bg: '#FFF8E1', color: '#F57F17', Icon: ShoppingBag },
+              bills:         { bg: '#EFEBE9', color: '#4E342E', Icon: Receipt },
+              education:     { bg: '#E8EAF6', color: '#283593', Icon: GraduationCap },
+              gift:          { bg: '#FCE4EC', color: '#AD1457', Icon: Gift },
+              other:         { bg: '#F5F5F5', color: '#616161', Icon: MoreHorizontal },
+            };
+            const cc = categoryConfig[tx.category] || categoryConfig.other;
+            const CategoryIcon = cc.Icon;
+            const categoryName = (t.categories as Record<string, string>)[tx.category] || tx.category;
+            const dateStr = new Date(tx.date).toLocaleDateString();
+            const amountStr = tx.amount.toLocaleString();
 
-        {/* Transactions Section */}
-        <section className={styles.section}>
-          <div className={styles.flexBetween} style={{ marginBottom: '1.25rem' }}>
-            <h3 className={styles.sectionHeader} style={{ margin: 0 }}>{t.recentTransactions}</h3>
-            <Link href="/dashboard/transactions" className={styles.viewAllBtn} style={{ 
-                color: 'var(--primary)', 
-                fontSize: '0.9rem', 
-                fontWeight: 600,
+            return (
+              <div key={tx.id} style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '4px'
+                gap: '16px',
+                padding: '16px',
+                background: 'var(--surface)', // Adaptive: Dark in dark mode, White in light mode
+                borderRadius: '24px',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+                border: '1px solid var(--glass-border)'
               }}>
-                {t.viewAll} <ArrowRightIcon size={14} />
-            </Link>
-          </div>
-          <div className={styles.transactionsList}>
-            {transactions.slice(0, 5).map((tx) => (
-              <div key={tx.id} className={styles.transactionItem}>
-                <div className={styles.tIcon} style={{
-                  background: tx.type === 'income' ? 'var(--bg-success-soft)' : 'var(--bg-danger-soft)',
-                  color: tx.type === 'income' ? 'var(--success)' : 'var(--danger)'
+                {/* Category Icon */}
+                <div style={{
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '18px',
+                  background: cc.bg,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
                 }}>
-                  {tx.type === 'income' ? <IncomeIcon size={18} /> : <ExpenseIcon size={18} />}
+                  <CategoryIcon size={24} color={cc.color} />
                 </div>
-                <div className={styles.tInfo}>
-                  <p className={styles.tName}>{(t.categories as Record<string, string>)[tx.category] || tx.category}</p>
-                  <p className={styles.tDate}>{new Date(tx.date).toLocaleDateString()}</p>
+
+                {/* Info */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ 
+                    margin: 0, 
+                    fontWeight: 700, 
+                    fontSize: '1rem',
+                    color: 'var(--text-main)',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}>
+                    {categoryName}
+                  </p>
+                  <p style={{ 
+                    margin: '4px 0 0', 
+                    fontSize: '0.8rem', 
+                    color: 'var(--text-secondary)',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}>
+                    {dateStr} {tx.note && `• ${tx.note}`}
+                  </p>
                 </div>
-                <div className={styles.tAmount} style={{ color: tx.type === 'income' ? 'var(--success)' : 'var(--danger)' }}>
-                  {tx.type === 'income' ? '+' : '-'}{tx.amount.toLocaleString()}
+
+                {/* Amount */}
+                <div style={{
+                  fontWeight: 800,
+                  fontSize: amountStr.length > 18 ? '0.75rem' : amountStr.length > 12 ? '0.85rem' : '1.05rem',
+                  color: tx.type === 'income' ? '#10b981' : '#ef4444',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  textAlign: 'right',
+                  maxWidth: '40%',
+                  minWidth: '70px',
+                }}>
+                  {tx.type === 'income' ? '+' : '-'}{amountStr}
                 </div>
               </div>
-            ))}
-            {transactions.slice(0, 5).length === 0 && (
-              <div className={styles.emptyState} style={{ padding: '2rem' }}>
-                {t.nothingFound}
+            );
+          })}
+
+          {transactions.length === 0 && (
+            <div style={{ 
+              padding: '4rem 1rem', 
+              textAlign: 'center', 
+              color: 'var(--text-secondary)',
+              background: 'var(--surface)',
+              borderRadius: '24px',
+              border: '1px solid var(--border)'
+            }}>
+              <div style={{ marginBottom: '16px', opacity: 0.5 }}>
+                 <Receipt size={48} />
               </div>
-            )}
-          </div>
-        </section>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>{t.nothingFound}</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <BottomSheet

@@ -26,7 +26,7 @@
   "myGoals": "Мои цели",
   "viewAll": "Все",
   "chartTitle": "Финансовый тренд (Неделя)",
-  "intelActive": "FINOVA AI INTEL АКТИВЕН",
+  "intelActive": "SPENDEX AI INTEL АКТИВЕН",
   "sevenDays": "7 ДНЕЙ",
   "financialGoals": "Финансовые Цели",
   "save": "Сохранить",
@@ -90,7 +90,7 @@
       "howBtn": "Как это работает?"
     },
     "features": {
-      "title": "Почему Finovo?",
+      "title": "Почему Spendex?",
       "stats": { "title": "Точная статистика", "desc": "Смотрите, куда уходят ваши деньги на красивых графиках." },
       "goals": { "title": "Цели", "desc": "Планируйте накопления на телефон, путешествие или машину." },
       "fast": { "title": "Быстрый ввод", "desc": "Добавление расхода занимает всего 3 секунды." }
@@ -130,7 +130,7 @@
       },
       "weekDays": { "mon": "Пн", "tue": "Вт", "wed": "Ср", "thu": "Чт", "fri": "Пт", "sat": "Сб", "sun": "Вс" }
     },
-    "footer": "© 2026 Finovo. Все права защищены.",
+    "footer": "© 2026 Spendex. Все права защищены.",
     "phoneTitle": "Ваш номер телефона",
     "phonePrompt": "Введите ваш номер (Например: 90 123 45 67)",
     "phonePlaceholder": "Номер телефона",
@@ -174,7 +174,7 @@
     "selectLang": "Выберите язык"
   },
   "auth": {
-    "welcomeTitle": "Добро пожаловать",
+    "welcomeTitle": "Добро пожаловать в Spendex",
     "welcomeSubtitle": "Все ваши финансы в одном месте",
     "continueGoogle": "Через Google",
     "continueApple": "Через Apple",
@@ -196,5 +196,10 @@
     "reqUpper": "1 заглавная",
     "reqDigit": "1 цифра",
     "magicWord": "Добро пожаловать! ✨"
-  }
+  },
+  "back": "Назад",
+  "paymentMethods": "Способы оплаты",
+  "preferences": "Настройки",
+  "exportData": "Экспорт данных",
+  "accountSettings": "Настройки аккаунта"
 }

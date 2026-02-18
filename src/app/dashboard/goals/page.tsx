@@ -76,45 +76,49 @@ export default function GoalsPage() {
 
   return (
     <div className={styles.dashboardContent}>
-      {/* Top Search & Actions Row */}
-      <div className={styles.searchWrapper} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '1.5rem' }}>
-        <div className={styles.searchContainer} style={{ width: '100%' }}>
-          <input 
-            type="text" 
-            className={styles.searchInput}
-            placeholder={tAny.searchPlaceholder || "Maqsadlarni qidirish..."}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ paddingLeft: '3rem' }}
-          />
-          <div className={styles.innerSearchIcon}>
-             <SearchIcon size={20} />
+      <div className={styles.searchWrapper} style={{ paddingTop: '12px' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div className={styles.searchContainer} style={{ flex: 1 }}>
+            <input 
+              type="text" 
+              className={styles.searchInput}
+              placeholder={tAny.searchPlaceholder || "Maqsadlarni qidirish..."}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ paddingLeft: '3rem' }}
+            />
+            <div className={styles.innerSearchIcon}>
+               <SearchIcon size={20} />
+            </div>
+            {searchQuery && (
+              <button 
+                className={styles.searchClearBtn}
+                onClick={() => setSearchQuery("")}
+                style={{ right: '12px' }}
+              >
+                <CloseIcon size={14} />
+              </button>
+            )}
           </div>
-          {searchQuery && (
-            <button 
-              className={styles.searchClearBtn}
-              onClick={() => setSearchQuery("")}
-              style={{ right: '12px' }}
-            >
-              <CloseIcon size={14} />
-            </button>
-          )}
-        </div>
-
-        <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
           <TransactionsFilter />
+        </div>
+      </div>
+
+      {/* Add Button & Form */}
+      <div style={{ padding: '0 20px 100px' }}>
+        <div style={{ marginBottom: '24px' }}>
           <button 
             onClick={() => setShowForm(!showForm)}
             style={{
-              flex: 1,
-              background: showForm ? 'rgba(239, 68, 68, 0.1)' : 'linear-gradient(135deg, #7000ff 0%, #9033ff 100%)',
+              width: '100%',
+              background: showForm ? 'rgba(239, 68, 68, 0.1)' : 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
               color: showForm ? '#ef4444' : 'white',
               border: 'none',
-              height: '54px',
+              height: '56px',
               borderRadius: '20px',
               fontSize: '1rem',
               fontWeight: 850,
-              boxShadow: showForm ? 'none' : '0 8px 20px rgba(112, 0, 255, 0.25)',
+              boxShadow: showForm ? 'none' : '0 8px 20px rgba(59, 130, 246, 0.25)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -135,7 +139,7 @@ export default function GoalsPage() {
                 transform: showForm ? 'rotate(45deg)' : 'none',
                 transition: 'transform 0.3s ease'
               }}>
-                <PlusIcon size={14} color="white" />
+                <PlusIcon size={14} color={showForm ? "#ef4444" : "white"} />
               </div>
               <span style={{ letterSpacing: '-0.3px' }}>{showForm ? t.cancel : t.newGoal}</span>
           </button>
@@ -171,7 +175,7 @@ export default function GoalsPage() {
                           height: '70px',
                           borderRadius: '50%',
                           background: darkMode ? '#334155' : '#fff',
-                          border: '2px solid ' + (showIconPicker ? '#7000ff' : (darkMode ? 'rgba(255,255,255,0.1)' : '#eee')),
+                          border: '2px solid ' + (showIconPicker ? '#3b82f6' : (darkMode ? 'rgba(255,255,255,0.1)' : '#eee')),
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -362,11 +366,11 @@ export default function GoalsPage() {
                       padding: '14px', 
                       borderRadius: '16px', 
                       border: 'none',
-                      background: 'linear-gradient(135deg, #7000ff 0%, #9033ff 100%)',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                       color: 'white',
                       fontSize: '0.95rem', 
                       fontWeight: 850,
-                      boxShadow: '0 6px 16px rgba(112, 0, 255, 0.2)',
+                      boxShadow: '0 6px 16px rgba(59, 130, 246, 0.2)',
                       cursor: 'pointer'
                     }}
                     className="touch-active"

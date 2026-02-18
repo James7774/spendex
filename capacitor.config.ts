@@ -2,7 +2,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "com.finova.app",
-  appName: "Finova",
+  appName: "Spendex",
   webDir: "out",
   server: {
     androidScheme: "https",

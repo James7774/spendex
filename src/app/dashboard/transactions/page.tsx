@@ -44,26 +44,28 @@ export default function TransactionsPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const TransactionItem = ({ tx }: { tx: any }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const formattedAmount = tx.amount.toLocaleString();
-    const shouldTruncate = formattedAmount.length > 14 && !searchQuery;
 
-    // Display value in collapsed state
-    const collapsedValue = shouldTruncate 
-      ? formattedAmount.slice(0, 11) + "..." 
-      : formattedAmount;
+    const fullAmount = tx.amount.toLocaleString();
+    const shouldTruncate = fullAmount.length > 12 && !searchQuery;
+    const shortAmount = shouldTruncate 
+      ? fullAmount.slice(0, 10) + '…' 
+      : fullAmount;
 
     return (
       <div 
         className={styles.transactionItem} 
         style={{ 
-          flexDirection: 'column', // Always column, aligning internal items
+          flexDirection: 'column',
           alignItems: 'stretch',
-          gap: '0', // Gap handled by internal padding/transitions
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+          gap: '0',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          overflow: 'visible',
+          maxWidth: '100%',
+          boxSizing: 'border-box' as const,
         }}
       >
         {/* Top Row: Icon, Info, Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: '100%', gap: '10px', overflow: 'hidden' }}>
           
           <div className={styles.tIcon} style={{ 
             background: tx.type === 'income' ? 'var(--bg-success-soft)' : 'var(--bg-danger-soft)',
@@ -103,15 +105,18 @@ export default function TransactionsPage() {
             >
                {/* Only show collapsed amount here if NOT expanded */}
                {!isExpanded && (
-                  <div 
-                    className={styles.tAmount} 
-                    style={{ 
-                      color: tx.type === 'income' ? 'var(--success)' : 'var(--danger)',
-                    }}
-                  >
-                    {tx.type === 'income' ? '+' : '-'}
-                    {highlightText(collapsedValue, searchQuery)}
-                  </div>
+                   <div 
+                     className={styles.tAmount} 
+                     style={{ 
+                       color: tx.type === 'income' ? 'var(--success)' : 'var(--danger)',
+                       whiteSpace: 'nowrap',
+                       fontSize: '1rem',
+                       fontWeight: 700
+                     }}
+                   >
+                     {tx.type === 'income' ? '+' : '-'}
+                     {highlightText(shortAmount, searchQuery)}
+                   </div>
                )}
 
                {/* Chevron Icon - Only if Truncated */}
@@ -136,33 +141,76 @@ export default function TransactionsPage() {
           </div>
         </div>
 
-        {/* Bottom Row: Full Amount (Smooth Reveal) */}
+        {/* Bottom Row: Full Amount — Premium Reveal Card */}
         <div style={{ 
-            marginTop: isExpanded ? '8px' : '0',
-            maxHeight: isExpanded ? '50px' : '0',
+            marginTop: isExpanded ? '12px' : '0',
+            maxHeight: isExpanded ? '200px' : '0',
             opacity: isExpanded ? 1 : 0,
             overflow: 'hidden',
-            transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+            transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
             transformOrigin: 'top',
-            transform: isExpanded ? 'translateY(0)' : 'translateY(-5px)',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            paddingRight: '42px' // Align with Delete button visually
+            transform: isExpanded ? 'scaleY(1)' : 'scaleY(0.95)',
           }}
         >
-          <span 
+          <div 
              onClick={() => setIsExpanded(false)}
              style={{ 
-               fontSize: '1.4rem', 
-               fontWeight: 800, 
-               color: tx.type === 'income' ? 'var(--success)' : 'var(--danger)',
-               wordBreak: 'break-all',
+               background: tx.type === 'income' 
+                 ? 'linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(34,197,94,0.02) 100%)'
+                 : 'linear-gradient(135deg, rgba(239,68,68,0.06) 0%, rgba(239,68,68,0.02) 100%)',
+               border: `1px solid ${tx.type === 'income' ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)'}`,
+               borderRadius: '16px',
+               padding: '14px 16px',
                cursor: 'pointer',
-               lineHeight: 1.2
+               position: 'relative' as const,
+               overflow: 'hidden' as const,
             }}
           >
-             {tx.type === 'income' ? '+' : '-'}{formattedAmount}
-          </span>
+            {/* Accent stripe */}
+            <div style={{
+              position: 'absolute' as const,
+              left: 0, top: 0, bottom: 0,
+              width: '4px',
+              background: tx.type === 'income' 
+                ? 'linear-gradient(180deg, #22c55e, #16a34a)' 
+                : 'linear-gradient(180deg, #ef4444, #dc2626)',
+              borderRadius: '4px 0 0 4px'
+            }} />
+            
+            {/* Label */}
+            <div style={{ 
+              fontSize: '0.7rem', 
+              fontWeight: 600, 
+              textTransform: 'uppercase' as const,
+              letterSpacing: '0.5px',
+              color: 'var(--text-secondary)',
+              marginBottom: '6px',
+              paddingLeft: '8px'
+            }}>
+              {tx.type === 'income' ? (t.income || 'Income') : (t.expense || 'Expense')} • {(t.categories as Record<string, string>)[tx.category] || tx.category}
+            </div>
+
+            {/* Full amount */}
+            <div style={{ 
+               fontSize: fullAmount.length > 30 ? '0.85rem' : fullAmount.length > 20 ? '1rem' : '1.2rem',
+               fontWeight: 800, 
+               color: tx.type === 'income' ? '#16a34a' : '#dc2626',
+               wordBreak: 'break-word' as const,
+               lineHeight: 1.3,
+               paddingLeft: '8px',
+               fontVariantNumeric: 'tabular-nums',
+            }}>
+               {tx.type === 'income' ? '+' : '-'}{fullAmount}
+               <span style={{ 
+                 fontSize: '0.6em', 
+                 fontWeight: 500, 
+                 opacity: 0.7,
+                 marginLeft: '4px'
+               }}>
+                 {t.currencyLabel}
+               </span>
+            </div>
+          </div>
         </div>
       </div>
     );

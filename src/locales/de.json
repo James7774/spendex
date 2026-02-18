@@ -15,6 +15,8 @@
   "expense": "Ausgaben",
   "currencyLabel": "UZS",
   "addTransaction": "Transaktion hinzufügen",
+  "addIncome": "Einnahme hinzufügen",
+  "addExpense": "Ausgabe hinzufügen",
   "recentTransactions": "Letzte Transaktionen",
   "searchPlaceholder": "Transaktionen suchen...",
   "resultsFound": "Ergebnisse gefunden",
@@ -196,5 +198,10 @@
     "reqUpper": "1 Großbuchstabe",
     "reqDigit": "1 Ziffer",
     "magicWord": "Willkommen an Bord! ✨"
-  }
+  },
+  "back": "Zurück",
+  "paymentMethods": "Zahlungsmethoden",
+  "preferences": "Einstellungen",
+  "exportData": "Daten Exportieren",
+  "accountSettings": "Kontoeinstellungen"
 }

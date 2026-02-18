@@ -10,7 +10,7 @@ const fontSans = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Finovo - Shaxsiy Moliya",
+  title: "Spendex - Shaxsiy Moliya",
   description: "Moliyaviy erkinlik sari ilk qadam",
   icons: {
     icon: '/logo.svg',

@@ -38,18 +38,18 @@ export default function ChartsPage() {
 
   return (
     <motion.div 
-      className="charts-page-wrapper"
+      className={styles.dashboardContent}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      <div className={styles.searchWrapper}>
+      <div className={styles.searchWrapper} style={{ paddingTop: '12px' }}>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <div className={styles.searchContainer} style={{ flex: 1 }}>
             <input 
               type="text" 
               className={styles.searchInput}
-              placeholder={tAny.searchPlaceholder || "Filter charts..."}
+              placeholder="Grafiklarni qidirish..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ paddingLeft: '3rem' }}
@@ -112,7 +112,7 @@ export default function ChartsPage() {
           padding: 8px 16px 100px;
           min-height: 100vh;
           position: relative;
-          background: ${darkMode ? 'radial-gradient(circle at 0% 0%, rgba(112, 0, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.05) 0%, transparent 50%)' : '#f8fafc'};
+          background: var(--background);
         }
 
         .page-header {
@@ -132,13 +132,13 @@ export default function ChartsPage() {
         .icon-badge {
           width: 36px;
           height: 36px;
-          background: linear-gradient(135deg, #7000ff 0%, #9033ff 100%);
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
           color: white;
           border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 8px 16px rgba(112, 0, 255, 0.2);
+          box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
         }
 
         .main-title {
@@ -153,22 +153,22 @@ export default function ChartsPage() {
           display: flex;
           align-items: center;
           gap: 6px;
-          background: ${darkMode ? 'rgba(112, 0, 255, 0.1)' : 'rgba(112, 0, 255, 0.05)'};
+          background: ${darkMode ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.05)'};
           padding: 6px 12px;
           border-radius: 100px;
-          border: 1px solid rgba(112, 0, 255, 0.08);
+          border: 1px solid rgba(59, 130, 246, 0.08);
           backdrop-filter: blur(10px);
         }
 
         .status-text {
           font-size: 0.6rem;
           font-weight: 900;
-          color: #7000ff;
+          color: #3b82f6;
           letter-spacing: 0.05em;
         }
 
         .pulse-icon {
-          color: #7000ff;
+          color: #3b82f6;
           animation: pulse-ring 2s infinite;
         }
 
@@ -219,9 +219,9 @@ export default function ChartsPage() {
         }
 
         .time-filter-pill span.active {
-          background: #7000ff;
+          background: #3b82f6;
           color: white;
-          box-shadow: 0 4px 12px rgba(112, 0, 255, 0.25);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
         }
 
         .chart-area {

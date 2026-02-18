@@ -52,7 +52,7 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?:
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #7000ff;
+            background: #3b82f6;
           }
           .value {
             margin: 0;
@@ -118,7 +118,7 @@ export default function ExpensesChart({ transactions: passedTransactions }: { tr
       return (
         <div className="empty-state">
               <div className="empty-icon-wrap">
-                 <ChartsIcon size={40} color="#7000ff" />
+                 <ChartsIcon size={40} color="#3b82f6" />
               </div>
               <p className="empty-msg">{t.nothingFound}</p>
               <style jsx>{`
@@ -136,7 +136,7 @@ export default function ExpensesChart({ transactions: passedTransactions }: { tr
                     width: 80px;
                     height: 80px;
                     border-radius: 50%;
-                    background: ${darkMode ? 'rgba(112, 0, 255, 0.1)' : 'rgba(112, 0, 255, 0.05)'};
+                    background: ${darkMode ? 'rgba(59, 130, 246, 0.1)' : 'rgba(112, 0, 255, 0.05)'};
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -161,8 +161,8 @@ export default function ExpensesChart({ transactions: passedTransactions }: { tr
           >
             <defs>
                <linearGradient id="colorSpending" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#7000ff" stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor="#7000ff" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
                </linearGradient>
             </defs>
             <CartesianGrid 
@@ -186,12 +186,12 @@ export default function ExpensesChart({ transactions: passedTransactions }: { tr
             />
             <Tooltip 
               content={<CustomTooltip />} 
-              cursor={{ stroke: darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(112, 0, 255, 0.2)', strokeWidth: 2, strokeDasharray: '4 4' }} 
+              cursor={{ stroke: darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(59, 130, 246, 0.2)', strokeWidth: 2, strokeDasharray: '4 4' }} 
             />
             <Area 
               type="monotone" 
               dataKey="spending" 
-              stroke="#7000ff" 
+              stroke="#3b82f6" 
               strokeWidth={3}
               fillOpacity={1} 
               fill="url(#colorSpending)" 

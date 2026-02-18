@@ -6,7 +6,7 @@ import DatePicker from './DatePicker';
 import BottomSheet from './BottomSheet';
 import { categoryData, categoryKeys } from './icons/CategoryIcons';
 
-export default function TransactionsFilter() {
+export default function TransactionsFilter({ transparentMode = false }: { transparentMode?: boolean }) {
   const { filters, setFilters, t, darkMode } = useFinance();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -80,7 +80,16 @@ export default function TransactionsFilter() {
 
   return (
     <div className="filter-wrapper">
-      <button className="main-filter-trigger" onClick={handleOpen}>
+      <button 
+        className="main-filter-trigger" 
+        onClick={handleOpen}
+        style={transparentMode ? { 
+          background: 'rgba(255,255,255,0.1)', 
+          borderColor: 'rgba(255,255,255,0.15)', 
+          color: 'white',
+          backdropFilter: 'blur(8px)'
+        } : {}}
+      >
         <FilterIcon size={18} />
         <span>{tAny.filters || "Filters"}</span>
         {(filters.categories.length > 0 || filters.dateType !== '1M' || filters.minAmount || filters.maxAmount) && (
@@ -232,7 +241,7 @@ export default function TransactionsFilter() {
           right: -4px;
           width: 10px;
           height: 10px;
-          background: #7000ff;
+          background: #3b82f6;
           border: 2px solid ${darkMode ? '#1e293b' : '#fff'};
           border-radius: 50%;
         }
@@ -361,10 +370,10 @@ export default function TransactionsFilter() {
 
         /* Active State (Purple) */
         .cat-chip-item.active {
-          background: linear-gradient(135deg, #7000ff 0%, #9033ff 100%);
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
           border-color: transparent;
           color: #fff;
-          box-shadow: 0 4px 12px rgba(112, 0, 255, 0.25);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
           padding-right: 20px;
         }
 
@@ -408,8 +417,8 @@ export default function TransactionsFilter() {
         }
 
         .amount-input:focus {
-          border-color: #7000ff;
-          background: ${darkMode ? 'rgba(112, 0, 255, 0.05)' : '#fff'};
+          border-color: #3b82f6;
+          background: ${darkMode ? 'rgba(59, 130, 246, 0.05)' : '#fff'};
         }
 
         .filter-actions {
@@ -434,12 +443,12 @@ export default function TransactionsFilter() {
           padding: 16px;
           border-radius: 18px;
           border: none;
-          background: linear-gradient(135deg, #7000ff 0%, #9033ff 100%);
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
           color: white;
           font-weight: 800;
           cursor: pointer;
           font-size: 0.95rem;
-          box-shadow: 0 8px 20px rgba(112, 0, 255, 0.3);
+          box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
           transition: all 0.2s;
         }
 

@@ -544,7 +544,7 @@ export default function SettingsPage() {
                 border: "none",
                 background: saveSuccess
                   ? "#10b981"
-                  : "linear-gradient(to right, #7000ff, #9333ea)",
+                  : "linear-gradient(to right, #3b82f6, #2563eb)",
                 color: "#fff",
                 fontSize: "1.05rem",
                 fontWeight: 900,
@@ -554,7 +554,7 @@ export default function SettingsPage() {
                 gap: "12px",
                 boxShadow: saveSuccess
                   ? "0 10px 25px rgba(16, 185, 129, 0.3)"
-                  : "0 10px 25px rgba(112, 0, 255, 0.3)",
+                  : "0 10px 25px rgba(59, 130, 246, 0.3)",
                 cursor: "pointer",
                 transition: "all 0.3s",
               }}
@@ -742,7 +742,7 @@ export default function SettingsPage() {
                 style={{
                   width: "44px",
                   height: "44px",
-                  background: "linear-gradient(135deg, #8b5cf6, #a78bfa)",
+                  background: "linear-gradient(135deg, #3b82f6, #60a5fa)",
                   borderRadius: "14px",
                   display: "flex",
                   alignItems: "center",
@@ -781,11 +781,11 @@ export default function SettingsPage() {
               <div
                 style={{
                   padding: "6px",
-                  background: "rgba(139, 92, 246, 0.1)",
+                  background: "rgba(59, 130, 246, 0.1)",
                   borderRadius: "10px",
                 }}
               >
-                <Moon size={16} color="#8b5cf6" strokeWidth={3} />
+                <Moon size={16} color="#3b82f6" strokeWidth={3} />
               </div>
             ) : (
               <div
@@ -1393,7 +1393,7 @@ export default function SettingsPage() {
                       ? "linear-gradient(135deg, #10b981 0%, #34d399 100%)"
                       : setupError
                         ? "linear-gradient(135deg, #ef4444 0%, #f87171 100%)"
-                        : "linear-gradient(135deg, #7000ff 0%, #9061f9 100%)",
+                        : "linear-gradient(135deg, #3b82f6 0%, #9061f9 100%)",
                     borderRadius: "24px",
                     display: "flex",
                     alignItems: "center",
@@ -1404,7 +1404,7 @@ export default function SettingsPage() {
                       ? "0 10px 25px rgba(16, 185, 129, 0.3)"
                       : setupError
                         ? "0 10px 25px rgba(239, 68, 68, 0.3)"
-                        : "0 10px 25px rgba(112, 0, 255, 0.3)",
+                        : "0 10px 25px rgba(59, 130, 246, 0.3)",
                     transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                   }}
                 >
@@ -1441,13 +1441,13 @@ export default function SettingsPage() {
                     key={i}
                     animate={tempPin.length >= i ? {
                       scale: [1, 1.3, 1],
-                      backgroundColor: isSuccess ? "#10b981" : setupError ? "#ef4444" : "#7000ff",
-                      borderColor: isSuccess ? "#10b981" : setupError ? "#ef4444" : "#7000ff",
+                      backgroundColor: isSuccess ? "#10b981" : setupError ? "#ef4444" : "#3b82f6",
+                      borderColor: isSuccess ? "#10b981" : setupError ? "#ef4444" : "#3b82f6",
                       boxShadow: isSuccess
                         ? "0 0 15px rgba(16, 185, 129, 0.4)"
                         : setupError
                           ? "0 0 15px rgba(239, 68, 68, 0.4)"
-                          : "0 0 15px rgba(112, 0, 255, 0.4)"
+                          : "0 0 15px rgba(59, 130, 246, 0.4)"
                     } : {
                       scale: 1,
                       backgroundColor: "transparent",
@@ -1775,14 +1775,14 @@ export default function SettingsPage() {
         .banner-avatar-placeholder {
           font-size: 3rem;
           font-weight: 900;
-          color: #7000ff;
+          color: #3b82f6;
         }
 
         .edit-badge {
           position: absolute;
           bottom: 0;
           right: 0;
-          background: #7000ff;
+          background: #3b82f6;
           width: 34px;
           height: 34px;
           border-radius: 50% !important;
@@ -1790,7 +1790,7 @@ export default function SettingsPage() {
           align-items: center;
           justify-content: center;
           border: 3px solid white;
-          box-shadow: 0 4px 12px rgba(112, 0, 255, 0.25);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
           z-index: 30;
           transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -1876,7 +1876,7 @@ export default function SettingsPage() {
           margin-bottom: 4px;
           text-align: center;
           border: none;
-          border-bottom: 2px solid #7000ff;
+          border-bottom: 2px solid #3b82f6;
           outline: none;
           background: transparent;
           width: 80%;
@@ -1972,7 +1972,7 @@ export default function SettingsPage() {
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         .purple {
-          background: linear-gradient(135deg, #7000ff, #a855f7);
+          background: linear-gradient(135deg, #3b82f6, #a855f7);
         }
         .blue {
           background: linear-gradient(135deg, #3b82f6, #60a5fa);
@@ -2196,9 +2196,9 @@ export default function SettingsPage() {
           cursor: pointer;
         }
         .lang-card-uz.selected {
-          border-color: #7000ff;
-          background: rgba(112, 0, 255, 0.03);
-          box-shadow: 0 4px 12px rgba(112, 0, 255, 0.08);
+          border-color: #3b82f6;
+          background: rgba(59, 130, 246, 0.03);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
         }
         .lang-card-content {
           display: flex;
@@ -2235,12 +2235,12 @@ export default function SettingsPage() {
         .lang-check {
           width: 28px;
           height: 28px;
-          background: #7000ff;
+          background: #3b82f6;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 4px 8px rgba(112, 0, 255, 0.3);
+          box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
         }
 
         .confirm-icon-bg {
@@ -2295,8 +2295,8 @@ export default function SettingsPage() {
           cursor: pointer;
         }
         .modal-action-btn.primary {
-          background: #7000ff;
-          box-shadow: 0 8px 20px rgba(112, 0, 255, 0.2);
+          background: #3b82f6;
+          box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
         }
         .modal-action-btn.danger {
           background: var(--danger);
@@ -2333,10 +2333,10 @@ export default function SettingsPage() {
         }
         .num-btn-premium:active {
           transform: scale(0.9);
-          background: #7000ff !important;
-          border-color: #7000ff !important;
+          background: #3b82f6 !important;
+          border-color: #3b82f6 !important;
           color: #fff !important;
-          box-shadow: 0 5px 15px rgba(112, 0, 255, 0.3);
+          box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
         }
         .num-btn-premium:active span {
           color: #fff !important;
@@ -2386,7 +2386,7 @@ export default function SettingsPage() {
           background: #0f172a;
         }
         :global(.dark) .profile-banner {
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+          background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
         }
         :global(.dark) .banner-avatar {
           background: #1e293b;
@@ -2439,8 +2439,8 @@ export default function SettingsPage() {
           color: white;
         }
         :global(.dark) .lang-card-uz.selected {
-          background: rgba(112, 0, 255, 0.1);
-          border-color: #7000ff;
+          background: rgba(59, 130, 246, 0.1);
+          border-color: #3b82f6;
         }
         :global(.dark) .confirm-desc-minimal {
           color: #94a3b8;

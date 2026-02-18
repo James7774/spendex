@@ -34,7 +34,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     setHasSeenOnboarding(seen);
 
     // Splash Logic
-    const shouldSkipSplash = sessionStorage.getItem('finova_skip_splash');
+    const shouldSkipSplash = sessionStorage.getItem('spendex_skip_splash');
     if (shouldSkipSplash) {
         setShowSplash(false);
     } else {
@@ -93,7 +93,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
         <AndroidOptimizer />
         <PinLock />
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100vw', overflowX: 'hidden' }}>
             {children}
         </div>
         
