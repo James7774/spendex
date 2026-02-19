@@ -28,10 +28,9 @@ workflows:
           APP_DIR=$(find . -name "*.app" -type d | head -n 1)
           if [ -n "$APP_DIR" ]; then
             zip -r Spendex.zip "$APP_DIR"
-            mv Spendex.zip ../../Spendex.zip
           fi
     artifacts:
-      - Spendex.zip
+      - "**/*.zip"
     publishing:
       email:
         recipients:
