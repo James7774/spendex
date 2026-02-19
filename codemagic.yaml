@@ -24,10 +24,14 @@ workflows:
           else
             xcodebuild -project App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug clean build CODE_SIGNING_ALLOWED=NO
           fi
-          cd build/Debug-iphonesimulator
-          zip -r Spendex.zip App.app
+          # Find the .app and zip it
+          APP_DIR=$(find . -name "*.app" -type d | head -n 1)
+          if [ -n "$APP_DIR" ]; then
+            zip -r Spendex.zip "$APP_DIR"
+            mv Spendex.zip ../../Spendex.zip
+          fi
     artifacts:
-      - ios/App/build/Debug-iphonesimulator/*.zip
+      - Spendex.zip
     publishing:
       email:
         recipients:
