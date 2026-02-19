@@ -24,8 +24,10 @@ workflows:
           else
             xcodebuild -project App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug clean build CODE_SIGNING_ALLOWED=NO
           fi
+          cd build/Debug-iphonesimulator
+          zip -r Spendex.zip App.app
     artifacts:
-      - ios/App/build/Debug-iphonesimulator/*.app
+      - ios/App/build/Debug-iphonesimulator/*.zip
     publishing:
       email:
         recipients:
