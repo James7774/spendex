@@ -19,7 +19,11 @@ workflows:
       - name: Build iOS App (.app)
         script: |
           cd ios/App
-          xcodebuild -workspace App.xcworkspace -scheme App -sdk iphonesimulator -configuration Debug clean build CODE_SIGNING_ALLOWED=NO
+          if [ -d "App.xcworkspace" ]; then
+            xcodebuild -workspace App.xcworkspace -scheme App -sdk iphonesimulator -configuration Debug clean build CODE_SIGNING_ALLOWED=NO
+          else
+            xcodebuild -project App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug clean build CODE_SIGNING_ALLOWED=NO
+          fi
     artifacts:
       - ios/App/build/Debug-iphonesimulator/*.app
     publishing:
