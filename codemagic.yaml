@@ -1,0 +1,28 @@
+workflows:
+  ios-simulator-build:
+    name: iOS Simulator Build
+    instance_type: mac_mini_m1
+    max_build_duration: 60
+    environment:
+      node: latest
+      xcode: latest
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install
+      - name: Build Next.js app
+        script: |
+          npm run build
+      - name: Capacitor Sync
+        script: |
+          npx cap sync ios
+      - name: Build iOS App (.app)
+        script: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace -scheme App -sdk iphonesimulator -configuration Debug clean build CODE_SIGNING_ALLOWED=NO
+    artifacts:
+      - ios/App/build/Debug-iphonesimulator/*.app
+    publishing:
+      email:
+        recipients:
+          - foziljonjamoliddinov@gmail.com # Rasmda ko'ringan email
