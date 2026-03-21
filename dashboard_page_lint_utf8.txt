@@ -1,0 +1,35 @@
+﻿node.exe : (node:16712) 
+ESLintIgnoreWarning: The 
+".eslintignore" file is no 
+longer supported. Switch to 
+using the "ignores" 
+property in 
+"eslint.config.js": https://
+eslint.org/docs/latest/use/c
+onfigure/migration-guide#ign
+oring-files
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: ((node  
+  :16712) ES...#ignoring-   
+ files:String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+
+C:\Users\user\OneDrive\Desktop\finova.com-master\src\app\dashboard\page.tsx
+  12:16  warning  'Minus' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 1 problem (0 errors, 1 warning)
+

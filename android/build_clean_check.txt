@@ -1,0 +1,47 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.9/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :app
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Task :clean UP-TO-DATE
+> Task :app:clean UP-TO-DATE
+> Task :capacitor-android:clean UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:clean UP-TO-DATE
+> Task :capacitor-firebase-authentication:clean FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':capacitor-firebase-authentication:clean'.
+> java.io.IOException: Unable to delete directory 'C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build'
+    Failed to delete some children. This might happen because a process has files open or has its working directory set in the target directory.
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs\plugins\firebase\authentication\classes\options
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs\plugins\firebase\authentication\classes\results
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs\plugins\firebase\authentication\classes
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs\plugins\firebase\authentication\handlers
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs\plugins\firebase\authentication\interfaces
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs\plugins\firebase\authentication
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs\plugins\firebase
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs\plugins
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome\capacitorjs
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io\capawesome
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes\io
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac\classes
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug\compileDebugJavaWithJavac
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac\debug
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\javac
+    - C:\Users\user\OneDrive\Desktop\hisob kitob 2026 - Copy\finova\node_modules\@capacitor-firebase\authentication\android\build\intermediates\runtime_library_classes_dir\debug\bundleLibRuntimeToDirDebug\io\capawesome\capacitorjs\plugins\firebase\authentication
+    - and more ...
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 21s
+5 actionable tasks: 1 executed, 4 up-to-date

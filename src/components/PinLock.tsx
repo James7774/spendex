@@ -1,0 +1,252 @@
+"use client";
+import React, { useState } from 'react';
+import { useFinance } from '@/context/FinanceContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Lock, ShieldCheck } from 'lucide-react';
+
+export default function PinLock() {
+  const { isLocked, unlock, setOverlayOpen, pinCode } = useFinance();
+  const [pin, setPin] = useState('');
+  const [error, setError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  React.useEffect(() => {
+    setOverlayOpen(isLocked);
+    if (isLocked) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      setIsSuccess(false);
+      setPin('');
+      setError(false);
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
+  }, [isLocked, setOverlayOpen]);
+
+  if (!isLocked) return null;
+
+  const handleNumberClick = (num: string) => {
+    if (pin.length < 4 && !isSuccess) {
+      const newPin = pin + num;
+      setPin(newPin);
+      setError(false);
+
+      if (newPin.length === 4) {
+        if (newPin === pinCode) {
+          setIsSuccess(true);
+          // Wait for professional transition
+          setTimeout(() => {
+            unlock(newPin);
+          }, 800);
+        } else {
+          setError(true);
+          setTimeout(() => {
+            setError(false);
+            setPin('');
+          }, 800);
+        }
+      }
+    }
+  };
+
+  const handleDelete = () => {
+    setPin(prev => prev.slice(0, -1));
+    setError(false);
+  };
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'var(--background)',
+          zIndex: 99999,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '24px',
+        }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+          <motion.div
+            animate={error ? { x: [-10, 10, -10, 10, 0] } : isSuccess ? { scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] } : {}}
+            transition={{ duration: 0.4 }}
+            style={{
+              width: '85px',
+              height: '85px',
+              borderRadius: '28px',
+              background: isSuccess 
+                ? 'linear-gradient(135deg, #10b981 0%, #34d399 100%)'
+                : error 
+                  ? 'linear-gradient(135deg, #ef4444 0%, #f87171 100%)'
+                  : 'linear-gradient(135deg, #7000ff 0%, #9061f9 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 28px',
+              color: '#fff',
+              boxShadow: isSuccess 
+                ? '0 10px 25px rgba(16, 185, 129, 0.3)'
+                : error 
+                  ? '0 10px 25px rgba(239, 68, 68, 0.3)'
+                  : '0 10px 25px rgba(112, 0, 255, 0.3)',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {isSuccess ? <ShieldCheck size={42} /> : error ? <Lock size={42} /> : <Lock size={42} />}
+          </motion.div>
+          <h2 style={{ fontSize: '1.7rem', fontWeight: 900, color: 'var(--text-main)', marginBottom: '10px', letterSpacing: '-0.5px' }}>
+            {isSuccess ? "Muvaffaqiyatli!" : error ? "Noto'g'ri kod" : "Finova Xavfsizlik"}
+          </h2>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600, opacity: 0.6 }}>
+            {isSuccess ? "Ilovaga kirilmoqda..." : "Davom etish uchun 4 xonali kodingizni kiriting"}
+          </p>
+        </div>
+
+        {/* PIN Indicators */}
+        <div style={{ display: 'flex', gap: '24px', marginBottom: '70px' }}>
+          {[1, 2, 3, 4].map((i) => (
+            <motion.div
+              key={i}
+              animate={pin.length >= i ? { 
+                scale: [1, 1.3, 1], 
+                backgroundColor: isSuccess ? '#10b981' : error ? '#ef4444' : '#7000ff',
+                borderColor: isSuccess ? '#10b981' : error ? '#ef4444' : '#7000ff',
+                boxShadow: isSuccess 
+                  ? '0 0 15px rgba(16, 185, 129, 0.4)'
+                  : error 
+                    ? '0 0 15px rgba(239, 68, 68, 0.4)'
+                    : '0 0 15px rgba(112, 0, 255, 0.4)'
+              } : { 
+                scale: 1, 
+                backgroundColor: 'transparent',
+                borderColor: 'var(--border)'
+              }}
+              style={{
+                width: '14px',
+                height: '14px',
+                borderRadius: '50%',
+                border: '2.5px solid var(--border)',
+                transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Number Pad */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '24px',
+          width: '100%',
+          maxWidth: '320px'
+        }}>
+          {[
+            { num: '1', letters: '' },
+            { num: '2', letters: 'ABC' },
+            { num: '3', letters: 'DEF' },
+            { num: '4', letters: 'GHI' },
+            { num: '5', letters: 'JKL' },
+            { num: '6', letters: 'MNO' },
+            { num: '7', letters: 'PQRS' },
+            { num: '8', letters: 'TUV' },
+            { num: '9', letters: 'WXYZ' }
+          ].map((item) => (
+            <button
+              key={item.num}
+              onClick={() => handleNumberClick(item.num)}
+              style={{
+                width: '76px',
+                height: '76px',
+                borderRadius: '50%',
+                border: 'none',
+                background: 'var(--bg-secondary)',
+                color: 'var(--text-main)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                margin: '0 auto',
+                fontWeight: 600,
+                fontSize: '1.8rem',
+                transition: 'all 0.15s ease'
+              }}
+              className="pin-btn-simple"
+            >
+              {item.num}
+            </button>
+          ))}
+          <div />
+          <button
+            onClick={() => handleNumberClick('0')}
+            style={{
+              width: '76px',
+              height: '76px',
+              borderRadius: '50%',
+              border: 'none',
+              background: 'var(--bg-secondary)',
+              color: 'var(--text-main)',
+              fontSize: '1.8rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              margin: '0 auto',
+              transition: 'all 0.15s ease'
+            }}
+            className="pin-btn-simple"
+          >
+            0
+          </button>
+          <button
+            onClick={handleDelete}
+            style={{
+              width: '76px',
+              height: '76px',
+              borderRadius: '50%',
+              border: 'none',
+              background: 'transparent',
+              color: 'var(--text-main)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              margin: '0 auto'
+            }}
+            className="touch-active"
+          >
+            <svg 
+              width="30" 
+              height="30" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+              <line x1="18" y1="9" x2="12" y2="15"></line>
+              <line x1="12" y1="9" x2="18" y2="15"></line>
+            </svg>
+          </button>
+        </div>
+
+        <style jsx>{`
+          .pin-btn-simple:active {
+            transform: scale(0.92);
+            background: var(--border) !important;
+          }
+          .touch-active:active {
+            transform: scale(0.9);
+            opacity: 0.5;
+          }
+        `}</style>
+      </motion.div>
+    </AnimatePresence>
+  );
+}

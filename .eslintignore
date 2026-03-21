@@ -1,0 +1,10 @@
+.next/
+out/
+build/
+android/
+node_modules/
+public/
+dist/
+*.config.js
+*.config.mjs
+next-env.d.ts

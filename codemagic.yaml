@@ -1,0 +1,37 @@
+workflows:
+  ios-simulator-build:
+    name: iOS Simulator Build
+    instance_type: mac_mini_m1
+    max_build_duration: 60
+    environment:
+      node: latest
+      xcode: latest
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install --legacy-peer-deps
+      - name: Build Next.js app
+        script: |
+          npm run build
+      - name: Capacitor Sync
+        script: |
+          npx cap sync ios
+      - name: Build iOS App (.app)
+        script: |
+          cd ios/App
+          if [ -d "App.xcworkspace" ]; then
+            xcodebuild -workspace App.xcworkspace -scheme App -sdk iphonesimulator -configuration Debug clean build CODE_SIGNING_ALLOWED=NO
+          else
+            xcodebuild -project App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug clean build CODE_SIGNING_ALLOWED=NO
+          fi
+          # Find the .app and zip it
+          APP_DIR=$(find . -name "*.app" -type d | head -n 1)
+          if [ -n "$APP_DIR" ]; then
+            zip -r Spendex.zip "$APP_DIR"
+          fi
+    artifacts:
+      - "**/*.zip"
+    publishing:
+      email:
+        recipients:
+          - foziljonjamoliddinov@gmail.com # Rasmda ko'ringan email

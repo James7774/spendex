@@ -1,0 +1,29 @@
+﻿node.exe : (node:6392) 
+ESLintIgnoreWarning: The 
+".eslintignore" file is no 
+longer supported. Switch to 
+using the "ignores" 
+property in 
+"eslint.config.js": https://
+eslint.org/docs/latest/use/c
+onfigure/migration-guide#ign
+oring-files
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: ((node  
+  :6392) ESL...#ignoring-   
+ files:String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)

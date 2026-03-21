@@ -1,0 +1,26 @@
+﻿Alias name: spendex-alias
+Creation date: Mar 21, 2026
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=Spendex, OU=Spendex, O=Spendex, L=Tashkent, ST=Tashkent, C=UZ
+Issuer: CN=Spendex, OU=Spendex, O=Spendex, L=Tashkent, ST=Tashkent, C=UZ
+Serial number: 992fd7e4bd575591
+Valid from: Sat Mar 21 18:45:14 QYZT 2026 until: Wed Aug 06 18:45:14 QYZT 2053
+Certificate fingerprints:
+	 SHA1: 83:C7:85:B6:57:07:28:4C:03:31:1D:00:71:C0:76:76:DA:6E:76:A2
+	 SHA256: 78:7D:0D:0D:34:F2:CC:0A:8E:EC:92:89:01:2F:30:AE:78:04:E7:94:62:E5:C3:32:03:6F:C7:D7:18:E0:A5:5D
+Signature algorithm name: SHA256withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 3
+
+Extensions: 
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: 7D 40 78 0F 23 BA 53 FC   91 80 D4 0F 5D B9 E6 DF  .@x.#.S.....]...
+0010: FA FA E0 DF                                        ....
+]
+]
+
