@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { auth } from "@/lib/firebase";
 
 // --- 1. Tarjimalar (Dictionary) ---
@@ -7,7 +7,10 @@ import {
   translations,
   Language,
   languageNames,
-  rtlLanguages
+  rtlLanguages,
+  CurrencyCode,
+  currencies,
+  defaultCurrencyMap
 } from "@/locales";
 
 export type { Language };
@@ -64,6 +67,9 @@ export type FinanceFilters = {
 type FinanceContextType = {
   language: Language;
   setLanguage: (lang: Language) => void;
+  currency: CurrencyCode;
+  setCurrency: (code: CurrencyCode) => void;
+  currencySymbol: string;
   isRTL: boolean;
   darkMode: boolean;
   toggleTheme: () => void;
@@ -112,6 +118,14 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     }
     return 'uz'; // Fallback
   });
+  
+  const [currency, setCurrencyState] = useState<CurrencyCode>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('finflow_currency') as CurrencyCode;
+      if (saved) return saved;
+    }
+    return defaultCurrencyMap[language] || 'UZS';
+  });
 
   // Filters State
   const [filters, setFiltersState] = useState<FinanceFilters>({
@@ -156,7 +170,7 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
         
         const langMap: Record<string, Language> = {
           uz: 'uz', ru: 'ru', en: 'en', es: 'es', ar: 'ar', 
-          hi: 'hi', zh: 'zh-Hans', fr: 'fr', pt: 'pt-BR', de: 'de', ja: 'ja'
+          hi: 'hi', zh: 'zh-Hans', fr: 'fr', pt: 'pt-BR', de: 'de', ja: 'ja', tr: 'tr'
         };
         
         const detectedLang = langMap[langCode] || 'en';
@@ -264,7 +278,19 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('finflow_lang', lang);
+    
+    // Auto-update currency if it was never manually changed? 
+    // For now, let's just keep it simple and provide the setter.
   }, []);
+
+  const setCurrency = useCallback((code: CurrencyCode) => {
+    setCurrencyState(code);
+    localStorage.setItem('finflow_currency', code);
+  }, []);
+
+  const currencySymbol = useMemo(() => {
+    return currencies.find(c => c.code === currency)?.symbol || '$';
+  }, [currency]);
 
   const login = useCallback((userData: User) => {
       setUser(userData);
@@ -494,6 +520,9 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const value = React.useMemo(() => ({
     language,
     setLanguage,
+    currency,
+    setCurrency,
+    currencySymbol,
     isRTL,
     darkMode,
     toggleTheme,
@@ -530,12 +559,12 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     isOverlayOpen,
     setOverlayOpen
   } as FinanceContextType), [
-    language, isRTL, darkMode, transactions, goals, notes, 
+    language, currency, currencySymbol, isRTL, darkMode, transactions, goals, notes, 
     totalBalance, totalIncome, totalExpense, user,
     addGoal, addNote, addTransaction, clearAllData, 
     deleteGoal, deleteNote, deleteTransaction, 
     updateGoal, updateNote, updateUserProfile,
-    setLanguage, toggleTheme, setTheme, logout, login,
+    setLanguage, setCurrency, toggleTheme, setTheme, logout, login,
     filters, setFilters, filteredTransactions, filteredNotes,
     pinCode, setPinCode, isLocked, unlock, lockApp,
     isOverlayOpen, setOverlayOpen

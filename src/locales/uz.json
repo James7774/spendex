@@ -54,12 +54,18 @@
   "newGoal": "Yangi Maqsad",
   "categoryNamePlaceholder": "Kategoriya nomi",
   "goalNamePlaceholder": "Maqsad nomi (Masalan: Mashina)",
-  "targetAmountLabel": "Kerak summa (so'm)",
+  "targetAmountLabel": "Kerak summa",
   "currentAmountLabel": "Hozir bor summa (ixtiyoriy)",
   "deleteBtn": "O'chirish",
   "editBtn": "O'zgartirish",
   "addMoney": "Qo'shish",
   "subtractMoney": "Ayirish",
+  "searchGoalsPlaceholder": "Maqsadlarni qidirish...",
+  "goalNameLabel": "Maqsad nomi",
+  "goalReached": "✓ Maqsadga yetdingiz!",
+  "needMore": "Yana kerak:",
+  "enterAmountPlaceholder": "Summa kiriting...",
+  "searchChartsPlaceholder": "Grafiklarni qidirish...",
   "nothingFound": "Hech narsa topilmadi",
   "chartNote": "Hozircha grafikda faqat namuna ma'lumotlar ko'rinmoqda, tez orada real ma'lumotlar ulanadi",
   "premium": "Premium",
@@ -221,5 +227,6 @@
   "paymentMethods": "To'lov usullari",
   "preferences": "Sozlamalar",
   "exportData": "Ma'lumotlarni eksport qilish",
-  "accountSettings": "Hisob sozlamalari"
+  "accountSettings": "Hisob sozlamalari",
+  "selectCurrency": "Pul birligini tanlang"
 }

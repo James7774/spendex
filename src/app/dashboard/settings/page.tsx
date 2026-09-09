@@ -10,6 +10,7 @@ import React, {
 import { Share } from '@capacitor/share';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { useFinance, Language } from "@/context/FinanceContext";
+import { currencies } from "@/locales";
 import {
   Sun,
   Moon,
@@ -55,7 +56,10 @@ export default function SettingsPage() {
     pinCode,
     setPinCode,
     setOverlayOpen,
-    transactions
+    transactions,
+    currency,
+    setCurrency,
+    currencySymbol
   } = useFinance();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
@@ -75,6 +79,7 @@ export default function SettingsPage() {
     { code: "pt-BR", name: "Português", country: "br" },
     { code: "de", name: "Deutsch", country: "de" },
     { code: "ja", name: "日本語", country: "jp" },
+    { code: "tr", name: "Türkçe", country: "tr" },
   ];
 
   const currentLang =
@@ -105,6 +110,8 @@ export default function SettingsPage() {
       document.body.style.touchAction = "";
     };
   }, [isPinModalOpen, setOverlayOpen]);
+
+  const [isCurrencyModalOpen, setIsCurrencyModalOpen] = useState(false);
 
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(user?.name || "");
@@ -731,21 +738,31 @@ export default function SettingsPage() {
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <div
                 style={{
-                  width: "28px",
-                  height: "18px",
-                  borderRadius: "4px",
-                  overflow: "hidden",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-                  border: "1px solid rgba(0,0,0,0.05)",
+                  width: "32px",
+                  height: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Image
-                  src={getFlagUrl(currentLang.country)}
-                  alt={currentLang.name}
-                  width={28}
-                  height={18}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+                <div
+                  style={{
+                    width: "28px",
+                    height: "18px",
+                    borderRadius: "4px",
+                    overflow: "hidden",
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+                    border: "1px solid rgba(0,0,0,0.05)",
+                  }}
+                >
+                  <Image
+                    src={getFlagUrl(currentLang.country)}
+                    alt={currentLang.name}
+                    width={28}
+                    height={18}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
               </div>
               <ChevronRight
                 size={18}
@@ -816,24 +833,93 @@ export default function SettingsPage() {
             {darkMode ? (
               <div
                 style={{
-                  padding: "6px",
+                  width: "32px",
+                  height: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   background: "rgba(59, 130, 246, 0.1)",
                   borderRadius: "10px",
                 }}
               >
-                <Moon size={16} color="#3b82f6" strokeWidth={3} />
+                <Moon size={18} color="#3b82f6" strokeWidth={3} />
               </div>
             ) : (
               <div
                 style={{
-                  padding: "6px",
+                  width: "32px",
+                  height: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   background: "rgba(245, 158, 11, 0.1)",
                   borderRadius: "10px",
                 }}
               >
-                <Sun size={16} color="#f59e0b" strokeWidth={3} />
+                <Sun size={18} color="#f59e0b" strokeWidth={3} />
               </div>
             )}
+          </button>
+
+          {/* Currency Selection Card */}
+          <button
+            className="settings-item touch-active"
+            onClick={() => setIsCurrencyModalOpen(true)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "12px 16px",
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: "20px",
+              boxShadow: "var(--shadow-sm)",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  background: "linear-gradient(135deg, #10b981, #34d399)",
+                  borderRadius: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                }}
+              >
+                <Wallet size={20} strokeWidth={2.5} />
+              </div>
+              <div style={{ textAlign: "left" }}>
+                <div
+                  style={{
+                    fontSize: "0.95rem",
+                    fontWeight: 800,
+                    color: "var(--text-main)",
+                  }}
+                >
+                  {tAny.selectCurrency || "Currency"}
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  {currency} ({currencies.find(c => c.code === currency)?.symbol})
+                </div>
+              </div>
+            </div>
+            <ChevronRight
+              size={18}
+              color="#cbd5e1"
+              strokeWidth={3}
+              className={isRTL ? "rotate-180" : ""}
+            />
           </button>
         </div>
       </div>
@@ -1133,7 +1219,7 @@ export default function SettingsPage() {
     if (!transactions || transactions.length === 0) return;
     
     // Excel ustunlarni mukammal tushunishi uchun ajratgich sifatida nuqtali vergul (;) ishlatamiz.
-    const headers = ["Sana", "Turi", "Kategoriya", "Summa (so'm)", "Izoh"];
+    const headers = ["Sana", "Turi", "Kategoriya", `Summa (${currencySymbol})`, "Izoh"];
     const rows = transactions.map(tx => {
       // Izoh ichida nuqtali vergul bo'lsa uni olib tashlaymiz (format buzilmasligi uchun)
       const cleanNote = (tx.note || "").replace(/;/g, ",");
@@ -1231,18 +1317,18 @@ export default function SettingsPage() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "16px",
+            gap: "20px",
             marginBottom: "32px",
-            paddingTop: "8px",
+            paddingTop: "12px",
             flexShrink: 0
           }}
         >
           <button
             onClick={() => setCurrentView("main")}
             style={{
-              width: "48px",
-              height: "48px",
-              borderRadius: "16px",
+              width: "44px",
+              height: "44px",
+              borderRadius: "14px",
               background: "var(--surface)",
               border: "1px solid var(--border)",
               display: "flex",
@@ -1251,83 +1337,82 @@ export default function SettingsPage() {
               color: "var(--text-main)",
               cursor: "pointer",
               padding: 0,
-              boxShadow: "var(--shadow-sm)"
+              boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
             }}
             className="touch-active"
           >
-            <ChevronLeft size={26} strokeWidth={3} />
+            <ChevronLeft size={24} strokeWidth={2.5} />
           </button>
           <h2
             style={{
-              fontSize: "1.5rem",
-              fontWeight: 900,
+              fontSize: "1.4rem",
+              fontWeight: 850,
               color: "var(--text-main)",
               margin: 0,
-              letterSpacing: "-0.8px",
+              letterSpacing: "-0.5px",
             }}
           >
             {tAny.exportData}
           </h2>
         </div>
 
-        {/* Stats Summary */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr",
-            gap: "12px",
-            marginBottom: "28px",
+            gap: "10px",
+            marginBottom: "32px",
           }}
         >
           <div
             style={{
               background: "var(--surface)",
               border: "1px solid var(--border)",
-              borderRadius: "20px",
-              padding: "16px 12px",
+              borderRadius: "24px",
+              padding: "20px 10px",
               textAlign: "center",
-              boxShadow: "var(--shadow-sm)",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.03)",
             }}
           >
-            <div style={{ fontSize: "1.3rem", fontWeight: 900, color: "var(--text-main)" }}>
+            <div style={{ fontSize: "1.25rem", fontWeight: 850, color: "var(--text-main)", lineHeight: 1 }}>
               {txCount}
             </div>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#94a3b8", marginTop: "4px", textTransform: "uppercase" }}>
-              Tranzaksiya
+            <div style={{ fontSize: "0.6rem", fontWeight: 700, color: "var(--text-secondary)", marginTop: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              {tAny.transactionsShort || t.transactions}
             </div>
           </div>
           <div
             style={{
               background: "var(--surface)",
               border: "1px solid var(--border)",
-              borderRadius: "20px",
-              padding: "16px 12px",
+              borderRadius: "24px",
+              padding: "20px 10px",
               textAlign: "center",
-              boxShadow: "var(--shadow-sm)",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.03)",
             }}
           >
-            <div style={{ fontSize: "1.1rem", fontWeight: 900, color: "#10b981" }}>
+            <div style={{ fontSize: "1.1rem", fontWeight: 850, color: "#10b981", lineHeight: 1 }}>
               {totalIncome.toLocaleString()}
             </div>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#94a3b8", marginTop: "4px", textTransform: "uppercase" }}>
-              Daromad
+            <div style={{ fontSize: "0.6rem", fontWeight: 700, color: "var(--text-secondary)", marginTop: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              {t.income}
             </div>
           </div>
           <div
             style={{
               background: "var(--surface)",
               border: "1px solid var(--border)",
-              borderRadius: "20px",
-              padding: "16px 12px",
+              borderRadius: "24px",
+              padding: "20px 10px",
               textAlign: "center",
-              boxShadow: "var(--shadow-sm)",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.03)",
             }}
           >
-            <div style={{ fontSize: "1.1rem", fontWeight: 900, color: "#ef4444" }}>
+            <div style={{ fontSize: "1.1rem", fontWeight: 850, color: "#ef4444", lineHeight: 1 }}>
               {totalExpense.toLocaleString()}
             </div>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#94a3b8", marginTop: "4px", textTransform: "uppercase" }}>
-              Xarajat
+            <div style={{ fontSize: "0.6rem", fontWeight: 700, color: "var(--text-secondary)", marginTop: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              {t.expense}
             </div>
           </div>
         </div>
@@ -1370,11 +1455,13 @@ export default function SettingsPage() {
               <FileSpreadsheet size={24} strokeWidth={2.5} />
             </div>
             <div style={{ textAlign: "left", flex: 1 }}>
-              <div style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--text-main)" }}>
+              <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--text-main)" }}>
                 Excel (CSV)
               </div>
-              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--text-secondary)", marginTop: "2px" }}>
-                Barcha tranzaksiyalar jadval formatida
+              <div style={{ fontSize: "0.8rem", fontWeight: 500, color: "var(--text-secondary)", marginTop: "4px" }}>
+                {language === 'uz' ? "Barcha tranzaksiyalar jadval formatida" : 
+                 language === 'tr' ? "Tüm işlemler tablo formatında" : 
+                 "All transactions in table format"}
               </div>
             </div>
             <Download size={20} color="#94a3b8" strokeWidth={2.5} />
@@ -1416,11 +1503,15 @@ export default function SettingsPage() {
               <Database size={24} strokeWidth={2.5} />
             </div>
             <div style={{ textAlign: "left", flex: 1 }}>
-              <div style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--text-main)" }}>
-                Zaxira nusxa (JSON)
+              <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--text-main)" }}>
+                {language === 'uz' ? "Zaxira nusxa (JSON)" : 
+                 language === 'tr' ? "Yedek Dosyası (JSON)" : 
+                 "Backup File (JSON)"}
               </div>
-              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--text-secondary)", marginTop: "2px" }}>
-                To&apos;liq ma&apos;lumotlar zaxira faylga
+              <div style={{ fontSize: "0.8rem", fontWeight: 500, color: "var(--text-secondary)", marginTop: "4px" }}>
+                {language === 'uz' ? "To'liq ma'lumotlar zaxira faylga" : 
+                 language === 'tr' ? "Tüm veriler yedek dosyasına" : 
+                 "All data to a backup file"}
               </div>
             </div>
             <Download size={20} color="#94a3b8" strokeWidth={2.5} />
@@ -1440,8 +1531,12 @@ export default function SettingsPage() {
           }}
         >
           {txCount === 0
-            ? "Hozircha hech qanday tranzaksiya yo'q. Xarajat yoki daromad qo'shganingizdan keyin eksport qilishingiz mumkin."
-            : `Jami ${txCount} ta tranzaksiya eksport qilinadi.`}
+            ? (language === 'uz' ? "Hozircha hech qanday tranzaksiya yo'q." : 
+               language === 'tr' ? "Henüz işlem bulunmuyor." : 
+               "No transactions yet.")
+            : (language === 'uz' ? `Jami ${txCount} ta tranzaksiya eksport qilinadi.` : 
+               language === 'tr' ? `Toplam ${txCount} işlem dışa aktarılacak.` : 
+               `Total ${txCount} transactions will be exported.`)}
         </p>
       </div>
     );
@@ -1580,47 +1675,145 @@ export default function SettingsPage() {
         {currentView === "export" && renderExportData()}
       </main>
 
-      {/* Language Selection Modal */}
+      {/* Language BottomSheet */}
       <BottomSheet
         isOpen={isLangModalOpen}
         onClose={() => setIsLangModalOpen(false)}
         title={tAny.selectLang || "Select Language"}
         showCloseIcon={true}
       >
-        <div className="lang-grid-uz">
-          {languages.map((l) => (
+        <div style={{ padding: "10px 0 30px" }}>
+          {languages.map((lang) => (
             <button
-              key={l.code}
-              className={`lang-card-uz touch-active ${language === l.code ? "selected" : ""}`}
+              key={lang.code}
               onClick={() => {
-                setLanguage(l.code as Language);
+                setLanguage(lang.code as any);
                 setIsLangModalOpen(false);
               }}
+              style={{
+                width: "100%",
+                padding: "16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                background:
+                  language === lang.code ? "rgba(59, 130, 246, 0.08)" : "transparent",
+                border: "none",
+                borderRadius: "16px",
+                marginBottom: "4px",
+                cursor: "pointer",
+              }}
+              className="touch-active"
             >
-              <div className="lang-card-content">
-                <div className="lang-flag-wrapper">
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div
+                  style={{
+                    width: "36px",
+                    height: "24px",
+                    borderRadius: "4px",
+                    overflow: "hidden",
+                    border: "1px solid rgba(0,0,0,0.05)",
+                  }}
+                >
                   <Image
-                    src={getFlagUrl(l.country)}
-                    alt={l.name}
-                    width={44}
-                    height={30}
-                    style={{
-                      width: "44px",
-                      height: "30px",
-                      objectFit: "cover",
-                      borderRadius: "6px",
-                    }}
+                    src={getFlagUrl(lang.country)}
+                    alt={lang.name}
+                    width={36}
+                    height={24}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
                 </div>
-                <div className="lang-info">
-                  <span className="lang-label">{l.name}</span>
-                  <span className="lang-sub-label">{l.code.toUpperCase()}</span>
+                <span
+                  style={{
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    color: "var(--text-main)",
+                  }}
+                >
+                  {lang.name}
+                </span>
+              </div>
+              {language === lang.code && (
+                <Check size={20} color="#3b82f6" strokeWidth={3} />
+              )}
+            </button>
+          ))}
+        </div>
+      </BottomSheet>
+
+      {/* Currency BottomSheet */}
+      <BottomSheet
+        isOpen={isCurrencyModalOpen}
+        onClose={() => setIsCurrencyModalOpen(false)}
+        title={tAny.selectCurrency || "Select Currency"}
+        showCloseIcon={true}
+      >
+        <div style={{ padding: "10px 0 30px" }}>
+          {currencies.map((curr) => (
+            <button
+              key={curr.code}
+              onClick={() => {
+                setCurrency(curr.code);
+                setIsCurrencyModalOpen(false);
+              }}
+              style={{
+                width: "100%",
+                padding: "16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                background:
+                  currency === curr.code ? "rgba(16, 185, 129, 0.08)" : "transparent",
+                border: "none",
+                borderRadius: "16px",
+                marginBottom: "4px",
+                cursor: "pointer",
+              }}
+              className="touch-active"
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div
+                  style={{
+                    minWidth: '40px',
+                    height: '40px',
+                    borderRadius: '12px',
+                    background: 'var(--background)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0 6px',
+                    fontSize: curr.symbol.length > 2 ? '0.65rem' : curr.symbol.length > 1 ? '0.95rem' : '1.2rem',
+                    fontWeight: 800,
+                    color: 'var(--primary)',
+                    whiteSpace: 'nowrap',
+                    letterSpacing: curr.symbol.length > 2 ? '-0.03em' : '0',
+                  }}
+                >
+                  {curr.symbol}
+                </div>
+                <div style={{ textAlign: 'left' }}>
+                  <div
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: 700,
+                      color: "var(--text-main)",
+                    }}
+                  >
+                    {curr.code}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "0.8rem",
+                      fontWeight: 500,
+                      color: "var(--text-secondary)",
+                    }}
+                  >
+                    {curr.name}
+                  </div>
                 </div>
               </div>
-              {language === l.code && (
-                <div className="lang-check">
-                  <Check size={18} color="#fff" strokeWidth={3} />
-                </div>
+              {currency === curr.code && (
+                <Check size={20} color="#10b981" strokeWidth={3} />
               )}
             </button>
           ))}
@@ -2051,7 +2244,8 @@ export default function SettingsPage() {
         }
 
         .profile-banner {
-          width: 100%;
+          width: 101%;
+          margin-left: -0.5%;
           height: 170px;
           background: linear-gradient(
             135deg,

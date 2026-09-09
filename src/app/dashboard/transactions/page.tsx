@@ -9,7 +9,7 @@ import { ChevronDown } from "lucide-react";
 // ... (other imports)
 
 export default function TransactionsPage() {
-  const { t, filteredTransactions: dateFilteredTransactions, deleteTransaction } = useFinance();
+  const { t, filteredTransactions: dateFilteredTransactions, deleteTransaction, currencySymbol } = useFinance();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
   const [searchQuery, setSearchQuery] = useState("");
@@ -115,7 +115,7 @@ export default function TransactionsPage() {
                      }}
                    >
                      {tx.type === 'income' ? '+' : '-'}
-                     {highlightText(shortAmount, searchQuery)}
+                     {highlightText(shortAmount, searchQuery)} {currencySymbol}
                    </div>
                )}
 
@@ -207,7 +207,7 @@ export default function TransactionsPage() {
                  opacity: 0.7,
                  marginLeft: '4px'
                }}>
-                 {t.currencyLabel}
+                 {currencySymbol}
                </span>
             </div>
           </div>

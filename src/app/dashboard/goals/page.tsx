@@ -76,17 +76,17 @@ export default function GoalsPage() {
 
   return (
     <div className={styles.dashboardContent}>
-      <div className={styles.searchWrapper} style={{ paddingTop: '12px', paddingBottom: '12px' }}>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <div className={styles.searchContainer} style={{ flex: 1, borderRadius: '22px' }}>
-            <input 
-              type="text" 
-              className={styles.searchInput}
-              placeholder={tAny.searchPlaceholder || "Maqsadlarni qidirish..."}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ paddingLeft: '3rem' }}
-            />
+      <div className={styles.searchWrapper} style={{ paddingTop: '12px' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div className={styles.searchContainer} style={{ flex: 1 }}>
+              <input 
+                type="text" 
+                className={styles.searchInput}
+                placeholder={t.searchGoalsPlaceholder}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ paddingLeft: '3rem' }}
+              />
             <div className={styles.innerSearchIcon}>
                <SearchIcon size={20} />
             </div>
@@ -100,9 +100,7 @@ export default function GoalsPage() {
               </button>
             )}
           </div>
-          <div style={{ flexShrink: 0 }}>
-            <TransactionsFilter />
-          </div>
+          <TransactionsFilter />
         </div>
       </div>
 
@@ -240,7 +238,7 @@ export default function GoalsPage() {
                         color: 'var(--text-secondary)', 
                         textAlign: 'left',
                         marginLeft: '4px'
-                     }}>{tAny.goalName || "Maqsad nomi"}</label>
+                     }}>{t.goalNameLabel}</label>
                      <input 
                         placeholder={t.goalNamePlaceholder} 
                         value={title} onChange={e => setTitle(e.target.value)} required 
@@ -317,7 +315,7 @@ export default function GoalsPage() {
                             color: 'var(--text-secondary)', 
                             textAlign: 'left',
                             marginLeft: '4px'
-                        }}>Hozirgi summa</label>
+                        }}>{t.currentAmountLabel}</label>
                         <input 
                             type="text" 
                             inputMode="decimal"

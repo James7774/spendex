@@ -64,16 +64,27 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 30, stiffness: 400, mass: 0.2 }}
+            transition={{ 
+              type: 'spring', 
+              damping: 25, 
+              stiffness: 400, 
+              mass: 0.5
+            }}
+            exit={{ 
+              y: '100%',
+              transition: { type: 'tween', duration: 0.15, ease: 'easeIn' }
+            }}
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={{ top: 0, bottom: 1 }}
+            dragElastic={{ top: 0, bottom: 0.6 }}
             dragMomentum={false}
             onDragEnd={(event, info) => {
               const draggedDistance = info.offset.y;
               const velocity = info.velocity.y;
-              if (draggedDistance > 100 || (velocity > 300 && draggedDistance > 0)) {
+              
+              // Extremely responsive closing:
+              // Even a small drag (40px) or light flick (velocity > 200) will close it instantly
+              if (draggedDistance > 40 || velocity > 200) {
                 onClose();
               }
             }}
@@ -153,20 +164,22 @@ export default function BottomSheet({ isOpen, onClose, title, children, height =
                       onClick={onClose}
                       onPointerDown={(e) => e.stopPropagation()}
                       style={{
-                        background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-                        border: 'none',
-                        color: darkMode ? '#94a3b8' : '#64748b', 
+                        background: 'var(--surface)',
+                        border: '1px solid var(--border)',
+                        color: 'var(--text-main)', 
                         cursor: 'pointer',
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '50%',
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '12px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         transition: 'all 0.2s ease',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
                       }}
+                      className="touch-active"
                     >
-                      <X size={18} strokeWidth={2.5} />
+                      <X size={20} strokeWidth={2.5} />
                     </button>
                  )}
               </div>

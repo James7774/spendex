@@ -42,6 +42,7 @@ export default function ChartsPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
+      style={{ paddingBottom: '160px' }}
     >
       <div className={styles.searchWrapper} style={{ paddingTop: '12px' }}>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -49,7 +50,7 @@ export default function ChartsPage() {
             <input 
               type="text" 
               className={styles.searchInput}
-              placeholder="Grafiklarni qidirish..."
+              placeholder={t.searchChartsPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ paddingLeft: '3rem' }}

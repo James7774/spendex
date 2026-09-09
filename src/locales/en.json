@@ -68,6 +68,12 @@
   "editBtn": "Edit",
   "addMoney": "Add",
   "subtractMoney": "Subtract",
+  "searchGoalsPlaceholder": "Search goals...",
+  "goalNameLabel": "Goal Name",
+  "goalReached": "✓ Goal reached!",
+  "needMore": "Remaining:",
+  "enterAmountPlaceholder": "Enter amount...",
+  "searchChartsPlaceholder": "Search charts...",
   "nothingFound": "Nothing found",
   "chartNote": "Currently showing sample data, real data coming soon",
   "premium": "Premium",
@@ -215,5 +221,6 @@
   "paymentMethods": "Payment Methods",
   "preferences": "Preferences",
   "exportData": "Export Data",
-  "accountSettings": "Account Settings"
+  "accountSettings": "Account Settings",
+  "selectCurrency": "Select Currency"
 }

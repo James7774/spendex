@@ -19,7 +19,7 @@ export default function TransactionFormBase({
   themeColor,
   gradient 
 }: TransactionFormBaseProps) {
-  const { addTransaction, t, language } = useFinance();
+  const { addTransaction, t, language, currencySymbol } = useFinance();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
   
@@ -127,7 +127,7 @@ export default function TransactionFormBase({
               fontSize: '1rem',
               fontWeight: 600
             }}>
-              {t.currencyLabel}
+              {currencySymbol}
             </span>
           </div>
         </div>
@@ -281,7 +281,7 @@ export default function TransactionFormBase({
           pointerEvents: categoryKey === 'other' ? 'all' : 'none'
         }}>
           <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.5rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
-            {tAny.categoryNamePlaceholder || "Kategoriya nomi"}
+            {tAny.categoryNamePlaceholder || t.category}
           </label>
           <input 
             type="text" 

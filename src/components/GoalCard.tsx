@@ -14,7 +14,7 @@ interface GoalCardProps {
 }
 
 export default function GoalCard({ id, title, targetAmount, currentAmount, icon, onDelete, onUpdate }: GoalCardProps) {
-  const { t } = useFinance();
+  const { t, currencySymbol } = useFinance();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [amountInput, setAmountInput] = useState('');
@@ -218,13 +218,13 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
                         border: '1px solid rgba(16, 185, 129, 0.2)'
                       }}>
                         <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#10B981', margin: 0 }}>
-                          ✓ Maqsadga yetdingiz!
+                          {t.goalReached}
                         </p>
                       </div>
                     ) : (
                       <>
                         <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '2px' }}>
-                          Yana kerak:
+                          {t.needMore}
                         </p>
                         <p style={{ 
                           fontSize: '1.1rem', 
@@ -233,7 +233,7 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
                           margin: 0,
                           letterSpacing: '-0.01em'
                         }}>
-                          {formatCompactNumber(targetAmount - currentAmount)} <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>so&apos;m</span>
+                          {formatCompactNumber(targetAmount - currentAmount)} <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>{currencySymbol}</span>
                         </p>
                       </>
                     )}
@@ -261,7 +261,7 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
                       inputMode="numeric"
                       value={isSubtracting && amountInput ? `− ${formatInputNumber(amountInput)}` : formatInputNumber(amountInput)}
                       onChange={handleInputChange}
-                      placeholder="Summa kiriting..."
+                      placeholder={t.enterAmountPlaceholder}
                       style={{
                         width: '100%',
                         padding: '14px 16px',

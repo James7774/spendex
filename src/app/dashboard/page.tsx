@@ -11,7 +11,7 @@ import { IncomeIcon, ExpenseIcon, ArrowRightIcon } from "@/components/Icons";
 import { Plus, User, UtensilsCrossed, Car, Home, Clapperboard, HeartPulse, Wallet, ShoppingBag, Receipt, GraduationCap, Gift, MoreHorizontal, ArrowRight } from "lucide-react";
 
 export default function DashboardPage() {
-  const { t, totalBalance, totalIncome, totalExpense, transactions, user } = useFinance();
+  const { t, totalBalance, totalIncome, totalExpense, transactions, user, currencySymbol } = useFinance();
   const [showAddForm, setShowAddForm] = useState(false);
   const [initialTxType, setInitialTxType] = useState<'expense' | 'income'>('expense');
 
@@ -76,7 +76,7 @@ export default function DashboardPage() {
                ...getResponsiveStyle(totalBalance, 'main'),
                wordBreak: 'break-word' as const,
              }}>
-                {formatCurrency(totalBalance)} <span style={{ fontSize: '0.45em', opacity: 0.8, fontWeight: 500 }}>{t.currencyLabel}</span>
+                {formatCurrency(totalBalance)} <span style={{ fontSize: '0.45em', opacity: 0.8, fontWeight: 500 }}>{currencySymbol}</span>
              </h1>
            </div>
            
@@ -333,7 +333,7 @@ export default function DashboardPage() {
                   maxWidth: '40%',
                   minWidth: '70px',
                 }}>
-                  {tx.type === 'income' ? '+' : '-'}{amountStr}
+                  {tx.type === 'income' ? '+' : '-'}{amountStr} <span style={{ fontSize: '0.85em', opacity: 0.8 }}>{currencySymbol}</span>
                 </div>
               </div>
             );

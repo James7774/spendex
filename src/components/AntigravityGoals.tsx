@@ -37,6 +37,7 @@ export default function AntigravityGoals() {
       <style jsx>{`
         .goals-section-wrapper {
           margin-top: 2rem;
+          margin-bottom: 180px;
           padding: 1.5rem;
           background: var(--surface);
           border-radius: 24px;

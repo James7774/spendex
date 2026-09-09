@@ -12,7 +12,7 @@ const getNavItems = (t: any) => [
   { href: "/dashboard/transactions", label: t.transactionsShort || "History", iconId: "transactions" },
   { href: "/dashboard/charts", label: t.chartsShort || "Chart", iconId: "charts" },
   { href: "/dashboard/goals", label: t.goalsShort || "Goal", iconId: "goals" },
-  { href: "/dashboard/settings", label: "Profil", iconId: "profile" },
+  { href: "/dashboard/settings", label: t.settingsShort || "Profil", iconId: "profile" },
 ];
 
 const BRAND_COLOR = "#6366f1"; // Global professional brand color
@@ -48,7 +48,7 @@ const NavIcon = ({ id, active }: { id: string; active?: boolean }) => {
         </svg>
       );
     case "profile":
-      return <div className={styles.navIcon} style={{ color: iconColor }}><UserIcon size={20} strokeWidth={strokeWidth} /></div>;
+      return <div className={styles.navIcon} style={{ color: iconColor }}><UserIcon size={18} strokeWidth={strokeWidth} /></div>;
     default:
       return null;
   }
@@ -90,9 +90,9 @@ export default function BottomNav() {
         className={styles.bottomNav} 
         style={{ 
           position: 'relative', 
-          height: '66px', 
-          borderRadius: '28px',
-          padding: '0 8px',
+          height: '52px', 
+          borderRadius: '22px',
+          padding: '0 4px',
           display: 'flex',
           width: '100%',
           justifyContent: 'space-around',
@@ -114,7 +114,7 @@ export default function BottomNav() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '2px',
+                gap: '1px',
                 height: '100%',
                 cursor: 'pointer',
                 WebkitTapHighlightColor: 'transparent',
@@ -123,15 +123,15 @@ export default function BottomNav() {
             >
               <div 
                 style={{
-                  width: '46px',
-                  height: '30px',
-                  borderRadius: '16px',
+                  width: '38px',
+                  height: '24px',
+                  borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: active ? `${BRAND_COLOR}15` : 'transparent',
                   transition: 'all 0.2s ease',
-                  marginBottom: '2px'
+                  marginBottom: '1px'
                 }}
               >
                  <NavIcon id={item.iconId} active={active} />
@@ -139,11 +139,12 @@ export default function BottomNav() {
 
               <span 
                 style={{ 
-                  fontSize: '0.65rem', 
-                  fontWeight: active ? '850' : '600',
+                  fontSize: '0.6rem', 
+                  fontWeight: active ? '800' : '600',
                   color: active ? BRAND_COLOR : 'var(--text-secondary)',
                   transition: 'color 0.2s ease',
-                  letterSpacing: '0.01em'
+                  letterSpacing: '0.01em',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 {item.label}

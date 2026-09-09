@@ -23,8 +23,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.finova.app" />
-                  <option name="mobileSdkAppId" value="1:586561165822:android:6b88f6ea54756dfb29c8af" />
+                  <option name="appId" value="com.spendex.uz" />
+                  <option name="mobileSdkAppId" value="1:586561165822:android:d5a67d1b7cc50cb029c8af" />
                   <option name="projectId" value="finova-aeb4c" />
                   <option name="projectNumber" value="586561165822" />
                 </ConnectionSetting>

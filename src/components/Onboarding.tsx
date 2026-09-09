@@ -72,6 +72,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
     { code: 'pt-BR', name: 'Português', country: 'br' },
     { code: 'de', name: 'Deutsch', country: 'de' },
     { code: 'ja', name: '日本語', country: 'jp' },
+    { code: 'tr', name: 'Türkçe', country: 'tr' },
   ];
 
   const handleLanguageSelect = (lang: Language) => {

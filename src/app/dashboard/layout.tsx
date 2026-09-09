@@ -107,56 +107,31 @@ export default function DashboardLayout({
         width: '100%',
         margin: 0,
         padding: 0,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column'
       }}>
-        <AnimatePresence custom={direction} initial={false}>
-            <motion.div
-            key={pathname}
-            custom={direction}
-            variants={variants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            className={styles.pageMotionWrapper}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '101vw', // Precise bleed
-              marginLeft: '-0.5vw',
-              height: '100%',
-              background: 'var(--background)',
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            {/* Header */}
-            {!isFullPage(pathname) && (
-              <header className={styles.mobileHeader} style={{ flexShrink: 0 }}>
-                <div className={styles.brand}>{getPageTitle(pathname)}</div>
-              </header>
-            )}
-            
-            {/* Page Content */}
-            <div 
-              style={{ 
-                flex: 1, 
-                width: '100%',
-                overflowY: 'auto', 
-                overflowX: 'hidden',
-                WebkitOverflowScrolling: 'touch',
-                paddingBottom: '100px'
-              }}
-              className={styles.fullWidthLayout}
-            >
-              <FrozenRoute key={pathname}>
-                {children}
-              </FrozenRoute>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+        {/* Header - Only for subpages */}
+        {!isFullPage(pathname) && (
+          <header className={styles.mobileHeader} style={{ flexShrink: 0 }}>
+            <div className={styles.brand}>{getPageTitle(pathname)}</div>
+          </header>
+        )}
+        
+        {/* Page Content */}
+        <div 
+          style={{ 
+            flex: 1, 
+            width: '100%',
+            overflowY: 'auto', 
+            overflowX: 'hidden',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: '140px'
+          }}
+          className={styles.fullWidthLayout}
+        >
+          {children}
+        </div>
       </main>
     </div>
   );

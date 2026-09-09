@@ -39,11 +39,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     } else {
         const fadeTimer = setTimeout(() => {
            setSplashOpacity(0);
-        }, 3000); // Start fading after 3 seconds
+        }, 1800); // Start fading after 1.8 seconds
     
         const removeTimer = setTimeout(() => {
            setShowSplash(false);
-        }, 3500); // Fully remove after 3.5 seconds
+        }, 2200); // Fully remove after 2.2 seconds
         
         return () => {
           clearTimeout(fadeTimer);

@@ -39,11 +39,14 @@ const SplashScreen = () => {
         }
 
         .lottie-wrapper {
-          width: min(320px, 80vw);
-          height: min(320px, 80vw);
+          width: min(400px, 90vw);
+          height: min(400px, 90vw);
           position: relative;
           z-index: 1;
-          filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.3));
+          filter: drop-shadow(0 0 40px rgba(99, 102, 241, 0.4));
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         @keyframes fadeInScale {
