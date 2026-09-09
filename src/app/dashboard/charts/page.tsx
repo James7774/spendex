@@ -175,15 +175,15 @@ export default function ChartsPage() {
 
         .main-chart-section {
           width: 100%;
-          margin-bottom: 2.5rem;
+          margin-bottom: 1.2rem;
         }
 
         .card-glass {
           background: ${darkMode ? 'rgba(30, 41, 59, 0.5)' : 'white'};
           backdrop-filter: blur(20px);
-          border-radius: 36px;
-          padding: 32px;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+          border-radius: 20px;
+          padding: 16px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
           border: 1px solid ${darkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)'};
         }
 
@@ -191,11 +191,11 @@ export default function ChartsPage() {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
-          margin-bottom: 32px;
+          margin-bottom: 16px;
         }
 
         .card-heading {
-          font-size: 1.4rem;
+          font-size: 1.1rem;
           font-weight: 900;
           color: ${darkMode ? '#f8fafc' : '#1e293b'};
           margin: 0;

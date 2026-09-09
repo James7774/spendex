@@ -104,8 +104,8 @@ export default function GoalsPage() {
         </div>
       </div>
 
-      {/* Add Button Section - Perfectly Aligned with Search */}
-      <div style={{ marginBottom: '28px' }}>
+      {/* Add Button Section - Compact & Aligned */}
+      <div style={{ marginBottom: '16px' }}>
         <button 
           onClick={() => setShowForm(!showForm)}
           style={{
@@ -113,23 +113,23 @@ export default function GoalsPage() {
             background: showForm ? 'rgba(239, 68, 68, 0.1)' : 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
             color: showForm ? '#ef4444' : 'white',
             border: 'none',
-            height: '56px',
-            borderRadius: '22px',
-            fontSize: '1.05rem',
-            fontWeight: 850,
-            boxShadow: showForm ? 'none' : '0 10px 25px rgba(99, 102, 241, 0.25)',
+            height: '44px',
+            borderRadius: '14px',
+            fontSize: '0.85rem',
+            fontWeight: 800,
+            boxShadow: showForm ? 'none' : '0 6px 16px rgba(99, 102, 241, 0.2)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '12px',
+            gap: '8px',
             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             cursor: 'pointer',
           }}
           className="touch-active"
         >
             <div style={{ 
-              width: '26px', 
-              height: '26px', 
+              width: '24px', 
+              height: '24px', 
               background: showForm ? 'transparent' : 'rgba(255,255,255,0.2)', 
               borderRadius: '50%',
               display: 'flex',
@@ -138,7 +138,7 @@ export default function GoalsPage() {
               transform: showForm ? 'rotate(45deg)' : 'none',
               transition: 'transform 0.3s ease'
             }}>
-              <PlusIcon size={16} color={showForm ? "#ef4444" : "white"} />
+              <PlusIcon size={14} color={showForm ? "#ef4444" : "white"} />
             </div>
             <span style={{ letterSpacing: '-0.2px' }}>{showForm ? t.cancel : t.newGoal}</span>
         </button>

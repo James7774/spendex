@@ -84,11 +84,11 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
         onClick={() => !isEditing && setIsExpanded(!isExpanded)}
         style={{
           width: '100%',
-          padding: '18px',
-          borderRadius: '24px',
+          padding: '12px 14px',
+          borderRadius: '16px',
           background: 'var(--surface)',
           position: 'relative',
-          boxShadow: isExpanded ? '0 12px 30px -5px rgba(0,0,0,0.12)' : '0 4px 12px rgba(0,0,0,0.03)',
+          boxShadow: isExpanded ? '0 8px 20px -4px rgba(0,0,0,0.1)' : '0 2px 8px rgba(0,0,0,0.02)',
           border: `1px solid ${isExpanded ? brandColor : 'var(--border)'}`,
           transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
           cursor: 'pointer',
@@ -96,26 +96,26 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
         }}
       >
         {/* HEADER ROW (Always visible) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           
           {/* Icon Container */}
           <div style={{
-            width: '52px',
-            height: '52px',
-            borderRadius: '16px',
+            width: '38px',
+            height: '38px',
+            borderRadius: '12px',
             background: isExpanded ? brandColor : 'var(--bg-secondary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
             transition: 'all 0.3s ease',
-            boxShadow: isExpanded ? `0 8px 16px -4px ${brandColor}40` : 'none'
+            boxShadow: isExpanded ? `0 6px 12px -3px ${brandColor}40` : 'none'
           }}>
-            {getGoalIcon(icon, 30, isExpanded ? 'white' : undefined)}
+            {getGoalIcon(icon, 22, isExpanded ? 'white' : undefined)}
           </div>
 
           {/* Main Info */}
-          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <div className="goal-card-header">
                   <div className="goal-title-group">
                       <h4 className="goal-title">
@@ -144,9 +144,9 @@ export default function GoalCard({ id, title, targetAmount, currentAmount, icon,
               {/* Progress Bar Container */}
               <div style={{
                 width: '100%',
-                height: '10px',
+                height: '7px',
                 backgroundColor: 'var(--bg-secondary)', 
-                borderRadius: '10px',
+                borderRadius: '8px',
                 overflow: 'hidden',
                 border: '1px solid var(--border)'
               }}>

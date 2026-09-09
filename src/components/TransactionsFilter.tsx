@@ -90,7 +90,7 @@ export default function TransactionsFilter({ transparentMode = false }: { transp
           backdropFilter: 'blur(8px)'
         } : {}}
       >
-        <FilterIcon size={18} />
+        <FilterIcon size={16} />
         <span>{tAny.filters || "Filters"}</span>
         {(filters.categories.length > 0 || filters.dateType !== '1M' || filters.minAmount || filters.maxAmount) && (
           <span className="filter-badge" />
@@ -219,11 +219,11 @@ export default function TransactionsFilter({ transparentMode = false }: { transp
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 54px;
-          height: 54px;
+          width: 44px;
+          height: 44px;
           background: ${darkMode ? 'rgba(255,255,255,0.05)' : '#fff'};
           border: 1.5px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'var(--border)'};
-          border-radius: 20px;
+          border-radius: 22px;
           color: ${darkMode ? '#fff' : '#0f172a'};
           cursor: pointer;
           position: relative;
