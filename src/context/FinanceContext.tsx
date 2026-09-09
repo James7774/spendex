@@ -139,7 +139,14 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     maxAmount: undefined
   });
 
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('finflow_theme');
+      if (savedTheme === 'dark') return true;
+      if (savedTheme === 'light') return false;
+    }
+    return false;
+  });
   const [user, setUser] = useState<User | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [goals, setGoals] = useState<Goal[]>([]);
@@ -179,7 +186,13 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
       }
 
       const savedTheme = localStorage.getItem('finflow_theme');
-      if (savedTheme === 'dark') setDarkMode(true);
+      if (savedTheme === 'dark') {
+        setDarkMode(true);
+        document.documentElement.classList.add('dark');
+      } else if (savedTheme === 'light') {
+        setDarkMode(false);
+        document.documentElement.classList.remove('dark');
+      }
 
       const savedUser = localStorage.getItem('finflow_user');
       if (savedUser) {
@@ -488,7 +501,18 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const totalExpense = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
   const totalBalance = totalIncome - totalExpense;
 
-  const setTheme = useCallback((theme: 'light' | 'dark') => setDarkMode(theme === 'dark'), []);
+  const setTheme = useCallback((theme: 'light' | 'dark') => {
+    const isDark = theme === 'dark';
+    setDarkMode(isDark);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('finflow_theme', isDark ? 'dark' : 'light');
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  }, []);
 
   const setPinCode = useCallback((pin: string | null) => {
     setPinCodeState(pin);
