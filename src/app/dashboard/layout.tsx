@@ -33,11 +33,12 @@ export default function DashboardLayout({
   const [direction, setDirection] = useState(0);
   const [prevPath, setPrevPath] = useState(pathname);
 
-  // Senior Fix: Force body background to match header to hide sub-pixel gaps
+  // Senior Fix: Force body background to match top header color (#0f172a) to eliminate phone corner gaps
   useEffect(() => {
-    const isDashboard = pathname === '/dashboard';
-    document.body.style.background = isDashboard ? 'var(--background)' : '#0a0c10';
-    document.documentElement.style.background = isDashboard ? 'var(--background)' : '#0a0c10';
+    const isFullHeader = pathname === '/dashboard' || pathname === '/dashboard/settings';
+    const bg = isFullHeader ? '#0f172a' : 'var(--background)';
+    document.body.style.background = bg;
+    document.documentElement.style.background = bg;
     
     return () => {
       document.body.style.background = '';

@@ -2244,23 +2244,22 @@ export default function SettingsPage() {
         }
 
         .profile-banner {
-          width: 101%;
-          margin-left: -0.5%;
+          width: 100%;
+          margin: 0;
           height: 170px;
           background: linear-gradient(
             135deg,
-            #7c3aed 0%,
-            #9061f9 100%,
-            #6d28d9 100%
+            #0F172A 0%,
+            #334155 100%
           );
           position: relative;
-          padding-top: calc(var(--safe-top) + 40px);
+          padding-top: max(calc(env(safe-area-inset-top, 0px) + 20px), 36px);
           display: flex;
           flex-direction: column;
           align-items: center;
-          border-bottom-left-radius: 40px;
-          border-bottom-right-radius: 40px;
-          box-shadow: 0 12px 30px -10px rgba(124, 58, 237, 0.35);
+          border-bottom-left-radius: 32px;
+          border-bottom-right-radius: 32px;
+          box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.35);
           overflow: visible;
           z-index: 10;
         }
@@ -2952,7 +2951,7 @@ export default function SettingsPage() {
           background: #0f172a;
         }
         :global(.dark) .profile-banner {
-          background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+          background: linear-gradient(135deg, #0F172A 0%, #1e293b 100%);
         }
         :global(.dark) .banner-avatar {
           background: #1e293b;
