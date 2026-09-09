@@ -68,24 +68,24 @@ export default function TransactionFormBase({
     <div style={{ 
       width: '100%', 
       boxSizing: 'border-box',
-      minHeight: '550px', // Fixed minimum height to prevent jumping
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      padding: '4px 0 12px'
     }}>
       <h3 style={{ 
-        marginBottom: '1.5rem', 
-        fontWeight: 700, 
+        marginBottom: '0.8rem', 
+        fontWeight: 800, 
         color: 'var(--text-main)', 
-        fontSize: '1.4rem',
+        fontSize: '1.15rem',
         textAlign: 'center' 
       }}>
         {title}
       </h3>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem', flex: 1 }}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1 }}>
         {/* Summa Input */}
         <div>
-          <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.5rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+          <label style={{ display: 'block', fontSize: '0.78rem', marginBottom: '0.25rem', color: 'var(--text-secondary)', fontWeight: 700, paddingLeft: '2px' }}>
             {t.amount}
           </label>
           <div style={{ position: 'relative' }}>
@@ -98,12 +98,12 @@ export default function TransactionFormBase({
               required
               style={{
                 width: '100%',
-                padding: '1rem 1.25rem',
-                paddingRight: '60px',
-                borderRadius: '16px',
+                padding: '0.65rem 0.9rem',
+                paddingRight: '50px',
+                borderRadius: '14px',
                 border: `2px solid var(--border)`,
-                fontSize: '1.25rem',
-                fontWeight: 700,
+                fontSize: '1.05rem',
+                fontWeight: 800,
                 outline: 'none',
                 background: 'var(--background)',
                 color: 'var(--text-main)',
@@ -111,7 +111,7 @@ export default function TransactionFormBase({
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = themeColor;
-                e.target.style.boxShadow = `0 0 0 4px ${themeColor}15`;
+                e.target.style.boxShadow = `0 0 0 3px ${themeColor}15`;
               }}
               onBlur={(e) => {
                 e.target.style.borderColor = 'var(--border)';
@@ -120,12 +120,12 @@ export default function TransactionFormBase({
             />
             <span style={{
               position: 'absolute',
-              right: '16px',
+              right: '14px',
               top: '50%',
               transform: 'translateY(-50%)',
               color: 'var(--text-secondary)',
-              fontSize: '1rem',
-              fontWeight: 600
+              fontSize: '0.85rem',
+              fontWeight: 700
             }}>
               {currencySymbol}
             </span>
@@ -134,7 +134,7 @@ export default function TransactionFormBase({
 
         {/* Category Selector */}
         <div>
-          <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.5rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+          <label style={{ display: 'block', fontSize: '0.78rem', marginBottom: '0.25rem', color: 'var(--text-secondary)', fontWeight: 700, paddingLeft: '2px' }}>
             {t.category}
           </label>
           <div style={{ position: 'relative' }}>
@@ -143,38 +143,38 @@ export default function TransactionFormBase({
               onClick={() => setShowCategoryPicker(!showCategoryPicker)}
               style={{
                 width: '100%',
-                padding: '0.85rem 1rem',
-                borderRadius: '16px',
+                padding: '0.55rem 0.85rem',
+                borderRadius: '14px',
                 border: '2px solid var(--border)',
                 background: 'var(--background)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '10px',
                 justifyContent: 'space-between',
                 transition: 'all 0.2s'
               }}
             >
-              <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{
-                  width: '38px',
-                  height: '38px',
+                  width: '32px',
+                  height: '32px',
                   borderRadius: '10px',
                   background: selectedCategoryData?.bgColor || 'var(--surface)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '1.2rem'
+                  fontSize: '1.05rem'
                 }}>
                   {selectedCategoryData?.icon}
                 </span>
-                <span style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.95rem' }}>
+                <span style={{ fontWeight: 700, color: 'var(--text-main)', fontSize: '0.9rem' }}>
                   {getCategoryName(categoryKey)}
                 </span>
               </span>
               <svg 
-                width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-                style={{ transform: showCategoryPicker ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}
+                width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                style={{ transform: showCategoryPicker ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}
               >
                 <path d="M6 9l6 6 6-6"/>
               </svg>
@@ -188,26 +188,26 @@ export default function TransactionFormBase({
                 />
                 <div style={{
                   position: 'absolute',
-                  top: 'calc(100% + 8px)',
+                  top: 'calc(100% + 6px)',
                   left: 0,
                   right: 0,
                   background: 'var(--surface)',
                   border: '1px solid var(--border)',
-                  borderRadius: '20px',
-                  padding: '8px',
+                  borderRadius: '16px',
+                  padding: '6px',
                   zIndex: 1000,
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                  maxHeight: '320px',
+                  boxShadow: '0 16px 36px rgba(0,0,0,0.2)',
+                  maxHeight: '260px',
                   overflowY: 'auto',
-                  animation: 'pickerIn 0.25s cubic-bezier(0, 0, 0.2, 1)',
+                  animation: 'pickerIn 0.2s cubic-bezier(0, 0, 0.2, 1)',
                   transformOrigin: 'top center'
                 }}>
                   <style>{`
                     @keyframes pickerIn {
-                      from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+                      from { opacity: 0; transform: scale(0.96) translateY(-8px); }
                       to { opacity: 1; transform: scale(1) translateY(0); }
                     }
-                    .cat-item:active { transform: scale(0.96); }
+                    .cat-item:active { transform: scale(0.97); }
                   `}</style>
                   {categoryKeys.map((key) => {
                     const catData = categoryData[key];
@@ -223,42 +223,42 @@ export default function TransactionFormBase({
                         }}
                         style={{
                           width: '100%',
-                          padding: '10px 12px',
-                          borderRadius: '14px',
+                          padding: '8px 10px',
+                          borderRadius: '12px',
                           border: 'none',
                           background: isSelected ? catData?.bgColor : 'transparent',
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '12px',
+                          gap: '10px',
                           transition: 'all 0.15s ease',
-                          marginBottom: '4px'
+                          marginBottom: '2px'
                         }}
                       >
                         <span style={{
-                          width: '36px',
-                          height: '36px',
-                          borderRadius: '10px',
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '8px',
                           background: catData?.bgColor || 'var(--surface)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '1.2rem'
+                          fontSize: '1.05rem'
                         }}>
                           {catData?.icon}
                         </span>
                         <span style={{ 
                           fontWeight: isSelected ? 700 : 500, 
                           color: isSelected ? catData?.color : 'var(--text-main)',
-                          fontSize: '0.95rem',
+                          fontSize: '0.88rem',
                           flex: 1,
                           textAlign: 'left'
                         }}>
                           {getCategoryName(key)}
                         </span>
                         {isSelected && (
-                          <div style={{ background: catData?.color, borderRadius: '50%', width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4">
+                          <div style={{ background: catData?.color, borderRadius: '50%', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4">
                               <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                           </div>
@@ -272,15 +272,15 @@ export default function TransactionFormBase({
           </div>
         </div>
 
-        {/* Custom Category Input - Using a wrapper for consistent height */}
+        {/* Custom Category Input */}
         <div style={{ 
-          height: categoryKey === 'other' ? '82px' : '0px',
+          height: categoryKey === 'other' ? '64px' : '0px',
           opacity: categoryKey === 'other' ? 1 : 0,
           overflow: 'hidden',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
           pointerEvents: categoryKey === 'other' ? 'all' : 'none'
         }}>
-          <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.5rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+          <label style={{ display: 'block', fontSize: '0.78rem', marginBottom: '0.25rem', color: 'var(--text-secondary)', fontWeight: 700, paddingLeft: '2px' }}>
             {tAny.categoryNamePlaceholder || t.category}
           </label>
           <input 
@@ -291,14 +291,14 @@ export default function TransactionFormBase({
             required={categoryKey === 'other'}
             style={{
               width: '100%',
-              padding: '0.85rem 1.25rem',
-              borderRadius: '16px',
+              padding: '0.65rem 0.9rem',
+              borderRadius: '14px',
               border: `2px solid ${themeColor}`,
-              fontSize: '1rem',
+              fontSize: '0.9rem',
               outline: 'none',
               background: 'var(--background)',
               color: 'var(--text-main)',
-              boxShadow: `0 0 0 4px ${themeColor}10`
+              boxShadow: `0 0 0 3px ${themeColor}10`
             }}
           />
         </div>
@@ -313,7 +313,7 @@ export default function TransactionFormBase({
 
         {/* Note Input */}
         <div>
-          <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+          <label style={{ display: 'block', fontSize: '0.78rem', marginBottom: '0.25rem', color: 'var(--text-secondary)', fontWeight: 700, paddingLeft: '2px' }}>
             {t.note}
           </label>
           <input 
@@ -323,10 +323,10 @@ export default function TransactionFormBase({
             placeholder="..."
             style={{
               width: '100%',
-              padding: '0.85rem 1.25rem',
-              borderRadius: '16px',
+              padding: '0.65rem 0.9rem',
+              borderRadius: '14px',
               border: '2px solid var(--border)',
-              fontSize: '1rem',
+              fontSize: '0.9rem',
               outline: 'none',
               background: 'var(--background)',
               color: 'var(--text-main)',
@@ -337,21 +337,23 @@ export default function TransactionFormBase({
           />
         </div>
 
-        <div style={{ marginTop: 'auto', paddingTop: '0.5rem' }}>
+        {/* Submit Button */}
+        <div style={{ marginTop: '0.5rem' }}>
           <button 
             type="submit" 
+            className="touch-active"
             style={{ 
               width: '100%', 
-              padding: '1.1rem',
-              borderRadius: '18px',
+              padding: '0.75rem',
+              borderRadius: '14px',
               border: 'none',
               background: gradient,
               color: '#fff',
-              fontSize: '1.1rem',
-              fontWeight: 700,
+              fontSize: '0.95rem',
+              fontWeight: 800,
               cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: `0 8px 20px ${themeColor}40`,
+              transition: 'all 0.2s ease',
+              boxShadow: `0 6px 18px ${themeColor}35`,
             }}
           >
             {t.save}
