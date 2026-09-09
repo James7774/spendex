@@ -414,12 +414,14 @@ export default function GoalsPage() {
                 </div>
 
                 {/* 5. Target Amount & Current Amount Inputs */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'end' }}>
                     {/* Target Amount */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                         <label style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-main)', paddingLeft: '4px' }}>
-                            {t.targetAmountLabel}
-                         </label>
+                         <div style={{ minHeight: '36px', display: 'flex', alignItems: 'flex-end', paddingLeft: '4px' }}>
+                           <label style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1.2 }}>
+                              {t.targetAmountLabel}
+                           </label>
+                         </div>
                          <div style={{ position: 'relative' }}>
                            <input 
                               type="text" 
@@ -455,9 +457,11 @@ export default function GoalsPage() {
 
                     {/* Current Amount */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                        <label style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-main)', paddingLeft: '4px' }}>
-                            {t.currentAmountLabel}
-                        </label>
+                        <div style={{ minHeight: '36px', display: 'flex', alignItems: 'flex-end', paddingLeft: '4px' }}>
+                          <label style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1.2 }}>
+                              {t.currentAmountLabel}
+                          </label>
+                        </div>
                         <div style={{ position: 'relative' }}>
                           <input 
                               type="text" 
