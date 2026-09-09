@@ -178,7 +178,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
           {step === 'language' && (
             <div className="page-content animate-slide">
               <div className="icon-box blue-grad">
-                 <Globe size={32} />
+                 <Globe size={26} />
               </div>
               <h1 className="ob-title">{ot.langTitle}</h1>
               <p className="ob-subtitle">{ot.langSub}</p>
@@ -194,21 +194,21 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
                             <Image 
                                 src={getFlagUrl(currentLangObj.country)} 
                                 alt={currentLangObj.name}
-                                width={42}
-                                height={30}
+                                width={36}
+                                height={26}
                                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                             />
                         </div>
                         <span className="selector-name">{currentLangObj.name}</span>
                      </div>
-                     <ChevronDown size={20} className={`selector-arrow ${isLangModalOpen ? 'open' : ''}`} />
+                     <ChevronDown size={18} className={`selector-arrow ${isLangModalOpen ? 'open' : ''}`} />
                   </button>
               </div>
 
               <div className="spacer" />
               <button className="ob-primary-btn touch-active" onClick={() => setStep('login')}>
                 <span>{ot.next}</span>
-                <ChevronRight size={20} />
+                <ChevronRight size={18} />
               </button>
             </div>
           )}
@@ -216,7 +216,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
           {step === 'login' && (
             <div className="page-content animate-slide">
               <div className="icon-box purple-grad">
-                 <LogIn size={32} />
+                 <LogIn size={26} />
               </div>
               <h1 className="ob-title">{ot.loginTitle}</h1>
               <p className="ob-subtitle">{ot.loginSub}</p>
@@ -243,7 +243,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
           {step === 'profile' && (
             <div className="page-content animate-slide">
               <div className="icon-box green-grad">
-                 <UserIcon size={32} />
+                 <UserIcon size={26} />
               </div>
               <h1 className="ob-title">{ot.profileTitle}</h1>
               <p className="ob-subtitle">{ot.profileSub}</p>
@@ -263,7 +263,7 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
               <div className="spacer" />
               <button className="ob-primary-btn touch-active" onClick={handleProfileSubmit} disabled={!firstName.trim() || !lastName.trim() || isLoading}>
                 <span>{ot.confirm}</span>
-                <Check size={20} />
+                <Check size={18} />
               </button>
             </div>
           )}
@@ -289,14 +289,14 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
                         <Image 
                             src={getFlagUrl(l.country)} 
                             alt={l.name} 
-                            width={36} 
-                            height={26} 
+                            width={32} 
+                            height={22} 
                             style={{ borderRadius: '4px', objectFit: 'cover', width: '100%', height: '100%' }}
                         />
                     </span>
                     <span className="lang-name">{l.name}</span>
                 </div>
-                {language === l.code && <Check size={20} color="#6366f1" />}
+                {language === l.code && <Check size={18} color="#6366f1" />}
             </button>
             ))}
         </div>
@@ -307,134 +307,134 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
           position: fixed; inset: 0; background: var(--background); z-index: 9990;
           display: flex; flex-direction: column; color: var(--text-main); overflow: hidden;
         }
-        .ob-glow { position: absolute; width: min(400px, 80vw); height: min(400px, 80vw); border-radius: 50%; filter: blur(100px); opacity: 0.15; pointer-events: none; }
+        .ob-glow { position: absolute; width: min(350px, 75vw); height: min(350px, 75vw); border-radius: 50%; filter: blur(90px); opacity: 0.15; pointer-events: none; }
         .ob-glow.blue { top: -10%; left: -10%; background: var(--primary); }
         .ob-glow.purple { bottom: -10%; right: -10%; background: #8b5cf6; }
 
         .ob-header { 
           display: flex; align-items: center; justify-content: space-between; 
-          padding: calc(var(--safe-top) + 1rem) var(--space-md) var(--space-md); 
+          padding: calc(var(--safe-top) + 0.5rem) var(--space-md) var(--space-xs); 
         }
-        .header-left, .header-right { width: var(--touch-target); }
+        .header-left, .header-right { width: 38px; }
         .glass-back {
-          width: var(--touch-target); height: var(--touch-target); border-radius: 14px; 
+          width: 38px; height: 38px; border-radius: 12px; 
           background: var(--surface); border: 1px solid var(--border); 
           display: flex; align-items: center; justify-content: center; color: var(--text-main);
           box-shadow: var(--shadow-sm); transition: all 0.2s;
         }
-        .ob-progress { flex: 1; display: flex; gap: 8px; max-width: 220px; }
-        .progress-item { flex: 1; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .ob-progress { flex: 1; display: flex; gap: 6px; max-width: 180px; }
+        .progress-item { flex: 1; height: 3.5px; background: var(--border); border-radius: 4px; overflow: hidden; }
         .progress-bar-inner { width: 0; height: 100%; background: var(--primary); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .progress-bar-inner.active { width: 100%; }
 
         .ob-main { 
           flex: 1; overflow-y: auto; display: flex; flex-direction: column; 
-          padding-bottom: calc(var(--safe-bottom) + 20px); 
+          padding-bottom: calc(var(--safe-bottom) + 16px); 
           scrollbar-width: none;
         }
         .ob-main::-webkit-scrollbar { display: none; }
 
         .adaptive-content { 
           flex: 1; display: flex; flex-direction: column; 
-          max-width: 500px; width: 100%; margin: 0 auto; 
-          padding: 0 var(--space-lg); 
+          max-width: 440px; width: 100%; margin: 0 auto; 
+          padding: 0 var(--space-md); 
         }
         .page-content { flex: 1; display: flex; flex-direction: column; align-items: center; width: 100%; }
         
         .icon-box { 
-          width: 80px; height: 80px; border-radius: 24px; display: flex; align-items: center; justify-content: center; 
-          margin-bottom: 1.5rem; margin-top: 1rem; box-shadow: var(--shadow-md); color: white;
+          width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; 
+          margin-bottom: 1rem; margin-top: 0.5rem; box-shadow: var(--shadow-md); color: white; flex-shrink: 0;
         }
         .blue-grad { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
         .purple-grad { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
         .green-grad { background: linear-gradient(135deg, var(--success), #14b8a6); }
 
         .ob-title { 
-          font-size: clamp(1.5rem, 7vw, 2.22rem); font-weight: 800; margin-bottom: 0.75rem; 
+          font-size: clamp(1.25rem, 5.5vw, 1.7rem); font-weight: 850; margin-bottom: 0.4rem; 
           text-align: center; letter-spacing: -0.02em; line-height: 1.2; color: var(--text-main);
         }
         .ob-subtitle { 
-          font-size: 1rem; color: var(--text-secondary); text-align: center; 
-          line-height: 1.6; margin-bottom: 2rem; max-width: 90%; 
+          font-size: 0.88rem; color: var(--text-secondary); text-align: center; 
+          line-height: 1.45; margin-bottom: 1.2rem; max-width: 92%; 
         }
 
         .lang-selector-container {
             width: 100%;
-            margin: 1rem 0 2rem;
+            margin: 0.5rem 0 1.2rem;
         }
         .lang-selector-btn {
-            width: 100%; height: 72px; background: var(--surface);
-            border: 1px solid var(--border); border-radius: 20px;
+            width: 100%; height: 52px; background: var(--surface);
+            border: 1px solid var(--border); border-radius: 14px;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 0 14px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
         .lang-selector-btn:hover { border-color: var(--primary); background: var(--background); }
-        .selector-left { display: flex; align-items: center; gap: 16px; }
-        .selector-flag { width: 44px; height: 32px; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); flex-shrink: 0; }
-        .selector-name { font-size: 1.1rem; font-weight: 750; color: var(--text-main); }
+        .selector-left { display: flex; align-items: center; gap: 12px; }
+        .selector-flag { width: 36px; height: 26px; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08); flex-shrink: 0; }
+        .selector-name { font-size: 0.95rem; font-weight: 750; color: var(--text-main); }
         .selector-arrow { color: var(--text-secondary); transition: transform 0.3s; }
         .selector-arrow.open { transform: rotate(180deg); color: var(--primary); }
 
         .modal-ov { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999999; display: flex; align-items: flex-end; justify-content: center; }
-        .bottom-sheet { background: var(--surface); width: 100%; max-width: 500px; border-radius: 32px 32px 0 0; padding: var(--space-lg); box-shadow: var(--shadow-lg); animation: sheet-up 0.4s cubic-bezier(0.32, 0.72, 0, 1); max-height: 80vh; display: flex; flex-direction: column; border: 1px solid var(--border); border-bottom: none; }
-        .sheet-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
-        .sheet-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .sheet-title { font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin: 0; }
-        .sheet-close { background: var(--background); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); border: none; }
+        .bottom-sheet { background: var(--surface); width: 100%; max-width: 480px; border-radius: 28px 28px 0 0; padding: var(--space-md); box-shadow: var(--shadow-lg); animation: sheet-up 0.35s cubic-bezier(0.32, 0.72, 0, 1); max-height: 75vh; display: flex; flex-direction: column; border: 1px solid var(--border); border-bottom: none; }
+        .sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
+        .sheet-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .sheet-title { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin: 0; }
+        .sheet-close { background: var(--background); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); border: none; }
         
-        .lang-list-scroll { overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-bottom: 20px; scrollbar-width: none; }
+        .lang-list-scroll { overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-bottom: 16px; scrollbar-width: none; }
         .lang-list-scroll::-webkit-scrollbar { display: none; }
-        .lang-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-radius: 16px; background: var(--background); border: 1px solid var(--border); width: 100%; min-height: 64px; transition: all 0.2s; }
+        .lang-item { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-radius: 14px; background: var(--background); border: 1px solid var(--border); width: 100%; min-height: 48px; transition: all 0.2s; }
         .lang-item.selected { background: rgba(79, 70, 229, 0.1); border-color: var(--primary); }
-        .lang-left { display: flex; align-items: center; gap: 14px; flex: 1; }
-        .lang-flag { width: 36px; height: 26px; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .lang-name { font-size: 1.05rem; font-weight: 700; color: var(--text-main); }
+        .lang-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .lang-flag { width: 32px; height: 22px; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .lang-name { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
 
-        .auth-stack { width: 100%; display: flex; flex-direction: column; gap: 1rem; }
+        .auth-stack { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
         .ob-google-btn {
-          width: 100%; height: var(--input-height); border-radius: var(--radius-lg); background: white; color: #0f172a;
-          font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px; border: 1px solid #e2e8f0;
+          width: 100%; height: 46px; border-radius: 14px; background: white; color: #0f172a;
+          font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid #e2e8f0;
           box-shadow: var(--shadow-sm); padding: 0 1rem;
         }
         .simple-loader { display: flex; align-items: center; justify-content: center; }
-        .spinner { width: 28px; height: 28px; border: 3px solid rgba(99, 102, 241, 0.2); border-top-color: #6366f1; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .spinner { width: 24px; height: 24px; border: 2.5px solid rgba(99, 102, 241, 0.2); border-top-color: #6366f1; border-radius: 50%; animation: spin 0.8s linear infinite; }
         
         .ob-outline-btn {
-          width: 100%; height: var(--input-height); border-radius: var(--radius-lg); background: transparent;
-          border: 1px solid var(--border); color: var(--text-main); font-size: 1rem; font-weight: 700;
+          width: 100%; height: 46px; border-radius: 14px; background: transparent;
+          border: 1px solid var(--border); color: var(--text-main); font-size: 0.95rem; font-weight: 700;
         }
 
-        .ob-form { width: 100%; display: flex; flex-direction: column; gap: var(--space-md); }
-        .input-group { display: flex; flex-direction: column; gap: 6px; }
-        .input-group label { font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); padding-left: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .ob-form { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+        .input-group { display: flex; flex-direction: column; gap: 4px; }
+        .input-group label { font-size: 0.75rem; font-weight: 800; color: var(--text-secondary); padding-left: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
         .input-group input { 
-          width: 100%; height: var(--input-height); background: var(--surface); border: 1px solid var(--border);
-          border-radius: var(--radius-lg); padding: 0 1rem; color: var(--text-main); font-size: 1.1rem; font-weight: 700; outline: none; transition: all 0.2s;
+          width: 100%; height: 46px; background: var(--surface); border: 1px solid var(--border);
+          border-radius: 14px; padding: 0 0.85rem; color: var(--text-main); font-size: 0.95rem; font-weight: 700; outline: none; transition: all 0.2s;
         }
-        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
         .ob-primary-btn {
-          width: 100%; height: var(--input-height); border-radius: var(--radius-lg); 
+          width: 100%; height: 46px; border-radius: 14px; 
           background: var(--primary); color: white;
-          font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; border: none;
-          box-shadow: 0 8px 16px rgba(79, 70, 229, 0.2); margin-top: 1rem;
+          font-size: 0.98rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; border: none;
+          box-shadow: 0 6px 16px rgba(79, 70, 229, 0.2); margin-top: 0.75rem;
         }
         .ob-primary-btn:disabled { opacity: 0.5; box-shadow: none; }
 
-        .ob-legal { font-size: 0.75rem; color: var(--text-secondary); text-align: center; margin-top: 1.5rem; padding: 0 1rem; line-height: 1.5; }
-        .ob-error { background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 12px; border-radius: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; width: 100%; margin-top: 8px; font-weight: 600; }
+        .ob-legal { font-size: 0.72rem; color: var(--text-secondary); text-align: center; margin-top: 1rem; padding: 0 1rem; line-height: 1.4; }
+        .ob-error { background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 10px; border-radius: 10px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; width: 100%; margin-top: 6px; font-weight: 600; }
         
-        .spacer { flex: 1; min-height: 1.5rem; }
+        .spacer { flex: 1; min-height: 0.75rem; }
         .touch-active:active { transform: scale(0.97); }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         @media (max-width: 380px) {
-          .ob-header { padding-top: calc(var(--safe-top) + 0.5rem); }
-          .icon-box { width: 64px; height: 64px; margin-bottom: 1rem; }
-          .ob-title { font-size: 1.45rem; }
-          .ob-subtitle { font-size: 0.9rem; margin-bottom: 1.5rem; }
+          .ob-header { padding-top: calc(var(--safe-top) + 0.35rem); }
+          .icon-box { width: 52px; height: 52px; margin-bottom: 0.75rem; }
+          .ob-title { font-size: 1.25rem; }
+          .ob-subtitle { font-size: 0.82rem; margin-bottom: 1rem; }
         }
       `}</style>
     </div>
