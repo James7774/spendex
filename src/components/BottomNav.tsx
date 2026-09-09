@@ -90,12 +90,12 @@ export default function BottomNav() {
         className={styles.bottomNav} 
         style={{ 
           position: 'relative', 
-          height: '52px', 
-          borderRadius: '22px',
-          padding: '0 4px',
+          height: '50px', 
+          borderRadius: '25px',
+          padding: '0 6px',
           display: 'flex',
           width: '100%',
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
           alignItems: 'center'
         }}
       >
@@ -123,9 +123,9 @@ export default function BottomNav() {
             >
               <div 
                 style={{
-                  width: '38px',
-                  height: '24px',
-                  borderRadius: '12px',
+                  width: '34px',
+                  height: '22px',
+                  borderRadius: '11px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -139,7 +139,7 @@ export default function BottomNav() {
 
               <span 
                 style={{ 
-                  fontSize: '0.6rem', 
+                  fontSize: '0.58rem', 
                   fontWeight: active ? '800' : '600',
                   color: active ? BRAND_COLOR : 'var(--text-secondary)',
                   transition: 'color 0.2s ease',
