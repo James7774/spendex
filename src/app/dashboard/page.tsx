@@ -30,19 +30,19 @@ export default function DashboardPage() {
     const len = formatCurrency(amount).length;
     
     if (type === 'main') {
-      if (len > 25) return { fontSize: '1rem', lineHeight: '1.15' };
-      if (len > 20) return { fontSize: '1.2rem', lineHeight: '1.15' };
-      if (len > 16) return { fontSize: '1.4rem', lineHeight: '1.1' };
-      if (len > 13) return { fontSize: '1.7rem', lineHeight: '1.1' };
-      if (len > 10) return { fontSize: '2rem', lineHeight: '1.05' };
-      return { fontSize: '2.2rem', lineHeight: '1' };
+      if (len > 25) return { fontSize: '0.9rem', lineHeight: '1.15' };
+      if (len > 20) return { fontSize: '1.05rem', lineHeight: '1.15' };
+      if (len > 16) return { fontSize: '1.25rem', lineHeight: '1.1' };
+      if (len > 13) return { fontSize: '1.45rem', lineHeight: '1.1' };
+      if (len > 10) return { fontSize: '1.65rem', lineHeight: '1.05' };
+      return { fontSize: '1.85rem', lineHeight: '1' };
     } else {
-       if (len > 20) return { fontSize: '0.6rem', lineHeight: '1.15' };
-       if (len > 16) return { fontSize: '0.7rem', lineHeight: '1.15' };
-       if (len > 12) return { fontSize: '0.8rem', lineHeight: '1.2' };
-       if (len > 9) return { fontSize: '0.9rem', lineHeight: '1.2' };
-       if (len > 7) return { fontSize: '1.05rem', lineHeight: '1.2' };
-       return { fontSize: '1.2rem', lineHeight: '1.2' };
+       if (len > 20) return { fontSize: '0.55rem', lineHeight: '1.15' };
+       if (len > 16) return { fontSize: '0.65rem', lineHeight: '1.15' };
+       if (len > 12) return { fontSize: '0.75rem', lineHeight: '1.2' };
+       if (len > 9) return { fontSize: '0.82rem', lineHeight: '1.2' };
+       if (len > 7) return { fontSize: '0.92rem', lineHeight: '1.2' };
+       return { fontSize: '1.02rem', lineHeight: '1.2' };
     }
   };
 
@@ -51,28 +51,27 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.dashboardContent} style={{ padding: 0, background: 'var(--background)' }}>
-      {/* Premium Header Section - Mockup Style */}
+      {/* Premium Header Section - Compact Style */}
       <header style={{
-        background: 'linear-gradient(135deg, #0F172A 0%, #334155 100%)', // Deep Midnight Blue - Premium & Serious
-        padding: 'calc(env(safe-area-inset-top) + 20px) 24px 40px', // Reduced height
-        borderBottomLeftRadius: '32px', // Less rounded, more "tortburchakroq"
-        borderBottomRightRadius: '32px',
+        background: 'linear-gradient(135deg, #0F172A 0%, #334155 100%)', // Deep Midnight Blue
+        padding: 'calc(env(safe-area-inset-top) + 12px) 18px 24px', // Reduced height
+        borderBottomLeftRadius: '24px',
+        borderBottomRightRadius: '24px',
         color: 'white',
         position: 'relative', 
         zIndex: 900,
-        width: '101%', // Strong bleed
-        marginLeft: '-0.5%',
+        width: '100%',
         boxSizing: 'border-box',
-        boxShadow: '0 15px 30px rgba(124, 58, 237, 0.15)'
+        boxShadow: '0 10px 25px rgba(15, 23, 42, 0.15)'
       }}>
         {/* Top Row: Total Balance & Profile */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
            <div>
-             <p style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500, marginBottom: '6px' }}>{t.totalBalance}</p>
+             <p style={{ fontSize: '0.8rem', opacity: 0.9, fontWeight: 500, marginBottom: '3px' }}>{t.totalBalance}</p>
              <h1 style={{ 
                fontWeight: 800, 
                margin: 0, 
-               letterSpacing: '-1px',
+               letterSpacing: '-0.5px',
                ...getResponsiveStyle(totalBalance, 'main'),
                wordBreak: 'break-word' as const,
              }}>
@@ -82,8 +81,8 @@ export default function DashboardPage() {
            
            <Link href="/dashboard/settings">
              <div style={{
-               width: '36px',
-               height: '36px',
+               width: '32px',
+               height: '32px',
                borderRadius: '50%',
                background: 'rgba(255,255,255,0.15)',
                display: 'flex',
@@ -97,39 +96,39 @@ export default function DashboardPage() {
                   <Image 
                     src={user.avatar} 
                     alt="Profile" 
-                    width={36} 
-                    height={36} 
+                    width={32} 
+                    height={32} 
                     style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                     unoptimized
                   />
                 ) : (
-                  <User size={18} color="white" />
+                  <User size={16} color="white" />
                 )}
              </div>
            </Link>
         </div>
 
-        {/* Summary Cards Row - Mockup Style */}
-        <div style={{ display: 'flex', gap: '16px' }}>
+        {/* Summary Cards Row - Sleek Style */}
+        <div style={{ display: 'flex', gap: '12px' }}>
           {/* Income Card */}
           <div style={{
              flex: 1,
              background: 'rgba(30, 41, 59, 0.45)',
              backdropFilter: 'blur(12px)',
-             borderRadius: '24px',
-             padding: '16px',
+             borderRadius: '16px',
+             padding: '12px 14px',
              border: '1px solid rgba(255,255,255,0.08)',
-             boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+             boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
           }}>
-             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <div style={{ 
-                  width: '32px', height: '32px', borderRadius: '10px', 
+                  width: '26px', height: '26px', borderRadius: '8px', 
                   background: 'rgba(34, 197, 94, 0.15)', display: 'flex',
                   alignItems: 'center', justifyContent: 'center', color: '#4ade80'
                 }}>
-                  <IncomeIcon size={16} />
+                  <IncomeIcon size={14} />
                 </div>
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{t.income}</span>
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{t.income}</span>
              </div>
              <div style={{ fontWeight: 700, ...getResponsiveStyle(totalIncome, 'card'), color: '#fff', wordBreak: 'break-word' as const, letterSpacing: '-0.5px' }}>{formatCurrency(totalIncome)}</div>
           </div>
@@ -139,20 +138,20 @@ export default function DashboardPage() {
              flex: 1,
              background: 'rgba(30, 41, 59, 0.45)',
              backdropFilter: 'blur(12px)',
-             borderRadius: '24px',
-             padding: '16px',
+             borderRadius: '16px',
+             padding: '12px 14px',
              border: '1px solid rgba(255,255,255,0.08)',
-             boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+             boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
           }}>
-             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <div style={{ 
-                  width: '32px', height: '32px', borderRadius: '10px', 
+                  width: '26px', height: '26px', borderRadius: '8px', 
                   background: 'rgba(248, 113, 113, 0.15)', display: 'flex',
                   alignItems: 'center', justifyContent: 'center', color: '#f87171'
                 }}>
-                  <ExpenseIcon size={16} />
+                  <ExpenseIcon size={14} />
                 </div>
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{t.expense}</span>
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{t.expense}</span>
              </div>
              <div style={{ fontWeight: 700, ...getResponsiveStyle(totalExpense, 'card'), color: '#fff', wordBreak: 'break-word' as const, letterSpacing: '-0.5px' }}>{formatCurrency(totalExpense)}</div>
           </div>
@@ -162,31 +161,31 @@ export default function DashboardPage() {
       {/* Main Content Area */}
       <div style={{ 
         background: 'var(--background)',
-        padding: '32px 20px 160px',
+        padding: '16px 14px 140px',
         width: '100%',
         boxSizing: 'border-box',
         position: 'relative' as const,
         zIndex: 1,
       }}>
         
-        {/* Action Buttons Row - Modest & Clean */}
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '32px' }}>
+        {/* Action Buttons Row - Sleek & Compact */}
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
 
-           {/* Add Expense Button - Modest */}
+           {/* Add Expense Button */}
            <button 
              onClick={() => openAddForm('expense')}
              className="touch-active"
              style={{
                flex: 1,
-               background: 'var(--surface)', // Adaptive surface color
+               background: 'var(--surface)',
                color: 'var(--text-main)',
                border: '1px solid var(--border)',
-               borderRadius: '20px',
-               height: '56px',
+               borderRadius: '14px',
+               height: '44px',
                display: 'flex',
                alignItems: 'center',
                justifyContent: 'center',
-               gap: '10px',
+               gap: '8px',
                boxShadow: 'var(--shadow-sm)',
                cursor: 'pointer',
                position: 'relative',
@@ -194,17 +193,17 @@ export default function DashboardPage() {
              }}
            >
               <div style={{ 
-                 background: 'rgba(239, 68, 68, 0.1)', // Subtle red tint
-                 width: '28px', height: '28px', borderRadius: '50%',
+                 background: 'rgba(239, 68, 68, 0.1)',
+                 width: '24px', height: '24px', borderRadius: '50%',
                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                  color: '#ef4444'
               }}>
-                <ArrowRight size={18} strokeWidth={2.5} style={{ transform: 'rotate(90deg)' }} />
+                <ArrowRight size={15} strokeWidth={2.5} style={{ transform: 'rotate(90deg)' }} />
               </div>
-              <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{t.addExpense}</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: 700 }}>{t.addExpense}</span>
            </button>
 
-           {/* Add Income Button - Modest */}
+           {/* Add Income Button */}
            <button 
              onClick={() => openAddForm('income')}
              className="touch-active"
@@ -213,12 +212,12 @@ export default function DashboardPage() {
                background: 'var(--surface)',
                color: 'var(--text-main)',
                border: '1px solid var(--border)',
-               borderRadius: '20px',
-               height: '56px',
+               borderRadius: '14px',
+               height: '44px',
                display: 'flex',
                alignItems: 'center',
                justifyContent: 'center',
-               gap: '10px',
+               gap: '8px',
                boxShadow: 'var(--shadow-sm)',
                cursor: 'pointer',
                position: 'relative',
@@ -226,32 +225,30 @@ export default function DashboardPage() {
              }}
            >
               <div style={{ 
-                 background: 'rgba(16, 185, 129, 0.1)', // Subtle green tint
-                 width: '28px', height: '28px', borderRadius: '50%',
+                 background: 'rgba(16, 185, 129, 0.1)',
+                 width: '24px', height: '24px', borderRadius: '50%',
                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                  color: '#10b981'
               }}>
-                <ArrowRight size={18} strokeWidth={2.5} style={{ transform: 'rotate(-90deg)' }} />
+                <ArrowRight size={15} strokeWidth={2.5} style={{ transform: 'rotate(-90deg)' }} />
               </div>
-              <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{t.addIncome}</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: 700 }}>{t.addIncome}</span>
            </button>
         </div>
 
-        {/* Recent Transactions — Premium Card Style */}
-        {/* Recent Transactions Section - Modern List Style (No White Block) */}
-        <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 4px' }}>
-          <h3 style={{ margin: 0, fontWeight: 800, fontSize: '1.25rem', color: 'var(--text-main)' }}>{t.recentTransactions}</h3>
+        {/* Recent Transactions Section */}
+        <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 2px' }}>
+          <h3 style={{ margin: 0, fontWeight: 800, fontSize: '1.05rem', color: 'var(--text-main)' }}>{t.recentTransactions}</h3>
           <Link href="/dashboard/transactions" style={{ 
             color: 'var(--primary)', 
-            fontSize: '0.9rem', 
+            fontSize: '0.82rem', 
             fontWeight: 600,
             textDecoration: 'none'
           }}>{t.viewAll}</Link>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {transactions.slice(0, 6).map((tx) => {
-            // Category-specific colors & SVG icons
             const categoryConfig: Record<string, { bg: string; color: string; Icon: React.ElementType }> = {
               food:          { bg: '#FFF3E0', color: '#E65100', Icon: UtensilsCrossed },
               transport:     { bg: '#E3F2FD', color: '#1565C0', Icon: Car },
@@ -275,25 +272,25 @@ export default function DashboardPage() {
               <div key={tx.id} style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '16px',
-                padding: '16px',
-                background: 'var(--surface)', // Adaptive: Dark in dark mode, White in light mode
-                borderRadius: '24px',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+                gap: '12px',
+                padding: '10px 12px',
+                background: 'var(--surface)',
+                borderRadius: '16px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                 border: '1px solid var(--glass-border)'
               }}>
                 {/* Category Icon */}
                 <div style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '18px',
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '12px',
                   background: cc.bg,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
                 }}>
-                  <CategoryIcon size={24} color={cc.color} />
+                  <CategoryIcon size={18} color={cc.color} />
                 </div>
 
                 {/* Info */}
@@ -301,7 +298,7 @@ export default function DashboardPage() {
                   <p style={{ 
                     margin: 0, 
                     fontWeight: 700, 
-                    fontSize: '1rem',
+                    fontSize: '0.88rem',
                     color: 'var(--text-main)',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
@@ -310,8 +307,8 @@ export default function DashboardPage() {
                     {categoryName}
                   </p>
                   <p style={{ 
-                    margin: '4px 0 0', 
-                    fontSize: '0.8rem', 
+                    margin: '2px 0 0', 
+                    fontSize: '0.72rem', 
                     color: 'var(--text-secondary)',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
@@ -324,14 +321,14 @@ export default function DashboardPage() {
                 {/* Amount */}
                 <div style={{
                   fontWeight: 800,
-                  fontSize: amountStr.length > 18 ? '0.75rem' : amountStr.length > 12 ? '0.85rem' : '1.05rem',
+                  fontSize: amountStr.length > 18 ? '0.7rem' : amountStr.length > 12 ? '0.78rem' : '0.92rem',
                   color: tx.type === 'income' ? '#10b981' : '#ef4444',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   textAlign: 'right',
                   maxWidth: '40%',
-                  minWidth: '70px',
+                  minWidth: '65px',
                 }}>
                   {tx.type === 'income' ? '+' : '-'}{amountStr} <span style={{ fontSize: '0.85em', opacity: 0.8 }}>{currencySymbol}</span>
                 </div>
