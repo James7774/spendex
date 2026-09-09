@@ -124,10 +124,13 @@ export default function DashboardLayout({
           style={{ 
             flex: 1, 
             width: '100%',
-            overflowY: 'auto', 
+            height: pathname === '/dashboard' ? '100%' : 'auto',
+            overflowY: pathname === '/dashboard' ? 'hidden' : 'auto', 
             overflowX: 'hidden',
             WebkitOverflowScrolling: 'touch',
-            paddingBottom: '140px'
+            paddingBottom: pathname === '/dashboard' ? 0 : '140px',
+            display: pathname === '/dashboard' ? 'flex' : 'block',
+            flexDirection: 'column'
           }}
           className={styles.fullWidthLayout}
         >
